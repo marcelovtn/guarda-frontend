@@ -24,7 +24,7 @@ export function LandingInstructors() {
           <p className="max-w-[520px] text-base leading-7 text-white/55">{t('INSTRUCTORS_BODY')}</p>
 
           <div className="flex flex-col items-start gap-3 pt-2 sm:flex-row sm:items-center">
-            <Button asChild size="lg" className="h-14 rounded-full px-7 text-base">
+            <Button asChild size="lg" className="h-14 px-7 text-base">
               <Link href={publicRoutes.REGISTER}>{t('INSTRUCTORS_CTA')}</Link>
             </Button>
             <p className="max-w-[240px] text-sm leading-5 text-white/45">

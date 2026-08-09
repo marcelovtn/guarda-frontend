@@ -53,7 +53,7 @@ export function LandingNav() {
           <Link href={publicRoutes.LOGIN}>{t('NAV_SIGN_IN')}</Link>
         </Button>
 
-        <Button asChild className="rounded-full">
+        <Button asChild>
           <Link href={publicRoutes.REGISTER}>{t('NAV_SIGN_UP')}</Link>
         </Button>
       </div>

@@ -28,7 +28,7 @@ export function LandingCta() {
         </h2>
 
         <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
-          <Button asChild size="lg" className="h-14 rounded-full px-7 text-base">
+          <Button asChild size="lg" className="h-14 px-7 text-base">
             <Link href={publicRoutes.REGISTER}>{t('CTA_BUTTON')}</Link>
           </Button>
           <p className="text-sm text-white/55">{t('CTA_NOTE')}</p>

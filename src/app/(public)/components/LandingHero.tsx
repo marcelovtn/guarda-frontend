@@ -33,7 +33,7 @@ export function LandingHero() {
         </div>
 
         <div className="flex flex-col items-start gap-4 pb-14 sm:flex-row sm:items-center">
-          <Button asChild size="lg" className="h-14 rounded-full px-7 text-base">
+          <Button asChild size="lg" className="h-14 px-7 text-base">
             <Link href={publicRoutes.REGISTER}>{t('HERO_CTA_PRIMARY')}</Link>
           </Button>
 
@@ -41,7 +41,7 @@ export function LandingHero() {
             asChild
             size="lg"
             variant="outline"
-            className="h-14 rounded-full border-white/20 bg-transparent px-7 text-base text-white hover:bg-white/10 hover:text-white"
+            className="h-14 border-white/20 bg-transparent px-7 text-base text-white hover:bg-white/10 hover:text-white"
           >
             <Link href={publicRoutes.REGISTER}>{t('HERO_CTA_SECONDARY')}</Link>
           </Button>
