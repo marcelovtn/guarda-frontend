@@ -75,15 +75,17 @@ export function LessonListItem({
 
       <span
         className={cn(
+          // Clamped in the dense variant: the player sidebar is narrow, and a
+          // long title wrapping to four lines pushes the list out of view.
           'min-w-0 flex-1 text-left',
-          dense ? 'text-sm leading-5' : 'text-base leading-6',
+          dense ? 'line-clamp-2 text-sm leading-5' : 'text-base leading-6',
           current ? 'font-semibold text-foreground' : 'font-medium text-foreground',
         )}
       >
         {lesson.title}
       </span>
 
-      {current ? (
+      {current && !dense ? (
         <span className="hidden shrink-0 rounded-full bg-primary px-2.5 py-1 text-[10px] font-semibold tracking-caps text-primary-foreground sm:inline">
           {t('IN_PROGRESS')}
         </span>

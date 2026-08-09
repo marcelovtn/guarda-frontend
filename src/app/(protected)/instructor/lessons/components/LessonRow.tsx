@@ -30,7 +30,8 @@ export function LessonRow({ lesson }: { lesson: InstructorLesson }) {
 
         {lesson.track ? (
           <p className="truncate text-xs text-muted-foreground">
-            {lesson.track.trackTitle} · {lesson.track.moduleTitle} ·{' '}
+            {lesson.track.trackTitle} · {t('LIBRARY_MODULE', { number: lesson.track.moduleNumber })}{' '}
+            ·{' '}
             {t('POSITION_SHORT', {
               position: String(lesson.track.trackPosition).padStart(2, '0'),
             })}

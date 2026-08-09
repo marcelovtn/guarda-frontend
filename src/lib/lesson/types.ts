@@ -8,6 +8,9 @@ export interface LessonTrackRef {
   category: TrackCategory
   moduleId: string
   moduleTitle: string
+  /** 1-based ordinal of the module within the track — "Módulo 2". */
+  moduleNumber: number
+  /** 1-based index of the lesson within its module. */
   modulePosition: number
   trackPosition: number
 }
