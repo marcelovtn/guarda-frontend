@@ -98,7 +98,7 @@ export default function RegisterPage() {
       <Button
         type="button"
         variant="outline"
-        className="h-14 w-full bg-card"
+        className="w-full bg-card"
         onClick={() => signInWithGoogle()}
       >
         <GoogleIcon />
