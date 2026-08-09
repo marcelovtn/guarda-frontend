@@ -31,9 +31,15 @@ export function LessonCard({ lesson, eyebrow = false }: LessonCardProps) {
   const trackLabel = lesson.track?.trackTitle ?? t('CATEGORY_NONE')
 
   return (
+    /*
+      min-w-0 on both the grid item and the text column: the metadata line uses
+      `truncate`, which is white-space: nowrap, so its min-content width is the
+      whole string. Without this a long track name stretches the grid past the
+      viewport instead of being ellipsised.
+    */
     <Link
       href={studentRoutes.LESSON(lesson.id)}
-      className="flex flex-col gap-3 rounded-md outline-none transition-opacity hover:opacity-90 focus-visible:ring-2 focus-visible:ring-ring"
+      className="flex min-w-0 flex-col gap-3 rounded-md outline-none transition-opacity hover:opacity-90 focus-visible:ring-2 focus-visible:ring-ring"
     >
       <VideoThumb
         src={lesson.posterUrl}
@@ -41,7 +47,7 @@ export function LessonCard({ lesson, eyebrow = false }: LessonCardProps) {
         badge={formatDuration(lesson.durationSec)}
       />
 
-      <div className="flex flex-col gap-1">
+      <div className="flex min-w-0 flex-col gap-1">
         {eyebrow ? (
           <p className="truncate text-[11px] font-semibold uppercase tracking-caps text-muted-foreground">
             {trackLabel}

@@ -73,7 +73,7 @@ export default function TrackBuilderPage() {
   if (isLoading || !track) {
     return (
       <PageContainer className="flex flex-col gap-6">
-        <Skeleton className="h-12 w-96" />
+        <Skeleton className="h-12 w-full max-w-96" />
         <Skeleton className="h-96 w-full" />
       </PageContainer>
     )

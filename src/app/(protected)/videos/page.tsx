@@ -41,7 +41,7 @@ export default function VideosPage() {
         <p className="text-sm text-muted-foreground">{t('VIDEOS_SUBTITLE')}</p>
       </header>
 
-      <div className="-mx-5 flex gap-2 overflow-x-auto px-5 pb-1 md:mx-0 md:flex-wrap md:px-0">
+      <div className="flex w-full min-w-0 gap-2 overflow-x-auto pb-1 md:flex-wrap">
         <FilterChip
           label={t('TRACKS_ALL')}
           active={filter === ALL}

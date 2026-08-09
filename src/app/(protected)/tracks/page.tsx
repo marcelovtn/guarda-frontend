@@ -44,7 +44,7 @@ export default function TracksPage() {
           {t('NAV_TRACKS')}
         </h1>
         {isLoading ? (
-          <Skeleton className="h-5 w-48" />
+          <Skeleton className="h-5 w-full max-w-48" />
         ) : (
           <p className="text-sm text-muted-foreground">
             {t('TRACK_COUNT', { count: tracks?.length ?? 0 })}
@@ -52,7 +52,7 @@ export default function TracksPage() {
         )}
       </header>
 
-      <div className="-mx-5 flex gap-2 overflow-x-auto px-5 pb-1 md:mx-0 md:flex-wrap md:px-0">
+      <div className="flex w-full min-w-0 gap-2 overflow-x-auto pb-1 md:flex-wrap">
         <FilterChip
           label={t('TRACKS_ALL')}
           active={filter === ALL}

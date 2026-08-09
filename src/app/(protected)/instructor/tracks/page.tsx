@@ -27,7 +27,7 @@ export default function InstructorTracksPage() {
             {t('TRACKS_TITLE')}
           </h1>
           {isLoading ? (
-            <Skeleton className="h-5 w-64" />
+            <Skeleton className="h-5 w-full max-w-64" />
           ) : (
             <p className="text-sm text-muted-foreground">
               {t('TRACK_COUNT', { count: tracks?.length ?? 0 })} ·{' '}

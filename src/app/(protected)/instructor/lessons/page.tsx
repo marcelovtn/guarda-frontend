@@ -59,7 +59,7 @@ export default function InstructorLessonsPage() {
           </h1>
 
           {isLoading ? (
-            <Skeleton className="h-5 w-72" />
+            <Skeleton className="h-5 w-full max-w-72" />
           ) : (
             <p className="text-sm text-muted-foreground">
               {t('LIBRARY_SUMMARY', {

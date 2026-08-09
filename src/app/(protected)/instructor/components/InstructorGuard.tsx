@@ -25,7 +25,7 @@ export function InstructorGuard({ children }: { children: ReactNode }) {
   if (isLoading) {
     return (
       <PageContainer className="flex flex-col gap-6">
-        <Skeleton className="h-10 w-72" />
+        <Skeleton className="h-10 w-full max-w-72" />
         <Skeleton className="h-64 w-full" />
       </PageContainer>
     )

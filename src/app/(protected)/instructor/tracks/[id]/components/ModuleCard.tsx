@@ -58,7 +58,7 @@ export function ModuleCard({
           className="h-9 flex-1 border-transparent bg-transparent px-2 text-base font-semibold hover:border-border focus:border-border"
         />
 
-        <span className="hidden shrink-0 text-xs text-muted-foreground sm:block">
+        <span className="hidden shrink-0 text-xs text-muted-foreground md:block">
           {t('LESSON_COUNT', { count: module.lessons.length })} ·{' '}
           {formatTotalDuration(totalDuration)}
         </span>
@@ -88,13 +88,19 @@ export function ModuleCard({
                 {String(startPosition + lessonIndex).padStart(2, '0')}
               </span>
 
-              <VideoThumb className="w-14 shrink-0 rounded-sm" />
+              {/* The thumbnail and the duration are the first things to go on a
+                  phone: with seven fixed-width slots in 375px the title was left
+                  with a single character. */}
+              <VideoThumb className="hidden w-14 shrink-0 rounded-sm sm:block" />
 
-              <span className="min-w-0 flex-1 truncate text-sm font-medium text-foreground">
-                {lesson.title}
+              <span className="flex min-w-0 flex-1 flex-col">
+                <span className="truncate text-sm font-medium text-foreground">{lesson.title}</span>
+                <span className="text-xs tabular-nums text-muted-foreground sm:hidden">
+                  {formatDuration(lesson.durationSec)}
+                </span>
               </span>
 
-              <span className="w-12 shrink-0 text-right text-xs tabular-nums text-muted-foreground">
+              <span className="hidden w-12 shrink-0 text-right text-xs tabular-nums text-muted-foreground sm:block">
                 {formatDuration(lesson.durationSec)}
               </span>
 

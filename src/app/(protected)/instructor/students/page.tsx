@@ -19,7 +19,7 @@ export default function InstructorStudentsPage() {
           {t('STUDENTS_TITLE')}
         </h1>
         {isLoading ? (
-          <Skeleton className="h-5 w-52" />
+          <Skeleton className="h-5 w-full max-w-52" />
         ) : (
           <p className="text-sm text-muted-foreground">
             {t('STUDENT_COUNT', { count: students?.length ?? 0 })}
