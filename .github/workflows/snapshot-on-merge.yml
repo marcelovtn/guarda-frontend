@@ -1,0 +1,29 @@
+name: Snapshot on merge to master
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  checkpoint:
+    name: Create checkpoint branch
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set snapshot tag
+        id: date
+        run: echo "TAG=master-$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
+
+      - name: Create checkpoint branch
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b ${{ steps.date.outputs.TAG }}
+          git push origin ${{ steps.date.outputs.TAG }}

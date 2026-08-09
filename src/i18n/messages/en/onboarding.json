@@ -1,0 +1,53 @@
+{
+  "HEADER_TITLE": "Setup Assistant",
+  "HEADER_DESC": "Let's personalize your experience",
+
+  "STEP_1_WHATSAPP_HEADING": "Receive alerts on WhatsApp",
+  "STEP_1_WHATSAPP_BENEFITS": [
+    "Real-time spending notifications",
+    "Bill due date reminders",
+    "Weekly financial summaries",
+    "Budget limit alerts"
+  ],
+  "BUTTON_SKIP": "Skip for now",
+
+  "CHAT_EMPTY_TITLE": "Let's set up your finances!",
+  "CHAT_EMPTY_DESC": "Tell me a bit about your financial situation and I'll create personalized categories for you.",
+  "CHAT_SUGGESTIONS": [
+    "I want to control my spending",
+    "I need to organize my finances",
+    "I want to start saving",
+    "I'm in debt and need help"
+  ],
+  "CHAT_PLACEHOLDER": "Tell me about your finances...",
+  "CHAT_HINT": "Press Enter to send, Shift+Enter for new line",
+  "CHAT_TYPING": "Typing...",
+  "GENERATING_TITLE": "Generating your personalized plan...",
+
+  "CATEGORIES_TITLE": "Suggested categories for you",
+  "CATEGORIES_DESC": "Review the categories below. You can remove ones that don't apply or change the type before confirming.",
+  "CATEGORIES_REMINDER": "Everything here is just a suggestion! You can add, remove, or modify any category and amount at any time on the platform. The important thing is to have a starting point.",
+  "CATEGORIES_TOTAL_ALLOCATED": "Total allocated",
+  "CATEGORIES_OVER_INCOME": "Total exceeds your income! Reduce some values.",
+  "DISTRIBUTION_TITLE": "Your financial organization",
+  "DISTRIBUTION_INCOME": "base:",
+  "CATEGORIES_CONFIRM": "Confirm and create categories",
+  "CATEGORIES_CREATING": "Creating categories...",
+
+  "ADD_CATEGORY": "Add category",
+  "ADD_CATEGORY_NAME_PLACEHOLDER": "Category name",
+
+  "EXPENSE_PICKER_SUBMIT": "Build my plan ({{count}} selected)",
+
+  "VIDEOS_SUCCESS_TITLE": "{{count}} categories created successfully!",
+  "VIDEOS_SUCCESS_DESC": "Your platform is now personalized. Check out some quick tutorials to get started:",
+  "VIDEOS_SECTION_TITLE": "Quick tutorials",
+  "VIDEOS_GO_DASHBOARD": "Go to dashboard",
+
+  "VIDEO_1_TITLE": "How to create categories",
+  "VIDEO_1_DESC": "Learn how to create and organize your spending categories.",
+  "VIDEO_2_TITLE": "How to add income",
+  "VIDEO_2_DESC": "See how to add salaries, freelance work, and other income.",
+  "VIDEO_3_TITLE": "How to add expenses",
+  "VIDEO_3_DESC": "Learn how to record your daily expenses."
+}

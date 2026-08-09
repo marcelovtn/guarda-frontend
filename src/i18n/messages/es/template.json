@@ -1,0 +1,29 @@
+{
+  "USE_TEMPLATE": "Usar plantilla",
+  "TEMPLATES_DESC": "Elige una plantilla predefinida para comenzar rápidamente.",
+  "TAB_READY_TEMPLATES": "Plantillas listas",
+  "APPLY_TEMPLATE_ERROR": "Error al aplicar la plantilla.",
+  "NO_NEW_CATEGORIES_FROM_TEMPLATE": "Todas ya existen.",
+  "TEMPLATES": {
+    "RIDES_DRIVER_TITLE": "Conductor de aplicativos",
+    "RIDES_DRIVER_DESC": "Categorías para el control de gastos profesionales",
+    "STUDENT_TITLE": "Estudiante universitario",
+    "STUDENT_DESC": "Costos de estudio y vida estudiantil",
+    "FAMILY_WITH_KIDS_TITLE": "Familia con hijos",
+    "FAMILY_WITH_KIDS_DESC": "Gastos familiares y educación",
+    "COUPLE_NO_KIDS_TITLE": "Pareja recién casada",
+    "COUPLE_NO_KIDS_DESC": "Vida en pareja con vivienda y ocio",
+    "RETIREE_TITLE": "Jubilado",
+    "RETIREE_DESC": "Salud y gastos esenciales del hogar",
+    "FREELANCER_TITLE": "Trabajador autónomo",
+    "FREELANCER_DESC": "Costos de trabajo e ingresos variables",
+    "TECH_HOME_OFFICE_TITLE": "Profesional de tecnología / Home office",
+    "TECH_HOME_OFFICE_DESC": "Rutina remota con internet, energía y equipo",
+    "SMALL_ENTREPRENEUR_TITLE": "Pequeño emprendedor",
+    "SMALL_ENTREPRENEUR_DESC": "Negocio propio enfocado en insumos y reinversión",
+    "HOMEMAKER_TITLE": "Amo(a) de casa",
+    "HOMEMAKER_DESC": "Rutina del hogar enfocada en gastos de la casa",
+    "YOUNG_PROFESSIONAL_TITLE": "Joven profesional (soltero)",
+    "YOUNG_PROFESSIONAL_DESC": "Vivienda, transporte y desarrollo personal"
+  }
+}

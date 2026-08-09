@@ -1,0 +1,14 @@
+{
+  "PAGE_TITLE": "Panel",
+  "PAGE_SUBTITLE": "Resumen de tus finanzas y metas",
+  "MONTH_SELECTOR_GO_TO_CURRENT": "Volver al mes actual",
+  "SPENDING_DISTRIBUTION_TITLE": "Distribución de gastos",
+  "VALUE": "Valor",
+  "SPENT": "Gastado",
+  "INCOME": "Ingreso",
+  "EXPENSE": "Gasto",
+  "INVESTMENT": "Inversión",
+  "INCOME_VS_EXPENSE_TITLE": "Ingresos vs Gastos",
+  "NO_SPENDING": "Sin gastos",
+  "RECURRING_TOTAL_LABEL": "Total:"
+}

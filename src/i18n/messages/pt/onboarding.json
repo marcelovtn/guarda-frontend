@@ -1,0 +1,53 @@
+{
+  "HEADER_TITLE": "Assistente de Configuração",
+  "HEADER_DESC": "Vamos personalizar sua experiência",
+
+  "STEP_1_WHATSAPP_HEADING": "Receba alertas pelo WhatsApp",
+  "STEP_1_WHATSAPP_BENEFITS": [
+    "Notificações de gastos em tempo real",
+    "Lembretes de vencimento de contas",
+    "Resumos financeiros semanais",
+    "Alertas de limite de orçamento"
+  ],
+  "BUTTON_SKIP": "Pular por agora",
+
+  "CHAT_EMPTY_TITLE": "Vamos configurar suas finanças!",
+  "CHAT_EMPTY_DESC": "Me conta um pouco sobre sua situação financeira e eu vou criar categorias personalizadas pra você.",
+  "CHAT_SUGGESTIONS": [
+    "Quero controlar meus gastos",
+    "Preciso organizar minhas finanças",
+    "Quero começar a economizar",
+    "Estou endividado e preciso de ajuda"
+  ],
+  "CHAT_PLACEHOLDER": "Digite sua resposta...",
+  "CHAT_HINT": "Pressione Enter para enviar, Shift+Enter para nova linha",
+  "CHAT_TYPING": "Digitando...",
+  "GENERATING_TITLE": "Gerando seu planejamento personalizado...",
+
+  "CATEGORIES_TITLE": "Categorias sugeridas para você",
+  "CATEGORIES_DESC": "Revise as categorias abaixo. Você pode remover as que não fazem sentido ou alterar o tipo antes de confirmar.",
+  "CATEGORIES_REMINDER": "Tudo isso é só uma sugestão pra você começar! Adicione, remova ou altere qualquer coisa a qualquer momento.",
+  "CATEGORIES_TOTAL_ALLOCATED": "Total alocado",
+  "CATEGORIES_OVER_INCOME": "Total excede sua renda! Reduza alguns valores.",
+  "DISTRIBUTION_TITLE": "Sua organização financeira",
+  "DISTRIBUTION_INCOME": "base:",
+  "CATEGORIES_CONFIRM": "Confirmar e criar categorias",
+  "CATEGORIES_CREATING": "Criando categorias...",
+
+  "ADD_CATEGORY": "Adicionar categoria",
+  "ADD_CATEGORY_NAME_PLACEHOLDER": "Nome da categoria",
+
+  "EXPENSE_PICKER_SUBMIT": "Montar meu planejamento ({{count}} selecionados)",
+
+  "VIDEOS_SUCCESS_TITLE": "{{count}} categorias criadas com sucesso!",
+  "VIDEOS_SUCCESS_DESC": "Sua plataforma já está personalizada. Veja alguns tutoriais rápidos para começar:",
+  "VIDEOS_SECTION_TITLE": "Tutoriais rápidos",
+  "VIDEOS_GO_DASHBOARD": "Ir para o dashboard",
+
+  "VIDEO_1_TITLE": "Como cadastrar categorias",
+  "VIDEO_1_DESC": "Aprenda a criar e organizar suas categorias de gastos.",
+  "VIDEO_2_TITLE": "Como registrar receitas",
+  "VIDEO_2_DESC": "Veja como adicionar salários, freelances e outras receitas.",
+  "VIDEO_3_TITLE": "Como registrar despesas",
+  "VIDEO_3_DESC": "Saiba como registrar seus gastos do dia a dia."
+}

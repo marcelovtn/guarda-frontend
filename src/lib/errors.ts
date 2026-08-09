@@ -1,0 +1,1 @@
+export const TOAST_ERROR_TIMEOUT_MS = 5000

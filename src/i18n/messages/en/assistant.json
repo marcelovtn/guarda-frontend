@@ -1,0 +1,17 @@
+{
+  "TITLE": "Financial Assistant",
+  "DESCRIPTION": "Chat with the AI about your finances",
+  "EMPTY_TITLE": "Hello! How can I help?",
+  "EMPTY_DESC": "I'm your personal financial assistant. Ask questions about saving, budgeting, investing, or financial organization.",
+  "SUGGESTIONS": [
+    "How to save more?",
+    "Help me with budgeting",
+    "Investment tips",
+    "How to get out of debt?"
+  ],
+  "PLACEHOLDER": "Type your question about finances...",
+  "TYPING": "AI is typing...",
+  "HINT": "Press Enter to send • Shift+Enter for a new line",
+  "ERROR": "Sorry, an error occurred while processing your message. Please try again.",
+  "TOOLTIP": "Financial Assistant"
+}

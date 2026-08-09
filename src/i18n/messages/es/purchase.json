@@ -1,0 +1,35 @@
+{
+  "failed": {
+    "title": "Compra No Realizada",
+    "subtitle": "No pudimos procesar tu pago",
+    "bannerTitle": "¡Ups! Algo salió mal",
+    "defaultError": "Ocurrió un error durante tu compra. Por favor, inténtalo de nuevo.",
+    "supportHint": "Puedes intentarlo nuevamente o contactar a nuestro soporte si el problema persiste.",
+    "tryAgainButton": "Intentar Otra Vez"
+  },
+  "success": {
+    "loading": "Cargando datos de la compra...",
+    "errorTitle": "Error al cargar datos",
+    "errorMessage": "Error al cargar los datos de la compra",
+    "sessionIdNotFound": "ID de la sesión no encontrado",
+    "backToApp": "Volver a la App",
+    "heroTitle": "Suscripción Activada",
+    "heroSubtitle": "¡Felicidades! Tu suscripción se activó correctamente.",
+    "orderId": "ID del Pedido",
+    "copyOrderId": "Copiar ID del pedido",
+    "plan": "Plan Adquirido",
+    "amount": "Importe",
+    "nextCharge": "Próximo cobro",
+    "renewal": "Renovación",
+    "renewalAutomatic": "Automática",
+    "activeBannerTitle": "✅ ¡Suscripción activa!",
+    "activeBannerText": "Ya tienes acceso a todas las funciones premium.",
+    "renewalNote": "Tu suscripción se renovará automáticamente. Puedes cancelarla cuando quieras en configuración.",
+    "goToApp": "Ir a la App",
+    "intervalYear": "Anual",
+    "intervalMonth": "Mensual",
+    "intervalWeek": "Semanal",
+    "intervalDay": "Diario",
+    "defaultPlanName": "Suscripción Premium"
+  }
+}

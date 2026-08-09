@@ -1,0 +1,81 @@
+{
+  "HERO_TITLE_PREFIX": "Controle suas ",
+  "HERO_TITLE_HIGHLIGHT": "finanças",
+  "HERO_TITLE_SUFFIX": " na palma da mão",
+  "HERO_SECURITY_TEXT": "Seus dados financeiros protegidos e criptografados",
+  "HERO_DESCRIPTION": "Uma plataforma completa para você controlar seus gastos, planejar seu futuro e realizar seus sonhos financeiros com simplicidade, eficiência e segurança.",
+  "HERO_CTA": "Teste por 7 dias grátis",
+  "IMAGE_ALT_DASHBOARD": "Visualização de dashboard financeiro",
+
+  "FEATURES_SECTION_TITLE": "Tudo que você precisa para uma vida financeira organizada",
+  "FEATURES_SECTION_DESCRIPTION": "Nossa plataforma oferece ferramentas poderosas e intuitivas para ajudar você a alcançar seus objetivos financeiros.",
+
+  "FEATURES_OPEN_FINANCE_TITLE": "Open Finance",
+  "LABEL_SOON": "(Em breve)",
+  "FEATURES_OPEN_FINANCE_DESCRIPTION": "Conecte-se ao Open Finance para integrar todas as suas contas bancárias e ter uma visão unificada das suas finanças.",
+
+  "FEATURES_E2EE_TITLE": "Sistema de Criptografia",
+  "FEATURES_E2EE_DESCRIPTION": "Seus dados são totalmente protegidos por um sistema de criptografia avançado. Apenas você pode acessá-los, garantindo máxima privacidade e segurança.",
+
+  "FEATURES_SMART_CATEGORIZATION_TITLE": "Categorização Inteligente",
+  "FEATURES_SMART_CATEGORIZATION_DESCRIPTION": "Organize suas despesas por categorias e defina limites de gastos para manter seu orçamento sob controle.",
+
+  "FEATURES_DETAILED_HISTORY_TITLE": "Histórico Detalhado",
+  "FEATURES_DETAILED_HISTORY_DESCRIPTION": "Acompanhe todas as suas transações com um histórico completo e visualize seus padrões de gastos.",
+
+  "FEATURES_GOALS_TITLE": "Metas Financeiras",
+  "FEATURES_GOALS_DESCRIPTION": "Estabeleça objetivos, acompanhe seu progresso e transforme seus sonhos em realidade.",
+
+  "FEATURES_DASHBOARD_TITLE": "Dashboard Personalizado",
+  "FEATURES_DASHBOARD_DESCRIPTION": "Acompanhe suas métricas financeiras em tempo real com gráficos interativos e visualize tendências para tomar melhores decisões.",
+
+  "FEATURES_WHATSAPP_TITLE": "Integração com WhatsApp",
+  "FEATURES_WHATSAPP_DESCRIPTION": "Receba relatórios financeiros, lembretes personalizados e cadastre transações diretamente pelo WhatsApp. Gerencie suas finanças de forma rápida e prática, sem sair do aplicativo.",
+
+  "SECTION_JOURNEY_TITLE": "Comece sua jornada financeira hoje",
+  "SECTION_JOURNEY_DESCRIPTION": "Junte-se a milhares de pessoas que já estão transformando sua relação com o dinheiro e conquistando seus objetivos financeiros.",
+  "SECTION_JOURNEY_CTA": "Criar Conta",
+  "PLANS_SECTION_TITLE": "Escolha seu plano",
+  "PLANS_SECTION_DESCRIPTION": "Escolha o plano que melhor se adapta às suas necessidades e comece a transformar sua vida financeira hoje.",
+  "PLANS_CTA": "Testar por 7 dias grátis",
+
+  "FEATURE_WHATSAPP_TITLE": "Gerencie suas Finanças pelo WhatsApp",
+  "FEATURE_WHATSAPP_DESCRIPTION": "Integre suas finanças com o WhatsApp e tenha controle total na palma da sua mão. Receba relatórios automáticos, configure lembretes personalizados e cadastre transações rapidamente, tudo sem sair do aplicativo.",
+  "FEATURE_WHATSAPP_BULLET_1": "Receba relatórios financeiros automáticos",
+  "FEATURE_WHATSAPP_BULLET_2": "Configure lembretes personalizados",
+  "FEATURE_WHATSAPP_BULLET_3": "Cadastre transações rapidamente",
+  "FEATURE_WHATSAPP_BULLET_4": "Sistema seguro e criptografado",
+  "ALT_WHATSAPP_IMAGE": "Integração WhatsApp",
+
+  "FEATURE_CATEGORIES_TITLE": "Categorize e Controle seus Gastos",
+  "FEATURE_CATEGORIES_DESCRIPTION": "Organize suas despesas em categorias personalizadas e defina limites de gastos mensais. Saiba quando estiver próximo do limite e mantenha seu orçamento sempre sob controle.",
+  "FEATURE_CATEGORIES_BULLET_1": "Defina limites por categoria",
+  "FEATURE_CATEGORIES_BULLET_2": "Visualize gastos em tempo real",
+  "FEATURE_CATEGORIES_BULLET_3": "Acompanhe sua evolução mensal",
+  "FEATURE_CATEGORIES_BULLET_4": "Investimentos (em breve)",
+  "ALT_CATEGORIES_IMAGE": "Categorias de gastos",
+
+  "FEATURE_HISTORY_TITLE": "Histórico Completo de Transações",
+  "FEATURE_HISTORY_DESCRIPTION": "Mantenha um registro detalhado de todas as suas movimentações financeiras. Filtre, pesquise e analise seus gastos de forma simples e rápida.",
+  "FEATURE_HISTORY_BULLET_1": "Visualização clara e organizada",
+  "FEATURE_HISTORY_BULLET_2": "Filtros avançados de busca",
+  "FEATURE_HISTORY_BULLET_3": "Exportação de relatórios (em breve)",
+  "ALT_HISTORY_IMAGE": "Histórico de transações",
+
+  "FEATURE_GOALS_TITLE": "Estabeleça e Alcance suas Metas",
+  "FEATURE_GOALS_DESCRIPTION": "Transforme seus sonhos em objetivos concretos. Defina metas financeiras, acompanhe seu progresso e celebre cada conquista no caminho.",
+  "FEATURE_GOALS_BULLET_1": "Crie metas personalizadas",
+  "FEATURE_GOALS_BULLET_2": "Acompanhamento visual do progresso",
+  "FEATURE_GOALS_BULLET_3": "Planejamento inteligente de economia",
+  "ALT_GOALS_IMAGE": "Metas financeiras",
+
+  "FEATURE_DASHBOARD_TITLE": "Dashboard Financeiro",
+  "FEATURE_DASHBOARD_DESCRIPTION": "Tenha uma visão ampla e detalhada da sua vida financeira em um só lugar. Analise gráficos interativos, acompanhe metas e visualize o desempenho das suas finanças de forma prática.",
+  "FEATURE_DASHBOARD_BULLET_1": "Análise visual intuitiva",
+  "FEATURE_DASHBOARD_BULLET_2": "Monitoramento em tempo real",
+  "FEATURE_DASHBOARD_BULLET_3": "Integração com relatórios automáticos (em breve)",
+  "ALT_DASHBOARD_IMAGE": "Dashboard financeiro",
+
+  "WHATSAPP_BUTTON_LABEL": "Suporte",
+  "WHATSAPP_BUTTON_SUBLABEL": "Tire suas dúvidas"
+}

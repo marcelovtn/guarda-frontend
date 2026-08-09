@@ -1,0 +1,18 @@
+{
+  "MENU_FEEDBACK": "Comentarios",
+  "MENU_CONTACT_US": "Contáctanos",
+  "MENU_LOGOUT": "Cerrar sesión",
+  "MENU_LOGOUT_LOADING": "Cerrando sesión...",
+  "USER_FALLBACK": "Usuario",
+  "MENU_SUPPORT_EMAIL": "Soporte via e-mail",
+  "MENU_SUPPORT_WHATSAPP": "Soporte via WhatsApp",
+  "TRIAL_DAYS_other": "{{count}} días restantes en prueba",
+  "TRIAL_DAYS_one": "1 día restante en prueba",
+  "TRIAL_EXPIRES_TODAY": "Prueba gratuita expira hoy",
+  "TRIAL_BANNER_CTA": "Suscribirse ahora",
+  "TRIAL_FREE_LABEL": "Prueba gratuita",
+  "TRIAL_PREMIUM_LABEL": "Cuenta Premium",
+  "TRIAL_EXPIRES_IN_other": "Expira en {{count}} días",
+  "TRIAL_EXPIRES_IN_one": "Expira en 1 día",
+  "TRIAL_EXPIRES_IN_zero": "Expira hoy"
+}

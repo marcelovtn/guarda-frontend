@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+# Start timing
+start=$(date +%s)
+echo "Running lint..."
+next lint
+echo "Running type check..."
+yarn tsc --noEmit
+
+# End timing and report
+end=$(date +%s)
+echo "Husky pre-commit finished in $((end - start)) seconds"

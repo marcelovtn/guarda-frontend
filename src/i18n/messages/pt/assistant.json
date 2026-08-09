@@ -1,0 +1,17 @@
+{
+  "TITLE": "Assistente Financeiro",
+  "DESCRIPTION": "Converse com a IA sobre suas finanças",
+  "EMPTY_TITLE": "Olá! Como posso ajudar?",
+  "EMPTY_DESC": "Sou seu assistente financeiro pessoal. Faça perguntas sobre economia, orçamento, investimentos ou organização financeira.",
+  "SUGGESTIONS": [
+    "Como economizar mais?",
+    "Me ajude com orçamento",
+    "Dicas de investimento",
+    "Como sair das dívidas?"
+  ],
+  "PLACEHOLDER": "Digite sua pergunta sobre finanças...",
+  "TYPING": "IA está digitando...",
+  "HINT": "Pressione Enter para enviar • Shift+Enter para nova linha",
+  "ERROR": "Desculpe, ocorreu um erro ao processar sua mensagem. Tente novamente.",
+  "TOOLTIP": "Assistente Financeiro"
+}

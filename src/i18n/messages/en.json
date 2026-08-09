@@ -1,0 +1,75 @@
+{
+  "HEADER_LOGIN": "Login",
+  "HEADER_CREATE_ACCOUNT": "Create Account",
+
+  "HERO_TITLE_PREFIX": "Control your ",
+  "HERO_TITLE_HIGHLIGHT": "finances",
+  "HERO_TITLE_SUFFIX": " in the palm of your hand",
+  "HERO_SECURITY_TEXT": "Your financial data protected and encrypted",
+  "HERO_DESCRIPTION": "A complete platform for you to control your expenses, plan your future and achieve your financial dreams with simplicity, efficiency and security.",
+  "HERO_CTA": "Try free for 7 days",
+  "IMAGE_ALT_DASHBOARD": "Financial dashboard visualization",
+
+  "FEATURES_SECTION_TITLE": "Everything you need for an organized financial life",
+  "FEATURES_SECTION_DESCRIPTION": "Our platform offers powerful and intuitive tools to help you achieve your financial goals.",
+
+  "FEATURES_OPEN_FINANCE_TITLE": "Open Finance",
+  "LABEL_SOON": "(Coming soon)",
+  "FEATURES_OPEN_FINANCE_DESCRIPTION": "Connect to Open Finance to integrate all your bank accounts and get a unified view of your finances.",
+
+  "FEATURES_E2EE_TITLE": "End-to-end Encryption",
+  "FEATURES_E2EE_DESCRIPTION": "Your data is fully encrypted. Only you can access it, ensuring maximum privacy and security.",
+
+  "FEATURES_SMART_CATEGORIZATION_TITLE": "Smart Categorization",
+  "FEATURES_SMART_CATEGORIZATION_DESCRIPTION": "Organize your expenses by categories and set spending limits to keep your budget under control.",
+
+  "FEATURES_DETAILED_HISTORY_TITLE": "Detailed History",
+  "FEATURES_DETAILED_HISTORY_DESCRIPTION": "Track all your transactions with a complete history and visualize your spending patterns.",
+
+  "FEATURES_GOALS_TITLE": "Financial Goals",
+  "FEATURES_GOALS_DESCRIPTION": "Set goals, track your progress and turn your dreams into reality.",
+
+  "FEATURES_DASHBOARD_TITLE": "Personalized Dashboard",
+  "FEATURES_DASHBOARD_DESCRIPTION": "Track your financial metrics in real time with interactive charts and visualize trends to make better decisions.",
+
+  "SECTION_JOURNEY_TITLE": "Start your financial journey today",
+  "SECTION_JOURNEY_DESCRIPTION": "Join thousands of people who are transforming their relationship with money and achieving their financial goals.",
+  "SECTION_JOURNEY_CTA": "Create Account",
+
+  "FEATURE_CATEGORIES_TITLE": "Categorize and Control your Expenses",
+  "FEATURE_CATEGORIES_DESCRIPTION": "Organize your expenses into custom categories and set monthly spending limits. Know when you are close to the limit and keep your budget under control.",
+  "FEATURE_CATEGORIES_BULLET_1": "Set limits per category",
+  "FEATURE_CATEGORIES_BULLET_2": "View spending in real time",
+  "FEATURE_CATEGORIES_BULLET_3": "Track your monthly evolution",
+  "FEATURE_CATEGORIES_BULLET_4": "Investments (coming soon)",
+  "ALT_CATEGORIES_IMAGE": "Expense categories",
+
+  "FEATURE_HISTORY_TITLE": "Complete Transaction History",
+  "FEATURE_HISTORY_DESCRIPTION": "Keep a detailed record of all your financial movements. Filter, search and analyze your spending simply and quickly.",
+  "FEATURE_HISTORY_BULLET_1": "Clear and organized view",
+  "FEATURE_HISTORY_BULLET_2": "Advanced search filters",
+  "FEATURE_HISTORY_BULLET_3": "Report export (coming soon)",
+  "ALT_HISTORY_IMAGE": "Transaction history",
+
+  "FEATURE_GOALS_TITLE": "Set and Achieve your Goals",
+  "FEATURE_GOALS_DESCRIPTION": "Turn your dreams into concrete goals. Set financial goals, track your progress and celebrate each achievement along the way.",
+  "FEATURE_GOALS_BULLET_1": "Create custom goals",
+  "FEATURE_GOALS_BULLET_2": "Visual progress tracking",
+  "FEATURE_GOALS_BULLET_3": "Smart savings planning",
+  "ALT_GOALS_IMAGE": "Financial goals",
+
+  "FEATURE_DASHBOARD_TITLE": "Financial Dashboard",
+  "FEATURE_DASHBOARD_DESCRIPTION": "Have a broad and detailed view of your financial life in one place. Analyze interactive graphs, track goals and visualize the performance of your finances practically.",
+  "FEATURE_DASHBOARD_BULLET_1": "Intuitive visual analysis",
+  "FEATURE_DASHBOARD_BULLET_2": "Real-time monitoring",
+  "FEATURE_DASHBOARD_BULLET_3": "Integration with automatic reports (coming soon)",
+  "ALT_DASHBOARD_IMAGE": "Financial dashboard",
+
+  "FOOTER_COPYRIGHT": "© {{year}} AM Finance. All rights reserved.",
+  "FOOTER_ILLUSTRATIONS_BY": "Illustrations by",
+  "FOOTER_TERMS_OF_USE": "Terms of use",
+  "FOOTER_PRIVACY_POLICY": "Privacy",
+  "TERMS_CHECKBOX_LABEL": "I have read and agree to the",
+  "TERMS_LINK_TEXT": "terms of use",
+  "TERMS_REQUIRED_ERROR": "You must accept the terms of use to continue."
+}

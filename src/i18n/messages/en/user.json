@@ -1,0 +1,18 @@
+{
+  "MENU_FEEDBACK": "Feedback",
+  "MENU_CONTACT_US": "Contact us",
+  "MENU_LOGOUT": "Logout",
+  "MENU_LOGOUT_LOADING": "Signing out...",
+  "USER_FALLBACK": "User",
+  "MENU_SUPPORT_EMAIL": "Support via email",
+  "MENU_SUPPORT_WHATSAPP": "Support via WhatsApp",
+  "TRIAL_DAYS_other": "{{count}} days left in trial",
+  "TRIAL_DAYS_one": "1 day left in trial",
+  "TRIAL_EXPIRES_TODAY": "Free trial expires today",
+  "TRIAL_BANNER_CTA": "Subscribe now",
+  "TRIAL_FREE_LABEL": "Free trial",
+  "TRIAL_PREMIUM_LABEL": "Premium Account",
+  "TRIAL_EXPIRES_IN_other": "Expires in {{count}} days",
+  "TRIAL_EXPIRES_IN_one": "Expires in 1 day",
+  "TRIAL_EXPIRES_IN_zero": "Expires today"
+}

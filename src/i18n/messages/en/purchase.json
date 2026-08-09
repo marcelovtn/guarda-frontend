@@ -1,0 +1,35 @@
+{
+  "failed": {
+    "title": "Purchase Not Completed",
+    "subtitle": "We couldn't process your payment",
+    "bannerTitle": "Oops! Something went wrong",
+    "defaultError": "An error occurred during your purchase. Please try again.",
+    "supportHint": "You can try again or contact our support if the problem persists.",
+    "tryAgainButton": "Try Again"
+  },
+  "success": {
+    "loading": "Loading purchase data...",
+    "errorTitle": "Failed to load data",
+    "errorMessage": "Error loading purchase data",
+    "sessionIdNotFound": "Session ID not found",
+    "backToApp": "Back to App",
+    "heroTitle": "Subscription Activated",
+    "heroSubtitle": "Congrats! Your subscription was successfully activated.",
+    "orderId": "Order ID",
+    "copyOrderId": "Copy order ID",
+    "plan": "Plan",
+    "amount": "Amount",
+    "nextCharge": "Next charge",
+    "renewal": "Renewal",
+    "renewalAutomatic": "Automatic",
+    "activeBannerTitle": "✅ Active subscription!",
+    "activeBannerText": "You already have access to all premium features.",
+    "renewalNote": "Your subscription will renew automatically. You can cancel anytime in settings.",
+    "goToApp": "Go to App",
+    "intervalYear": "Yearly",
+    "intervalMonth": "Monthly",
+    "intervalWeek": "Weekly",
+    "intervalDay": "Daily",
+    "defaultPlanName": "Premium Subscription"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "USE_TEMPLATE": "Usar template",
+  "TEMPLATES_DESC": "Escolha um template pré-definido para começar rapidamente.",
+  "TAB_READY_TEMPLATES": "Templates Prontos",
+  "APPLY_TEMPLATE_ERROR": "Erro ao aplicar template.",
+  "NO_NEW_CATEGORIES_FROM_TEMPLATE": "Todas já existem.",
+  "TEMPLATES": {
+    "RIDES_DRIVER_TITLE": "Motorista de Aplicativo",
+    "RIDES_DRIVER_DESC": "Categorias para controle de despesas profissionais",
+    "STUDENT_TITLE": "Estudante Universitário",
+    "STUDENT_DESC": "Custos de estudos e vida estudantil",
+    "FAMILY_WITH_KIDS_TITLE": "Família com Filhos",
+    "FAMILY_WITH_KIDS_DESC": "Despesas familiares e educação",
+    "COUPLE_NO_KIDS_TITLE": "Casal Recém-Casado",
+    "COUPLE_NO_KIDS_DESC": "Rotina a dois com moradia e lazer",
+    "RETIREE_TITLE": "Aposentado",
+    "RETIREE_DESC": "Saúde e despesas domésticas prioritárias",
+    "FREELANCER_TITLE": "Trabalhador Autônomo",
+    "FREELANCER_DESC": "Custos de trabalho e fluxo variável",
+    "TECH_HOME_OFFICE_TITLE": "Profissional de Tecnologia / Home Office",
+    "TECH_HOME_OFFICE_DESC": "Rotina remota com internet, energia e equipamentos",
+    "SMALL_ENTREPRENEUR_TITLE": "Pequeno Empreendedor",
+    "SMALL_ENTREPRENEUR_DESC": "Negócio próprio com foco em insumos e reinvestimento",
+    "HOMEMAKER_TITLE": "Dona(o) de Casa",
+    "HOMEMAKER_DESC": "Rotina doméstica com foco em despesas da casa",
+    "YOUNG_PROFESSIONAL_TITLE": "Jovem Profissional (Solteiro)",
+    "YOUNG_PROFESSIONAL_DESC": "Custos de moradia, deslocamento e desenvolvimento pessoal"
+  }
+}

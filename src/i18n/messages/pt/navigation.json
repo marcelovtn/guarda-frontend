@@ -1,0 +1,15 @@
+{
+  "MENU_HOME": "Início",
+  "MENU_HISTORY": "Histórico",
+  "MENU_GOALS": "Metas",
+  "MENU_DASHBOARD": "Dashboard",
+  "MENU_INVESTMENTS_SOON": "Investimentos (em breve)",
+  "MENU_REMINDERS": "Lembretes",
+  "MENU_SETTINGS": "Configurações",
+  "MENU_HELP": "Como usar",
+  "TOOLTIP_INVESTMENTS_SOON": "Este recurso estará disponível em breve! Estamos trabalhando para trazer ainda mais funcionalidades para você.",
+  "LOGOUT": "Sair",
+  "LOGOUT_LOADING": "Saindo...",
+  "NAV_MENU_TITLE": "Menu de navegação",
+  "NAV_MENU_DESCRIPTION": "Menu lateral com opções de navegação"
+}

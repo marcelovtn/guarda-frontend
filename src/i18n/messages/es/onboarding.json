@@ -1,0 +1,53 @@
+{
+  "HEADER_TITLE": "Asistente de Configuración",
+  "HEADER_DESC": "Vamos a personalizar tu experiencia",
+
+  "STEP_1_WHATSAPP_HEADING": "Recibe alertas por WhatsApp",
+  "STEP_1_WHATSAPP_BENEFITS": [
+    "Notificaciones de gastos en tiempo real",
+    "Recordatorios de vencimiento de facturas",
+    "Resúmenes financieros semanales",
+    "Alertas de límite de presupuesto"
+  ],
+  "BUTTON_SKIP": "Omitir por ahora",
+
+  "CHAT_EMPTY_TITLE": "¡Vamos a configurar tus finanzas!",
+  "CHAT_EMPTY_DESC": "Cuéntame un poco sobre tu situación financiera y crearé categorías personalizadas para ti.",
+  "CHAT_SUGGESTIONS": [
+    "Quiero controlar mis gastos",
+    "Necesito organizar mis finanzas",
+    "Quiero empezar a ahorrar",
+    "Estoy endeudado y necesito ayuda"
+  ],
+  "CHAT_PLACEHOLDER": "Cuéntame sobre tus finanzas...",
+  "CHAT_HINT": "Presiona Enter para enviar, Shift+Enter para nueva línea",
+  "CHAT_TYPING": "Escribiendo...",
+  "GENERATING_TITLE": "Generando tu planificación personalizada...",
+
+  "CATEGORIES_TITLE": "Categorías sugeridas para ti",
+  "CATEGORIES_DESC": "Revisa las categorías a continuación. Puedes eliminar las que no apliquen o cambiar el tipo antes de confirmar.",
+  "CATEGORIES_REMINDER": "¡Todo aquí es solo una sugerencia! Puedes agregar, eliminar o modificar cualquier categoría y monto en cualquier momento en la plataforma. Lo importante es tener un punto de partida.",
+  "CATEGORIES_TOTAL_ALLOCATED": "Total asignado",
+  "CATEGORIES_OVER_INCOME": "¡El total supera tus ingresos! Reduce algunos valores.",
+  "DISTRIBUTION_TITLE": "Tu organización financiera",
+  "DISTRIBUTION_INCOME": "base:",
+  "CATEGORIES_CONFIRM": "Confirmar y crear categorías",
+  "CATEGORIES_CREATING": "Creando categorías...",
+
+  "ADD_CATEGORY": "Agregar categoría",
+  "ADD_CATEGORY_NAME_PLACEHOLDER": "Nombre de la categoría",
+
+  "EXPENSE_PICKER_SUBMIT": "Armar mi planificación ({{count}} seleccionados)",
+
+  "VIDEOS_SUCCESS_TITLE": "¡{{count}} categorías creadas con éxito!",
+  "VIDEOS_SUCCESS_DESC": "Tu plataforma ya está personalizada. Mira algunos tutoriales rápidos para comenzar:",
+  "VIDEOS_SECTION_TITLE": "Tutoriales rápidos",
+  "VIDEOS_GO_DASHBOARD": "Ir al dashboard",
+
+  "VIDEO_1_TITLE": "Cómo crear categorías",
+  "VIDEO_1_DESC": "Aprende a crear y organizar tus categorías de gastos.",
+  "VIDEO_2_TITLE": "Cómo registrar ingresos",
+  "VIDEO_2_DESC": "Descubre cómo agregar salarios, trabajos freelance y otros ingresos.",
+  "VIDEO_3_TITLE": "Cómo registrar gastos",
+  "VIDEO_3_DESC": "Aprende a registrar tus gastos diarios."
+}

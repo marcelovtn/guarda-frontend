@@ -1,0 +1,22 @@
+{
+  "HEADER_LOGIN": "Iniciar sesión",
+  "HEADER_CREATE_ACCOUNT": "Crear cuenta",
+  "FOOTER_COPYRIGHT": "© {{year}} Jupter. Todos los derechos reservados.",
+  "FOOTER_ILLUSTRATIONS_BY": "Ilustraciones por",
+  "FOOTER_TERMS_OF_USE": "Términos de uso",
+  "FOOTER_PRIVACY_POLICY": "Privacidad",
+  "SEARCH_PLACEHOLDER": "Buscar...",
+  "NO_OPTIONS_FOUND": "No se encontraron opciones.",
+  "LOADING": "Cargando...",
+  "PROCESSING": "Procesando...",
+  "TOASTS": {
+    "SESSION_EXPIRED": "Sesión expirada. Por favor, inicia sesión nuevamente.",
+    "SUBSCRIPTION_INACTIVE": "Tu suscripción no está activa. Elige un plan para continuar."
+  },
+  "SUBSCRIBE": {
+    "TITLE": "Suscríbete para continuar",
+    "DESCRIPTION": "Selecciona un plan para desbloquear todas las funciones.",
+    "BUTTON": "Suscribirse",
+    "POPULAR_BADGE": "Más Popular"
+  }
+}

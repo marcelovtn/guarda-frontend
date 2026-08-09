@@ -1,0 +1,15 @@
+{
+  "MENU_HOME": "Home",
+  "MENU_HISTORY": "History",
+  "MENU_GOALS": "Goals",
+  "MENU_DASHBOARD": "Dashboard",
+  "MENU_INVESTMENTS_SOON": "Investments (coming soon)",
+  "MENU_REMINDERS": "Reminders",
+  "MENU_SETTINGS": "Settings",
+  "MENU_HELP": "How to use",
+  "TOOLTIP_INVESTMENTS_SOON": "This feature will be available soon! We're working to bring even more functionality to you.",
+  "LOGOUT": "Logout",
+  "LOGOUT_LOADING": "Signing out...",
+  "NAV_MENU_TITLE": "Navigation menu",
+  "NAV_MENU_DESCRIPTION": "Side menu with navigation options"
+}

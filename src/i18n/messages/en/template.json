@@ -1,0 +1,29 @@
+{
+  "USE_TEMPLATE": "Use template",
+  "TEMPLATES_DESC": "Choose a pre-defined template to get started quickly.",
+  "TAB_READY_TEMPLATES": "Ready Templates",
+  "APPLY_TEMPLATE_ERROR": "Error applying template.",
+  "NO_NEW_CATEGORIES_FROM_TEMPLATE": "All already exist.",
+  "TEMPLATES": {
+    "RIDES_DRIVER_TITLE": "Rideshare Driver",
+    "RIDES_DRIVER_DESC": "Categories for professional expense control",
+    "STUDENT_TITLE": "University Student",
+    "STUDENT_DESC": "Study and student life costs",
+    "FAMILY_WITH_KIDS_TITLE": "Family with Kids",
+    "FAMILY_WITH_KIDS_DESC": "Family expenses and education",
+    "COUPLE_NO_KIDS_TITLE": "Newlywed Couple",
+    "COUPLE_NO_KIDS_DESC": "Life together with housing and leisure",
+    "RETIREE_TITLE": "Retiree",
+    "RETIREE_DESC": "Health and essential household expenses",
+    "FREELANCER_TITLE": "Self-Employed Worker",
+    "FREELANCER_DESC": "Work costs and variable income",
+    "TECH_HOME_OFFICE_TITLE": "Tech Professional / Home Office",
+    "TECH_HOME_OFFICE_DESC": "Remote routine with internet, energy and equipment",
+    "SMALL_ENTREPRENEUR_TITLE": "Small Entrepreneur",
+    "SMALL_ENTREPRENEUR_DESC": "Own business focusing on inputs and reinvestment",
+    "HOMEMAKER_TITLE": "Homemaker",
+    "HOMEMAKER_DESC": "Household routine focusing on home expenses",
+    "YOUNG_PROFESSIONAL_TITLE": "Young Professional (Single)",
+    "YOUNG_PROFESSIONAL_DESC": "Housing, commuting and personal development costs"
+  }
+}

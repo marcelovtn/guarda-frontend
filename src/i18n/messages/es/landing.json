@@ -1,0 +1,30 @@
+{
+  "HERO_TITLE_PREFIX": "Controla tus ",
+  "HERO_TITLE_HIGHLIGHT": "finanzas",
+  "HERO_TITLE_SUFFIX": " en la palma de tu mano",
+  "HERO_SECURITY_TEXT": "Tus datos financieros protegidos y encriptados",
+  "HERO_DESCRIPTION": "Una plataforma completa para controlar tus gastos, planificar tu futuro y alcanzar tus metas financieras con simplicidad, eficiencia y seguridad.",
+  "HERO_CTA": "Prueba gratis por 7 días",
+  "IMAGE_ALT_DASHBOARD": "Visualización del panel financiero",
+  "FEATURES_E2EE_TITLE": "Sistema de Cifrado",
+  "FEATURES_E2EE_DESCRIPTION": "Tus datos están totalmente protegidos por un sistema de cifrado avanzado. Solo tú puedes acceder a ellos, garantizando máxima privacidad y seguridad.",
+  "SECTION_JOURNEY_TITLE": "Comienza tu viaje financiero hoy",
+  "SECTION_JOURNEY_DESCRIPTION": "Únete a miles de personas que ya están transformando su relación con el dinero y alcanzando sus objetivos financieros.",
+  "PLANS_SECTION_TITLE": "Elige tu plan",
+  "PLANS_SECTION_DESCRIPTION": "Elige el plan que mejor se adapte a tus necesidades y comienza a transformar tu vida financiera hoy.",
+  "PLANS_CTA": "Probar gratis por 7 días",
+
+  "FEATURES_WHATSAPP_TITLE": "Integración con WhatsApp",
+  "FEATURES_WHATSAPP_DESCRIPTION": "Recibe informes financieros, recordatorios personalizados y registra transacciones directamente por WhatsApp. Gestiona tus finanzas de forma rápida y práctica sin salir de la aplicación.",
+
+  "FEATURE_WHATSAPP_TITLE": "Gestiona tus Finanzas por WhatsApp",
+  "FEATURE_WHATSAPP_DESCRIPTION": "Integra tus finanzas con WhatsApp y ten control total en la palma de tu mano. Recibe informes automáticos, configura recordatorios personalizados y registra transacciones rápidamente, todo sin salir de la aplicación.",
+  "FEATURE_WHATSAPP_BULLET_1": "Recibe informes financieros automáticos",
+  "FEATURE_WHATSAPP_BULLET_2": "Configura recordatorios personalizados",
+  "FEATURE_WHATSAPP_BULLET_3": "Registra transacciones rápidamente",
+  "FEATURE_WHATSAPP_BULLET_4": "Sistema seguro y cifrado",
+  "ALT_WHATSAPP_IMAGE": "Integración WhatsApp",
+
+  "WHATSAPP_BUTTON_LABEL": "Soporte",
+  "WHATSAPP_BUTTON_SUBLABEL": "Resuelve tus dudas"
+}

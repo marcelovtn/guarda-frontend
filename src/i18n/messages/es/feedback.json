@@ -1,0 +1,14 @@
+{
+  "TITLE": "Comentarios",
+  "DESCRIPTION": "Tus comentarios guían nuestras decisiones y serán leídos con cariño ❤️ ¡Comparte tu opinión y ayúdanos a mejorar!",
+  "LABEL": "Comentarios",
+  "PLACEHOLDER": "Escribe aquí tus comentarios...",
+  "CTA_LATER": "Ahora no",
+  "CTA_SEND": "¡Enviar ahora!",
+  "SENDING": "Enviando...",
+  "SUCCESS": "¡Comentarios enviados! ¡Gracias por tu contribución!",
+  "ERROR": "Error al enviar los comentarios. Inténtalo de nuevo.",
+  "VALID_MIN": "Los comentarios deben tener al menos 5 caracteres",
+  "VALID_MAX": "Los comentarios deben tener como máximo 1000 caracteres",
+  "VALID_REQUIRED": "Necesitas escribir comentarios antes de enviar."
+}

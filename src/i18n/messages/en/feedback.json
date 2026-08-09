@@ -1,0 +1,14 @@
+{
+  "TITLE": "Feedback",
+  "DESCRIPTION": "Your feedback guides our choices and will be read with care ❤️ Share your opinion and help us create something even better!",
+  "LABEL": "Feedback",
+  "PLACEHOLDER": "Type your feedback here...",
+  "CTA_LATER": "Not now",
+  "CTA_SEND": "Send now!",
+  "SENDING": "Sending...",
+  "SUCCESS": "Feedback sent! Thank you for your contribution!",
+  "ERROR": "Error sending feedback. Try again.",
+  "VALID_MIN": "Feedback must be at least 5 characters",
+  "VALID_MAX": "Feedback must be at most 1000 characters",
+  "VALID_REQUIRED": "You need to write feedback before sending."
+}
