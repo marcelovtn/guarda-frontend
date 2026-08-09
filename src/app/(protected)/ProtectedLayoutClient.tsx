@@ -25,6 +25,13 @@ export default function ProtectedLayoutClient({
 
   const isInstructorArea = pathname.startsWith('/instructor')
 
+  /*
+   * Subscribing is a linear flow with its own step counter and its own header.
+   * Rendering the app navigation over it both duplicates the wordmark and
+   * invites the student to wander off halfway through paying.
+   */
+  const isCheckoutFlow = pathname.startsWith('/subscribe')
+
   const items = useMemo(
     () =>
       isInstructorArea
@@ -46,6 +53,10 @@ export default function ProtectedLayoutClient({
       i18n.changeLanguage(minimalUserInfo.language)
     }
   }, [minimalUserInfo, i18n])
+
+  if (isCheckoutFlow) {
+    return <>{children}</>
+  }
 
   return (
     <div className="flex min-h-dvh flex-col bg-background text-foreground">
