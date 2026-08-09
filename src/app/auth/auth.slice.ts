@@ -45,10 +45,18 @@ export function useLogin() {
 /**
  * Hook para onboarding de usuário (após login/signup)
  */
+interface OnboardPayload {
+  userId: string
+  /** Only sent at sign-up — it decides the first track recommendation. */
+  belt?: 'WHITE' | 'BLUE' | 'PURPLE' | 'BROWN' | 'BLACK'
+}
+
 export function useOnboardIncomingUser() {
   const { t } = useTranslation('auth')
   return useMutation({
-    mutationFn: async (userId: string) => {
+    mutationFn: async (input: string | OnboardPayload) => {
+      const { userId, belt } =
+        typeof input === 'string' ? { userId: input, belt: undefined } : input
       const navLang = (typeof navigator !== 'undefined' ? navigator.language : 'pt') || 'pt'
       const lang = navLang.startsWith('en') ? 'en' : 'pt'
       const timezone =
@@ -56,6 +64,7 @@ export function useOnboardIncomingUser() {
       await api.post(`/api/onboardIncomingUser/${userId}`, {
         language: lang,
         timezone,
+        belt,
       })
     },
     onError: (error: any) => {

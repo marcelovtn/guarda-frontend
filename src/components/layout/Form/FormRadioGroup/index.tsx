@@ -26,7 +26,11 @@ export function FormRadioGroup<TFieldValues extends FieldValues>({
 }: FormRadioGroupProps<TFieldValues>) {
   const contextDisabled = useFormDisabled()
   const isDisabled = contextDisabled || disabled
-  const { clearErrors } = useFormContext()
+  // useFormContext returns null outside a FormProvider, and the documented way
+  // to use these fields is to pass `control` directly. Destructuring it blindly
+  // crashed the whole form. FormSelect already guards it the same way.
+  const formContext = useFormContext()
+  const clearErrors = formContext?.clearErrors
   const directionClass =
     orientation === 'vertical' ? 'flex flex-col gap-2' : 'flex flex-row flex-wrap gap-2'
 

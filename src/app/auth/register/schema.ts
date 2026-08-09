@@ -1,24 +1,19 @@
-import { areAllRequirementsMet, getPasswordRequirements } from '@/utils/regexUtils'
 import { z } from 'zod'
 import type { TFunction } from 'i18next'
 
-export const createRegisterSchema = (t: TFunction<'auth', undefined>) =>
-  z
-    .object({
-      username: z.string().min(1, t('NAME_REQUIRED')),
-      email: z.string().min(1, t('EMAIL_REQUIRED')).email(t('EMAIL_INVALID')),
-      password: z.string().refine(
-        (val) => {
-          const requirements = getPasswordRequirements(val)
-          return areAllRequirementsMet(requirements)
-        },
-        { message: t('PASSWORD_WEAK') },
-      ),
-      confirmPassword: z.string().min(1, t('CONFIRM_PASSWORD_REQUIRED')),
-    })
-    .refine((data) => data.password === data.confirmPassword, {
-      message: t('PASSWORDS_MUST_MATCH'),
-      path: ['confirmPassword'],
-    })
+/**
+ * Matches the sign-up artboard: name, e-mail, password and belt.
+ *
+ * No password confirmation field — the design does not have one, and the
+ * password input already offers a reveal toggle, which is what confirmation was
+ * standing in for.
+ */
+export const createRegisterSchema = (t: TFunction<['guarda', 'auth'], undefined>) =>
+  z.object({
+    username: z.string().trim().min(1, t('auth:NAME_REQUIRED')),
+    email: z.string().min(1, t('auth:EMAIL_REQUIRED')).email(t('auth:EMAIL_INVALID')),
+    password: z.string().min(8, t('AUTH_PASSWORD_HINT')),
+    belt: z.enum(['WHITE', 'BLUE', 'PURPLE', 'BROWN', 'BLACK']),
+  })
 
 export type RegisterSchema = z.infer<ReturnType<typeof createRegisterSchema>>

@@ -1,26 +1,30 @@
 'use client'
 
-import { useSignup } from '../auth.slice'
-import { FormInput, FormPasswordInput, SubmitButton } from '@/components/layout/Form'
-import { Checkbox } from '@/components/ui/checkbox'
-import { publicRoutes } from '@/utils/routes'
+import { useOnboardIncomingUser, useSignInWithGoogle, useSignup } from '@/app/auth/auth.slice'
+import {
+  FormInput,
+  FormPasswordInput,
+  FormRadioGroup,
+  SubmitButton,
+} from '@/components/layout/Form'
+import { Button } from '@/components/ui/button'
+import { publicRoutes, studentRoutes } from '@/utils/routes'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
+import { GoogleIcon } from '../components/GoogleIcon'
 import { createRegisterSchema, type RegisterSchema } from './schema'
-import type { RegisterFormValues } from '@/lib/auth/types'
 
-export default function RegisterForm() {
-  const { t } = useTranslation('auth')
+const BELTS = ['WHITE', 'BLUE', 'PURPLE', 'BROWN', 'BLACK'] as const
+
+export default function RegisterPage() {
+  const { t } = useTranslation(['guarda', 'auth'])
   const router = useRouter()
-  const searchParams = useSearchParams()
-  const [termsAccepted, setTermsAccepted] = useState(false)
-  const [showTermsError, setShowTermsError] = useState(false)
-  const emailFromUrl = searchParams.get('email')
   const { mutateAsync: signup } = useSignup()
+  const { mutateAsync: onboardIncomingUser } = useOnboardIncomingUser()
+  const { mutateAsync: signInWithGoogle } = useSignInWithGoogle()
 
   const {
     control,
@@ -28,118 +32,85 @@ export default function RegisterForm() {
     formState: { isSubmitting },
   } = useForm<RegisterSchema>({
     resolver: zodResolver(createRegisterSchema(t)),
-    defaultValues: {
-      username: '',
-      email: emailFromUrl || '',
-      password: '',
-      confirmPassword: '',
-    },
+    defaultValues: { username: '', email: '', password: '', belt: 'WHITE' },
   })
 
-  async function onSubmit(values: RegisterSchema) {
-    if (!termsAccepted) {
-      setShowTermsError(true)
-      return
-    }
-    setShowTermsError(false)
+  async function onSubmit({ belt, ...values }: RegisterSchema) {
+    const response = await signup(values)
+    if (!response?.user) return
 
+    // The belt is only used to pick which track to recommend first, so a
+    // failure here must not block the sign-up itself.
     try {
-      const payload: RegisterFormValues = {
-        username: values.username,
-        email: values.email,
-        password: values.password,
-        timezone:
-          (typeof Intl !== 'undefined' && Intl.DateTimeFormat().resolvedOptions().timeZone) ||
-          'UTC',
-      }
-
-      await signup(payload).then((response) => {
-        if (!response.user) return
-        localStorage.setItem('confirmationEmail', values.email)
-        router.push(publicRoutes.CONFIRM_EMAIL)
-      })
-    } catch (error) {
-      console.error('Erro no registro:', error)
+      await onboardIncomingUser({ userId: response.user.id, belt })
+    } catch (err) {
+      console.error('Erro no onboarding:', err)
     }
+
+    router.push(studentRoutes.SUBSCRIBE_PLANS)
   }
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="mx-auto max-w-md space-y-4"
-      autoComplete="off"
-    >
-      <div className="space-y-6">
-        <div className="mb-8 space-y-2 text-center">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-            {t('REGISTER_TITLE')}
-          </h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400">{t('REGISTER_SUBTITLE')}</p>
+    <div className="flex flex-col gap-8">
+      <header className="flex flex-col gap-2">
+        <h1 className="font-display text-xl font-black tracking-tight text-foreground">
+          {t('AUTH_REGISTER_TITLE')}
+        </h1>
+        <p className="text-base text-muted-foreground">{t('AUTH_REGISTER_SUBTITLE')}</p>
+      </header>
+
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
+        <FormInput name="username" control={control} label={t('AUTH_NAME')} />
+        <FormInput name="email" control={control} type="email" label={t('AUTH_EMAIL')} />
+
+        <div className="flex flex-col gap-1.5">
+          <FormPasswordInput
+            name="password"
+            control={control}
+            label={t('AUTH_PASSWORD')}
+            showStrengthIndicator={false}
+          />
+          <p className="text-xs text-muted-foreground">{t('AUTH_PASSWORD_HINT')}</p>
         </div>
 
-        <FormInput
-          name="username"
+        {/*
+          The belt is not a badge — it decides which track the home page offers
+          on first access, which is why it is asked for here and nowhere else.
+        */}
+        <FormRadioGroup
+          name="belt"
           control={control}
-          label={t('NAME_LABEL')}
-          placeholder={t('NAME_PLACEHOLDER')}
-          autoFocus
-        />
-        <FormInput
-          name="email"
-          control={control}
-          label={t('EMAIL_LABEL')}
-          type="text"
-          placeholder={t('EMAIL_PLACEHOLDER')}
-          disabled={!!emailFromUrl}
-        />
-        <FormPasswordInput
-          name="password"
-          control={control}
-          label={t('PASSWORD_LABEL')}
-          placeholder={t('PASSWORD_PLACEHOLDER')}
-          showStrengthIndicator
-        />
-        <FormPasswordInput
-          name="confirmPassword"
-          control={control}
-          label={t('CONFIRM_PASSWORD_LABEL')}
-          placeholder={t('CONFIRM_PASSWORD_PLACEHOLDER')}
-          showStrengthIndicator={false}
+          label={t('AUTH_BELT_LABEL')}
+          options={BELTS.map((value) => ({ value, label: t(`BELT_${value}`) }))}
         />
 
-        <div className="space-y-2">
-          <div className="flex items-start gap-2">
-            <Checkbox
-              id="acceptTerms"
-              checked={termsAccepted}
-              onCheckedChange={(checked) => {
-                const isChecked = checked === true
-                setTermsAccepted(isChecked)
-                if (isChecked) setShowTermsError(false)
-              }}
-              className="mt-1"
-            />
-            <label
-              htmlFor="acceptTerms"
-              className="text-sm leading-snug text-gray-700 dark:text-gray-300"
-            >
-              {t('TERMS_ACCEPTANCE_TEXT')}
-            </label>
-          </div>
-          {showTermsError && <p className="text-sm text-red-500">{t('TERMS_REQUIRED_ERROR')}</p>}
-        </div>
+        <SubmitButton isLoading={isSubmitting} label={t('AUTH_SIGN_UP')} />
+      </form>
 
-        <SubmitButton isLoading={isSubmitting} label={t('SUBMIT_REGISTER')} />
+      <div className="flex items-center gap-4">
+        <span className="h-px flex-1 bg-border" />
+        <span className="text-xs font-medium tracking-caps text-muted-foreground">
+          {t('AUTH_OR')}
+        </span>
+        <span className="h-px flex-1 bg-border" />
       </div>
 
-      <div className="flex items-center justify-center space-x-1 text-sm">
-        <Link
-          href={publicRoutes.AUTH}
-          className="text-primary hover:text-primary/80 hover:underline"
-        >
-          {t('BACK_TO_AUTH')}
+      <Button
+        type="button"
+        variant="outline"
+        className="h-14 w-full bg-card"
+        onClick={() => signInWithGoogle()}
+      >
+        <GoogleIcon />
+        {t('AUTH_GOOGLE_SIGN_UP')}
+      </Button>
+
+      <p className="text-center text-sm text-muted-foreground">
+        {t('AUTH_HAS_ACCOUNT')}{' '}
+        <Link href={publicRoutes.LOGIN} className="font-semibold text-primary hover:underline">
+          {t('AUTH_SIGN_IN')}
         </Link>
-      </div>
-    </form>
+      </p>
+    </div>
   )
 }
