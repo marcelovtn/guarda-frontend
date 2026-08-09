@@ -43,6 +43,7 @@ import esTerms from './messages/es/terms.json'
 import esTransactions from './messages/es/transactions.json'
 import esUser from './messages/es/user.json'
 import ptAssistant from './messages/pt/assistant.json'
+import ptGuarda from './messages/pt/guarda.json'
 import ptHelp from './messages/pt/help.json'
 import ptAuth from './messages/pt/auth.json'
 import ptCommon from './messages/pt/common.json'
@@ -102,6 +103,7 @@ export function initI18n() {
           onboarding: ptOnboarding,
           premium: ptPremium,
           help: ptHelp,
+          guarda: ptGuarda,
         },
         en: {
           common: enCommon,
@@ -170,6 +172,7 @@ export function initI18n() {
         'onboarding',
         'premium',
         'help',
+        'guarda',
       ],
       fallbackLng: DEFAULT_LOCALE,
       supportedLngs: [...SUPPORTED_LOCALES],
