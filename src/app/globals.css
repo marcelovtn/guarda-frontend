@@ -2,33 +2,44 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
-}
-
+/*
+ * GUARDA design tokens.
+ *
+ * Translated from the Paper file "GUARDA — Plataforma do Professor". The hex on
+ * the right of each line is the Paper token it comes from — keep them in sync.
+ * Never hardcode these colours in JSX; go through the Tailwind roles below.
+ */
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --background-darker: 220 14.3% 95.9%;
-    --foreground: 0 0% 3.9%;
-    --card: 220 14.3% 95.9%;
-    --card-foreground: 0 0% 30%;
+    --background: 60 10% 94%; /* bg          #F2F2EF */
+    --background-darker: 60 10% 91%;
+    --foreground: 30 5% 7%; /* ink         #141312 */
+    --card: 0 0% 100%; /* surface     #FFFFFF */
+    --card-foreground: 30 5% 7%;
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
-    --primary: 262 83% 58%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 220 14.3% 95.9%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 90%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 0 0% 90%;
-    --accent-foreground: 0 0% 9%;
+    --popover-foreground: 30 5% 7%;
+    --primary: 229 78% 48%; /* accent      #1B3FD8 */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 45 13% 88%; /* line        #E4E2DC */
+    --secondary-foreground: 30 5% 7%;
+    --muted: 60 10% 91%;
+    --muted-foreground: 40 4% 40%; /* muted       #6B6862 */
+    --accent: 228 71% 95%; /* accent-soft #E7EBFB */
+    --accent-foreground: 229 78% 48%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --separator: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 0 0% 80%;
+    --border: 45 13% 88%;
+    --separator: 45 13% 88%;
+    --input: 45 13% 88%;
+    --ring: 229 78% 48%;
+
+    /*
+     * Dark surfaces used inside the light theme — the subscription card, the
+     * closing CTA band and the instructor navigation. Not a dark *theme*.
+     */
+    --surface-dark: 40 6% 10%; /* dark        #1A1917 */
+    --surface-dark-foreground: 0 0% 100%;
+    --surface-dark-muted: 39 8% 64%; /*             #A9A49B */
     --chart-1: 160 84% 39%;
     --chart-2: 48 96% 53%;
     --chart-3: 217 91% 60%;
@@ -47,7 +58,8 @@ body {
     --chart-16: 350 89% 60%;
     --chart-17: 199 89% 48%;
     --chart-18: 220 9% 46%;
-    --radius: 0.5rem;
+    /* Paper radius-md. sm/md/lg/full are set explicitly in tailwind.config.ts. */
+    --radius: 0.625rem;
     /* --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
     --sidebar-primary: 240 5.9% 10%;
@@ -57,16 +69,21 @@ body {
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%; */
   }
+  /*
+   * GUARDA ships light-only — the whole prototype is light. This block is kept
+   * so the shadcn primitives stay valid if dark mode is ever switched on, but
+   * it is not a designed theme. Do not build against it.
+   */
   .dark {
-    --background: 0 0% 12.9%;
-    --background-darker: 0 0% 10%;
+    --background: 40 6% 10%;
+    --background-darker: 40 6% 8%;
     --foreground: 0 0% 98%;
-    --card: 0 0% 10%;
+    --card: 40 6% 13%;
     --card-foreground: 0 0% 98%;
-    --popover: 0 0% 9%;
+    --popover: 40 6% 13%;
     --popover-foreground: 0 0% 98%;
-    --primary: 262 83% 70%;
-    --primary-foreground: 0 0% 9%;
+    --primary: 229 78% 60%;
+    --primary-foreground: 0 0% 100%;
     --secondary: 0 0% 16%;
     --secondary-foreground: 0 0% 98%;
     --muted: 0 0% 14.9%;

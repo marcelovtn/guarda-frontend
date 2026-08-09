@@ -6,24 +6,22 @@ import { queryClient } from '@/lib/queryClient'
 import { QueryClientProvider } from '@tanstack/react-query'
 // import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import type { Metadata } from 'next'
-import localFont from 'next/font/local'
+import { Inter_Tight } from 'next/font/google'
 import 'react-toastify/dist/ReactToastify.css'
 import './globals.css'
 
-const geistSans = localFont({
-  src: './fonts/GeistVF.woff',
-  variable: '--font-geist-sans',
-  weight: '100 900',
-})
-const geistMono = localFont({
-  src: './fonts/GeistMonoVF.woff',
-  variable: '--font-geist-mono',
-  weight: '100 900',
+// Display face — headings and the wordmark. Body copy uses the system stack,
+// matching the prototype. Exposed to Tailwind as `font-display`.
+const interTight = Inter_Tight({
+  subsets: ['latin'],
+  variable: '--font-display',
+  weight: ['400', '500', '600', '700', '800', '900'],
+  display: 'swap',
 })
 
 export const metadata: Metadata = {
-  title: 'Blank',
-  description: 'Blank — a production-ready starter for your next project.',
+  title: 'GUARDA',
+  description: 'O jiu jitsu do professor, na ordem certa.',
   icons: {
     icon: [
       { url: '/favicon.svg', type: 'image/svg+xml' },
@@ -31,9 +29,6 @@ export const metadata: Metadata = {
     ],
     shortcut: ['/favicon.ico'],
     apple: [{ url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
-  },
-  other: {
-    'facebook-domain-verification': 'tlrerc41e93e8gh7u6zudxfwtcbwhw',
   },
 }
 
@@ -52,7 +47,7 @@ export default async function RootLayout({
         <link rel="shortcut icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className={`${interTight.variable} font-sans antialiased`}>
         <QueryClientProvider client={queryClient}>
           <ThemeProvider>
             <I18nProvider>{children}</I18nProvider>

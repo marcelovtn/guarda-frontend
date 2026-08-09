@@ -8,7 +8,40 @@ const config: Config = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    /*
+     * Paper breakpoints. md/lg match Tailwind's defaults; xl is 1440 because
+     * that is the width every desktop artboard was designed at.
+     */
+    screens: {
+      sm: '480px',
+      md: '768px',
+      lg: '1024px',
+      xl: '1440px',
+    },
     extend: {
+      /*
+       * Type scale from the Paper file. The second value is the default line
+       * height — override per component when a design calls for it.
+       */
+      fontSize: {
+        xs: ['13px', '18px'],
+        sm: ['15px', '20px'],
+        base: ['17px', '26px'],
+        lg: ['22px', '28px'],
+        xl: ['34px', '38px'],
+        '2xl': ['56px', '58px'],
+      },
+      letterSpacing: {
+        tight: '-0.03em',
+        normal: '0em',
+        caps: '0.12em',
+      },
+      fontFamily: {
+        // Inter Tight — headings and the wordmark.
+        display: ['var(--font-display)', 'system-ui', 'sans-serif'],
+        // Body copy. The prototype uses the system stack, not a webfont.
+        sans: ['system-ui', 'sans-serif'],
+      },
       colors: {
         DEFAULT: 'hsl(var(--background))',
         background: {
@@ -55,6 +88,13 @@ const config: Config = {
           '4': 'hsl(var(--chart-4))',
           '5': 'hsl(var(--chart-5))',
         },
+        // Dark surfaces inside the light theme — subscription card, closing
+        // CTA band, instructor navigation.
+        'surface-dark': {
+          DEFAULT: 'hsl(var(--surface-dark))',
+          foreground: 'hsl(var(--surface-dark-foreground))',
+          muted: 'hsl(var(--surface-dark-muted))',
+        },
         sidebar: {
           DEFAULT: 'hsl(var(--sidebar-background))',
           foreground: 'hsl(var(--sidebar-foreground))',
@@ -66,10 +106,13 @@ const config: Config = {
           ring: 'hsl(var(--sidebar-ring))',
         },
       },
+      // Paper radius scale. Explicit values instead of the shadcn
+      // calc(--radius) chain, which cannot express 6/10/16.
       borderRadius: {
-        lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)',
+        sm: '6px',
+        md: '10px',
+        lg: '16px',
+        full: '999px',
       },
       keyframes: {
         'accordion-down': {
