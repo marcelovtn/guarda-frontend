@@ -7,13 +7,12 @@ import type {
 } from '@/lib/auth/types'
 import { translateBetterAuthError } from '@/lib/auth/utils'
 import { api } from '@/utils/axios'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
 
 export const authKeys = {
   all: ['auth'] as const,
-  keys: () => [...authKeys.all, 'keys'] as const,
   session: () => [...authKeys.all, 'session'] as const,
 } as const
 
@@ -228,18 +227,6 @@ export function useVerifyEmail() {
     onError: (error: any) => {
       const translatedError = translateBetterAuthError(error, t, 'AUTH_VERIFY_CODE_FAILED')
       toast.error(translatedError)
-    },
-  })
-}
-
-/**
- * Hook para obter chaves de criptografia do usuário
- */
-export function useGetUserEncryptionKeys() {
-  return useQuery({
-    queryKey: authKeys.keys(),
-    queryFn: async () => {
-      return api.get('/api/auth/encryption-key')
     },
   })
 }
