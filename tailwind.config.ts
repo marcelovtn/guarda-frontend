@@ -43,7 +43,12 @@ const config: Config = {
         sans: ['system-ui', 'sans-serif'],
       },
       colors: {
-        DEFAULT: 'hsl(var(--background))',
+        /*
+         * No DEFAULT key here. Tailwind derives boxShadowColor from `colors`,
+         * so a top-level DEFAULT made every `shadow` utility paint its shadow
+         * in the background colour — invisible on a light page, a bright halo
+         * around buttons on the dark hero and instructor header.
+         */
         background: {
           DEFAULT: 'hsl(var(--background))',
           darker: 'hsl(var(--background-darker))',
