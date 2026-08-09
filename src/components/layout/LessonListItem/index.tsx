@@ -36,6 +36,14 @@ interface LessonListItemProps {
   /** Compact spacing, for the player sidebar. */
   dense?: boolean
   href?: string
+  /**
+   * Takes over plain left-clicks so the caller can navigate inside a
+   * transition and show pending state. The href stays on the anchor, so
+   * middle-click, ctrl-click and "open in new tab" keep working.
+   */
+  onNavigate?: () => void
+  /** Warms the data before the click, on hover or focus. */
+  onPrefetch?: () => void
   /** Called when the status circle is pressed. Omit to render it read-only. */
   onToggleCompleted?: (completed: boolean) => void
   /** Replaces the trailing slot — a drag handle or a menu, for instance. */
@@ -59,6 +67,8 @@ export function LessonListItem({
   current = false,
   dense = false,
   href,
+  onNavigate,
+  onPrefetch,
   onToggleCompleted,
   trailing,
   className,
@@ -151,6 +161,17 @@ export function LessonListItem({
       {href ? (
         <Link
           href={href}
+          prefetch
+          onMouseEnter={onPrefetch}
+          onFocus={onPrefetch}
+          onClick={(event) => {
+            // Only plain left-clicks: anything with a modifier is the reader
+            // asking for a new tab, and hijacking that would be rude.
+            if (!onNavigate) return
+            if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return
+            event.preventDefault()
+            onNavigate()
+          }}
           className="flex min-w-0 flex-1 items-center gap-3 rounded-md outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
           {body}

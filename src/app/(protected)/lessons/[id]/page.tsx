@@ -4,7 +4,7 @@ import { InstructorAvatar } from '@/components/layout/InstructorAvatar'
 import { LessonListItem } from '@/components/layout/LessonListItem'
 import { PageContainer } from '@/components/layout/PageContainer'
 import { Button } from '@/components/ui/button'
-import { useGetLessonPlayback } from '@/lib/lesson/lesson.slice'
+import { useGetLessonPlayback, usePrefetchLessonPlayback } from '@/lib/lesson/lesson.slice'
 import { useSetLessonCompleted } from '@/lib/progress/progress.slice'
 import { cn } from '@/lib/utils'
 import { formatRelativeDate } from '@/utils/formatLesson'
@@ -12,7 +12,7 @@ import { studentRoutes } from '@/utils/routes'
 import { Check, ChevronLeft, ChevronRight, PanelRightClose, PanelRightOpen } from 'lucide-react'
 import Link from 'next/link'
 import { useParams, useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useState, useTransition } from 'react'
 import { useTranslation } from 'react-i18next'
 import { LessonPlayer } from './components/LessonPlayer'
 import { PlayerSkeleton } from './components/PlayerSkeleton'
@@ -22,11 +22,30 @@ export default function LessonPage() {
   const params = useParams<{ id: string }>()
   const router = useRouter()
 
-  const { data: lesson, isLoading } = useGetLessonPlayback(params.id)
+  const { data: lesson, isLoading, isPlaceholderData } = useGetLessonPlayback(params.id)
   const { mutateAsync: setCompleted } = useSetLessonCompleted()
+  const prefetchLesson = usePrefetchLessonPlayback()
   const [showSidebar, setShowSidebar] = useState(true)
 
+  /*
+   * Next blocks the navigation while it fetches the route payload — measured at
+   * ~160ms in development — so a plain link click did nothing visible and then
+   * swapped the whole page at once. That is what read as a refresh. Routing
+   * inside a transition gives an immediate pending state to dim against.
+   */
+  const [isNavigating, startNavigation] = useTransition()
+
+  const goToLesson = (id: string) => startNavigation(() => router.push(studentRoutes.LESSON(id)))
+
   if (isLoading || !lesson) return <PlayerSkeleton />
+
+  /*
+   * True while the previous lesson is still on screen and the new one is in
+   * flight. Everything used to swap at once with no signal, which is what read
+   * as a page reload: the reader had no way to tell a navigation from a
+   * refresh. Dimming makes it legible as a transition.
+   */
+  const isSwitching = isNavigating || (isPlaceholderData && lesson.id !== params.id)
 
   const currentIndex = lesson.siblings.findIndex((sibling) => sibling.id === lesson.id)
   const previous = currentIndex > 0 ? lesson.siblings[currentIndex - 1] : null
@@ -35,12 +54,17 @@ export default function LessonPage() {
   /** Finishing advances to the next lesson — that is the point of a track. */
   const handleEnded = async () => {
     await setCompleted({ lessonId: lesson.id, completed: true })
-    if (next) router.push(studentRoutes.LESSON(next.id))
+    if (next) goToLesson(next.id)
   }
 
   return (
     <PageContainer className="flex flex-col gap-10 lg:flex-row lg:items-start">
-      <div className="flex min-w-0 flex-1 flex-col gap-6">
+      <div
+        className={cn(
+          'flex min-w-0 flex-1 flex-col gap-6 transition-opacity duration-200',
+          isSwitching && 'opacity-50',
+        )}
+      >
         <LessonPlayer
           lessonId={lesson.id}
           videoUrl={lesson.videoUrl}
@@ -73,7 +97,7 @@ export default function LessonPage() {
                 aria-label={t('PLAYER_PREVIOUS')}
                 title={t('PLAYER_PREVIOUS')}
                 disabled={!previous}
-                onClick={() => previous && router.push(studentRoutes.LESSON(previous.id))}
+                onClick={() => previous && goToLesson(previous.id)}
               >
                 <ChevronLeft className="size-4" />
               </Button>
@@ -84,7 +108,7 @@ export default function LessonPage() {
                 aria-label={t('PLAYER_NEXT_LESSON')}
                 title={t('PLAYER_NEXT_LESSON')}
                 disabled={!next}
-                onClick={() => next && router.push(studentRoutes.LESSON(next.id))}
+                onClick={() => next && goToLesson(next.id)}
               >
                 <ChevronRight className="size-4" />
               </Button>
@@ -154,7 +178,9 @@ export default function LessonPage() {
               {t('PLAYER_IN_THIS_TRACK')}
             </Link>
             <span className="shrink-0 text-xs tabular-nums text-muted-foreground">
-              {lesson.track.trackPosition} / {lesson.siblings.length}
+              {lesson.siblings.findIndex((s) => s.id === params.id) + 1 ||
+                lesson.track.trackPosition}{' '}
+              / {lesson.siblings.length}
             </span>
           </header>
 
@@ -171,8 +197,12 @@ export default function LessonPage() {
                 key={sibling.id}
                 dense
                 lesson={sibling}
-                current={sibling.id === lesson.id}
+                // Follows the URL, not the fetched lesson, so the highlight moves
+                // the instant the student clicks instead of 260ms later.
+                current={sibling.id === params.id}
                 href={studentRoutes.LESSON(sibling.id)}
+                onNavigate={() => goToLesson(sibling.id)}
+                onPrefetch={() => prefetchLesson(sibling.id)}
                 onToggleCompleted={(completed) => setCompleted({ lessonId: sibling.id, completed })}
                 className="rounded-none border-b border-border last:border-b-0"
               />

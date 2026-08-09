@@ -39,6 +39,26 @@ export function useGetLessons(filters: { category?: string; orphansOnly?: boolea
   })
 }
 
+/**
+ * Warms a lesson before it is opened, on hover or focus.
+ *
+ * Without it the API call only starts once the route has committed, so the two
+ * waits are serial. Prefetching overlaps them.
+ */
+export function usePrefetchLessonPlayback() {
+  const queryClient = useQueryClient()
+
+  return (id: string) =>
+    queryClient.prefetchQuery({
+      queryKey: lessonKeys.playback(id),
+      queryFn: async () => {
+        const { data } = await api.get<LessonPlayback>(`/api/lessons/${id}`)
+        return data
+      },
+      staleTime: 30_000,
+    })
+}
+
 export function useGetLessonPlayback(id: string) {
   return useQuery({
     queryKey: lessonKeys.playback(id),
