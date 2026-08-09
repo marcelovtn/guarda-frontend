@@ -53,6 +53,8 @@ export interface LessonPlayback {
     durationSec: number
     trackPosition: number
     completed: boolean
+    /** Seconds watched — distinguishes "started" from "never opened". */
+    lastPositionSec: number
   }[]
   nextLesson: { id: string; title: string; durationSec: number } | null
 }

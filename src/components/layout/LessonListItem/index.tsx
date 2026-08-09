@@ -2,8 +2,7 @@
 
 import { cn } from '@/lib/utils'
 import { formatDuration } from '@/utils/formatLesson'
-import { studentRoutes } from '@/utils/routes'
-import { Check, ChevronRight } from 'lucide-react'
+import { Check } from 'lucide-react'
 import Link from 'next/link'
 import type { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -14,17 +13,32 @@ export interface LessonListItemData {
   durationSec: number
   trackPosition: number
   completed: boolean
+  /** Seconds watched. Anything above zero means the lesson was started. */
+  lastPositionSec?: number
+}
+
+/**
+ * Three states, not two: a lesson can be untouched, started, or finished.
+ * Without the middle one a student who stopped halfway looks like they never
+ * opened it.
+ */
+type LessonStatus = 'not-started' | 'in-progress' | 'completed'
+
+function statusOf(lesson: LessonListItemData): LessonStatus {
+  if (lesson.completed) return 'completed'
+  return (lesson.lastPositionSec ?? 0) > 0 ? 'in-progress' : 'not-started'
 }
 
 interface LessonListItemProps {
   lesson: LessonListItemData
-  /** Highlights the row and shows the "EM ANDAMENTO" chip. */
+  /** Highlights the row as the one currently open in the player. */
   current?: boolean
   /** Compact spacing, for the player sidebar. */
   dense?: boolean
-  /** Turns the row into a link. Off for the instructor's track builder. */
   href?: string
-  /** Replaces the trailing chevron — a drag handle or a menu, for instance. */
+  /** Called when the status circle is pressed. Omit to render it read-only. */
+  onToggleCompleted?: (completed: boolean) => void
+  /** Replaces the trailing slot — a drag handle or a menu, for instance. */
   trailing?: ReactNode
   className?: string
 }
@@ -32,41 +46,55 @@ interface LessonListItemProps {
 /**
  * One lesson in a list.
  *
- * The same row appears in three places — the track page, the player sidebar
- * and the instructor's track builder — so the differences between them are
- * props rather than three near-identical components.
+ * The same row appears on the track page, in the player sidebar and in the
+ * instructor's track builder, so the differences are props rather than three
+ * near-identical components.
  *
- * The check, the number and the trailing slot are fixed-width lanes: with a
- * gap alone, a two-line title in one row would shift the numbers of every
- * other row out of alignment.
+ * The status circle is a sibling of the link, not a child: a button inside an
+ * anchor is invalid HTML, and nesting them would make marking a lesson complete
+ * also navigate away from the page you are on.
  */
 export function LessonListItem({
   lesson,
   current = false,
   dense = false,
   href,
+  onToggleCompleted,
   trailing,
   className,
 }: LessonListItemProps) {
   const { t } = useTranslation('guarda')
+  const status = statusOf(lesson)
 
-  const content = (
+  const circle = (
+    <span
+      className={cn(
+        'flex size-[22px] items-center justify-center rounded-full border-2 transition-colors',
+        status === 'completed' && 'border-primary bg-primary',
+        status === 'in-progress' && 'border-primary',
+        status === 'not-started' && 'border-border',
+        onToggleCompleted && 'group-hover/status:border-primary',
+      )}
+    >
+      {status === 'completed' ? (
+        <Check className="size-3.5 text-primary-foreground" strokeWidth={3} />
+      ) : status === 'in-progress' ? (
+        // A filled centre rather than a partial ring: it reads at 22px, where
+        // an arc does not.
+        <span className="size-2 rounded-full bg-primary" />
+      ) : null}
+    </span>
+  )
+
+  const statusLabel =
+    status === 'completed'
+      ? t('LESSON_STATUS_COMPLETED')
+      : status === 'in-progress'
+        ? t('LESSON_STATUS_IN_PROGRESS')
+        : t('LESSON_STATUS_NOT_STARTED')
+
+  const body = (
     <>
-      <span className="flex size-6 shrink-0 items-center justify-center">
-        {lesson.completed ? (
-          <span className="flex size-[22px] items-center justify-center rounded-full bg-primary">
-            <Check className="size-3.5 text-primary-foreground" strokeWidth={3} />
-          </span>
-        ) : (
-          <span
-            className={cn(
-              'size-[22px] rounded-full border-2',
-              current ? 'border-primary' : 'border-border',
-            )}
-          />
-        )}
-      </span>
-
       {!dense ? (
         <span className="w-6 shrink-0 text-xs font-medium tabular-nums text-muted-foreground">
           {String(lesson.trackPosition).padStart(2, '0')}
@@ -75,8 +103,6 @@ export function LessonListItem({
 
       <span
         className={cn(
-          // Clamped in the dense variant: the player sidebar is narrow, and a
-          // long title wrapping to four lines pushes the list out of view.
           'min-w-0 flex-1 text-left',
           dense ? 'line-clamp-2 text-sm leading-5' : 'text-base leading-6',
           current ? 'font-semibold text-foreground' : 'font-medium text-foreground',
@@ -94,35 +120,46 @@ export function LessonListItem({
       <span className="w-12 shrink-0 text-right text-xs tabular-nums text-muted-foreground">
         {formatDuration(lesson.durationSec)}
       </span>
-
-      <span className="flex w-4 shrink-0 justify-end">
-        {trailing ?? (href ? <ChevronRight className="size-4 text-muted-foreground" /> : null)}
-      </span>
     </>
   )
 
-  const classes = cn(
-    'flex w-full items-center gap-3 rounded-md transition-colors',
-    dense ? 'px-3 py-2.5' : 'px-4 py-4',
-    current ? 'bg-accent' : 'hover:bg-secondary/50',
-    className,
-  )
-
-  if (!href) {
-    return <div className={classes}>{content}</div>
-  }
-
   return (
-    <Link
-      href={href}
-      className={cn(classes, 'outline-none focus-visible:ring-2 focus-visible:ring-ring')}
+    <div
+      className={cn(
+        'flex w-full items-center gap-3 rounded-md transition-colors',
+        dense ? 'px-3 py-2.5' : 'px-4 py-4',
+        current ? 'bg-accent' : 'hover:bg-secondary/50',
+        className,
+      )}
     >
-      {content}
-    </Link>
-  )
-}
+      {onToggleCompleted ? (
+        <button
+          type="button"
+          aria-label={statusLabel}
+          title={statusLabel}
+          onClick={() => onToggleCompleted(!lesson.completed)}
+          className="group/status flex shrink-0 items-center justify-center rounded-full outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        >
+          {circle}
+        </button>
+      ) : (
+        <span className="flex shrink-0 items-center justify-center" title={statusLabel}>
+          {circle}
+        </span>
+      )}
 
-/** Convenience for the student side, where the row always links to the player. */
-export function lessonHref(lessonId: string) {
-  return studentRoutes.LESSON(lessonId)
+      {href ? (
+        <Link
+          href={href}
+          className="flex min-w-0 flex-1 items-center gap-3 rounded-md outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        >
+          {body}
+        </Link>
+      ) : (
+        <div className="flex min-w-0 flex-1 items-center gap-3">{body}</div>
+      )}
+
+      {trailing ? <span className="flex shrink-0 items-center">{trailing}</span> : null}
+    </div>
+  )
 }

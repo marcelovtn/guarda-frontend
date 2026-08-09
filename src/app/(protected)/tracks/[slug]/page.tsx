@@ -5,6 +5,7 @@ import { PageContainer } from '@/components/layout/PageContainer'
 import { ProgressBar } from '@/components/layout/ProgressBar'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useSetLessonCompleted } from '@/lib/progress/progress.slice'
 import { useGetTrack } from '@/lib/track/track.slice'
 import { formatTotalDuration } from '@/utils/formatLesson'
 import { studentRoutes } from '@/utils/routes'
@@ -17,6 +18,7 @@ export default function TrackPage() {
   const { t } = useTranslation('guarda')
   const params = useParams<{ slug: string }>()
   const { data: track, isLoading } = useGetTrack(params.slug)
+  const { mutateAsync: setCompleted } = useSetLessonCompleted()
 
   if (isLoading || !track) {
     return (
@@ -116,6 +118,9 @@ export default function TrackPage() {
                   lesson={lesson}
                   current={lesson.id === track.progress?.nextLessonId}
                   href={studentRoutes.LESSON(lesson.id)}
+                  onToggleCompleted={(completed) =>
+                    setCompleted({ lessonId: lesson.id, completed })
+                  }
                   className="rounded-none border-b border-border last:border-b-0"
                 />
               ))}

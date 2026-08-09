@@ -183,7 +183,6 @@
   "PLAYER_MARK_COMPLETE": "Marcar como concluída",
   "PLAYER_COMPLETED": "Concluída",
   "PLAYER_IN_THIS_TRACK": "NESTA TRILHA",
-  "PLAYER_NEXT": "PRÓXIMA AULA",
   "PLAYER_LAST_LESSON": "última aula {{when}}",
   "PLAYER_NO_VIDEO": "O vídeo desta aula ainda não foi enviado.",
   "TRACKS_ALL": "Todas",
@@ -226,5 +225,12 @@
   "CHECKOUT_MONTHLY": "Mensalidade",
   "CHECKOUT_TOTAL": "Total hoje",
   "CHECKOUT_SUBMIT": "Confirmar e começar a treinar",
-  "CHECKOUT_SUBMITTING": "Confirmando…"
+  "CHECKOUT_SUBMITTING": "Confirmando…",
+  "LESSON_STATUS_NOT_STARTED": "Marcar como concluída",
+  "LESSON_STATUS_IN_PROGRESS": "Em andamento — marcar como concluída",
+  "LESSON_STATUS_COMPLETED": "Concluída — desmarcar",
+  "PLAYER_PREVIOUS": "Aula anterior",
+  "PLAYER_NEXT_LESSON": "Próxima aula",
+  "PLAYER_HIDE_LIST": "Esconder a lista de aulas",
+  "PLAYER_SHOW_LIST": "Mostrar a lista de aulas"
 }
