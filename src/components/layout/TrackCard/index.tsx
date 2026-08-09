@@ -14,7 +14,9 @@ export interface TrackCardData {
   lessonCount: number
   totalDurationSec: number
   posterUrl?: string | null
-  progress: { percent: number } | null
+  /** Set to open the first lesson directly from a card. */
+  firstLessonId?: string | null
+  progress: { percent: number; nextLessonId?: string | null } | null
 }
 
 interface TrackCardProps {

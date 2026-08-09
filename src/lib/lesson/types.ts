@@ -46,7 +46,7 @@ export interface LessonPlayback {
     lastPublishedAt: string | null
   }
   track: LessonTrackRef | null
-  progress: { completed: boolean; lastPositionSec: number; saved: boolean }
+  progress: { completed: boolean; lastPositionSec: number }
   siblings: {
     id: string
     title: string

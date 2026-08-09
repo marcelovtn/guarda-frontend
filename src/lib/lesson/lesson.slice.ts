@@ -1,5 +1,5 @@
 import { api } from '@/utils/axios'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
 import type {
   CreateLessonPayload,
@@ -33,6 +33,9 @@ export function useGetLessons(filters: { category?: string; orphansOnly?: boolea
       const { data } = await api.get<LessonListItem[]>(`/api/lessons${query ? `?${query}` : ''}`)
       return data
     },
+    // Changing a filter changes the query key. Without this the grid collapses
+    // to skeletons and rebuilds, which reads as the page flashing.
+    placeholderData: keepPreviousData,
   })
 }
 
@@ -44,6 +47,10 @@ export function useGetLessonPlayback(id: string) {
       return data
     },
     enabled: Boolean(id),
+    // Moving to the next lesson is a new query key. Keeping the previous data
+    // on screen means the sidebar and the layout stay put instead of the whole
+    // page blanking out, which looked like a browser refresh.
+    placeholderData: keepPreviousData,
   })
 }
 

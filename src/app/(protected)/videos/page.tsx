@@ -27,10 +27,16 @@ export default function VideosPage() {
   const { t } = useTranslation('guarda')
   const [filter, setFilter] = useState<string>(ALL)
 
-  const { data: lessons, isLoading } = useGetLessons({
+  const {
+    data: lessons,
+    isLoading,
+    isFetching,
+  } = useGetLessons({
     category: filter !== ALL && filter !== ORPHANS ? filter : undefined,
     orphansOnly: filter === ORPHANS,
   })
+
+  const visible = lessons ?? []
 
   return (
     <PageContainer className="flex flex-col gap-8">
@@ -69,11 +75,19 @@ export default function VideosPage() {
             <Skeleton key={key} className="h-64 rounded-lg" />
           ))}
         </div>
-      ) : (lessons ?? []).length === 0 ? (
+      ) : visible.length === 0 ? (
         <EmptyState title={t('EMPTY_NO_LESSONS_TITLE')} description={t('EMPTY_NO_LESSONS_BODY')} />
       ) : (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {(lessons ?? []).map((lesson) => (
+        // Dimmed while a new filter loads. keepPreviousData holds the previous
+        // grid in place, so switching filters reads as a transition rather than
+        // the page emptying and rebuilding.
+        <div
+          className={cn(
+            'grid gap-6 transition-opacity duration-200 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4',
+            isFetching && 'opacity-60',
+          )}
+        >
+          {visible.map((lesson) => (
             <LessonCard
               key={lesson.id}
               lesson={{

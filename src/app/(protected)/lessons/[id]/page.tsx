@@ -7,10 +7,10 @@ import { VideoThumb } from '@/components/layout/VideoThumb'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useGetLessonPlayback } from '@/lib/lesson/lesson.slice'
-import { useSetLessonCompleted, useToggleSavedLesson } from '@/lib/progress/progress.slice'
+import { useSetLessonCompleted } from '@/lib/progress/progress.slice'
 import { formatDuration, formatRelativeDate } from '@/utils/formatLesson'
 import { studentRoutes } from '@/utils/routes'
-import { Bookmark, Check, ChevronRight } from 'lucide-react'
+import { Check, ChevronRight } from 'lucide-react'
 import Link from 'next/link'
 import { useParams, useRouter } from 'next/navigation'
 import { useTranslation } from 'react-i18next'
@@ -23,7 +23,6 @@ export default function LessonPage() {
 
   const { data: lesson, isLoading } = useGetLessonPlayback(params.id)
   const { mutateAsync: setCompleted } = useSetLessonCompleted()
-  const { mutateAsync: toggleSaved } = useToggleSavedLesson()
 
   if (isLoading || !lesson) {
     return (
@@ -79,14 +78,6 @@ export default function LessonPage() {
               >
                 <Check className="size-4" />
                 {lesson.progress.completed ? t('PLAYER_COMPLETED') : t('PLAYER_MARK_COMPLETE')}
-              </Button>
-
-              <Button
-                variant="outline"
-                onClick={() => toggleSaved({ lessonId: lesson.id, saved: !lesson.progress.saved })}
-              >
-                <Bookmark className={lesson.progress.saved ? 'size-4 fill-current' : 'size-4'} />
-                {t('PLAYER_SAVE')}
               </Button>
             </div>
           </div>

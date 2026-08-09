@@ -50,8 +50,12 @@ export function LessonPlayer({ lessonId, videoUrl, startAtSec, onEnded }: Lesson
   // Write the last position when leaving, so closing the tab mid-lesson does
   // not lose up to a debounce window of progress.
   useEffect(() => {
+    // Captured inside the effect: by the time cleanup runs the ref may already
+    // point at the next lesson's element, and we would save its position under
+    // this lesson's id.
+    const video = videoRef.current
+
     return () => {
-      const video = videoRef.current
       if (video && video.currentTime > 0) {
         persist.cancel()
         savePosition({ lessonId, lastPositionSec: Math.floor(video.currentTime) })

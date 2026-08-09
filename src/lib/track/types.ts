@@ -16,6 +16,11 @@ export interface TrackSummary {
   level: TrackLevel
   lessonCount: number
   totalDurationSec: number
+  /**
+   * First lesson in track order. Lets a card send the student straight into the
+   * video instead of one more page listing what they already chose.
+   */
+  firstLessonId: string | null
   progress: TrackProgress | null
 }
 

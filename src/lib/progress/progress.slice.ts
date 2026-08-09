@@ -14,18 +14,9 @@ export interface ContinueWatching {
   track: LessonTrackRef | null
 }
 
-export interface SavedLesson {
-  lessonId: string
-  title: string
-  durationSec: number
-  savedAt: string
-  track: LessonTrackRef | null
-}
-
 export const progressKeys = {
   all: ['progress'] as const,
   continue: () => [...progressKeys.all, 'continue'] as const,
-  saved: () => [...progressKeys.all, 'saved'] as const,
 }
 
 /** Drives the home hero. Null means the student has not started anything. */
@@ -34,16 +25,6 @@ export function useGetContinueWatching() {
     queryKey: progressKeys.continue(),
     queryFn: async () => {
       const { data } = await api.get<ContinueWatching | null>('/api/progress/continue')
-      return data
-    },
-  })
-}
-
-export function useGetSavedLessons() {
-  return useQuery({
-    queryKey: progressKeys.saved(),
-    queryFn: async () => {
-      const { data } = await api.get<SavedLesson[]>('/api/progress/saved')
       return data
     },
   })
@@ -85,24 +66,6 @@ export function useSetLessonCompleted() {
       queryClient.invalidateQueries({ queryKey: progressKeys.all })
       queryClient.invalidateQueries({ queryKey: trackKeys.all })
       queryClient.invalidateQueries({ queryKey: lessonKeys.all })
-    },
-  })
-}
-
-export function useToggleSavedLesson() {
-  const queryClient = useQueryClient()
-
-  return useMutation({
-    mutationFn: async ({ lessonId, saved }: { lessonId: string; saved: boolean }) => {
-      if (saved) {
-        await api.post(`/api/progress/${lessonId}/save`)
-        return
-      }
-      await api.delete(`/api/progress/${lessonId}/save`)
-    },
-    onSuccess: (_data, { lessonId }) => {
-      queryClient.invalidateQueries({ queryKey: progressKeys.saved() })
-      queryClient.invalidateQueries({ queryKey: lessonKeys.playback(lessonId) })
     },
   })
 }

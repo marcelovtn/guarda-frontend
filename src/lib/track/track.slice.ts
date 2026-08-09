@@ -1,5 +1,5 @@
 import { api } from '@/utils/axios'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
 import type {
   CreateTrackPayload,
@@ -39,6 +39,7 @@ export function useGetTrack(slug: string) {
       return data
     },
     enabled: Boolean(slug),
+    placeholderData: keepPreviousData,
   })
 }
 

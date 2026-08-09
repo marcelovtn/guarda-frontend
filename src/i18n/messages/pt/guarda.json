@@ -182,7 +182,6 @@
   "PLAYER_POSITION": "MÓDULO {{module}} · AULA {{position}} DE {{total}}",
   "PLAYER_MARK_COMPLETE": "Marcar como concluída",
   "PLAYER_COMPLETED": "Concluída",
-  "PLAYER_SAVE": "Salvar",
   "PLAYER_IN_THIS_TRACK": "NESTA TRILHA",
   "PLAYER_NEXT": "PRÓXIMA AULA",
   "PLAYER_LAST_LESSON": "última aula {{when}}",

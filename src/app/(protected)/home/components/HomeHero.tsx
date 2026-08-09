@@ -109,9 +109,19 @@ export function HomeHero({ continueWatching, recommended }: HomeHeroProps) {
 
   if (!recommended) return null
 
+  /*
+   * "Comece por aqui" opens the first lesson, not the track page. The student
+   * already chose the track by pressing this — sending them to a list of what
+   * they just picked is one page too many. "Ver a trilha inteira" is there for
+   * anyone who does want the overview.
+   */
+  const startHref = recommended.firstLessonId
+    ? studentRoutes.LESSON(recommended.firstLessonId)
+    : studentRoutes.TRACK(recommended.slug)
+
   return (
     <section className="flex flex-col gap-8 lg:flex-row lg:items-center lg:gap-14">
-      <Link href={studentRoutes.TRACK(recommended.slug)} className="w-full shrink-0 lg:w-[720px]">
+      <Link href={startHref} className="w-full shrink-0 lg:w-[720px]">
         <VideoThumb showPlay eyebrow={t('HOME_LESSON_NUMBER', { number: '01' })} />
       </Link>
 
@@ -138,7 +148,7 @@ export function HomeHero({ continueWatching, recommended }: HomeHeroProps) {
 
         <div className="flex flex-wrap items-center gap-5 pt-1">
           <Button asChild size="lg" className="h-14 px-6 text-base">
-            <Link href={studentRoutes.TRACK(recommended.slug)}>
+            <Link href={startHref}>
               <Play className="size-4 fill-current" />
               {t('HOME_START_CTA')}
             </Link>
