@@ -1,14 +1,14 @@
 import { redirect } from 'next/navigation'
-import { protectedRoutes } from '@/utils/routes'
+import { studentRoutes } from '@/utils/routes'
 import { getSession } from '@/actions/auth'
 
 export default async function PublicLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  // Better Auth: Verifica se o usuário já está autenticado
+  // Someone already signed in has no use for the sales page — send them to
+  // their lessons instead of the pitch.
   const session = await getSession()
 
-  // Se já houver sessão, redireciona para home
   if (session?.user) {
-    redirect(protectedRoutes.SETTINGS)
+    redirect(studentRoutes.HOME)
   }
 
   return children
