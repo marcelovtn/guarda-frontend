@@ -232,5 +232,7 @@
   "PLAYER_PREVIOUS": "Aula anterior",
   "PLAYER_NEXT_LESSON": "Próxima aula",
   "PLAYER_HIDE_LIST": "Esconder a lista de aulas",
-  "PLAYER_SHOW_LIST": "Mostrar a lista de aulas"
+  "PLAYER_SHOW_LIST": "Mostrar a lista de aulas",
+  "NAV_SWITCH_TO_INSTRUCTOR": "Área do professor",
+  "NAV_SWITCH_TO_STUDENT": "Ver como aluno"
 }
