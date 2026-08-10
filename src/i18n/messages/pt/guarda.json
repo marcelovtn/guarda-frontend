@@ -254,5 +254,6 @@
   "EDIT_LESSON_BACK": "Voltar para suas aulas",
   "LIBRARY_ROW_ACTIONS": "Ações da aula",
   "LIBRARY_EDIT": "Editar aula",
-  "LIBRARY_UNPUBLISHED": "Aula despublicada"
+  "LIBRARY_UNPUBLISHED": "Aula despublicada",
+  "PLAYER_TRACK_PROGRESS": "{{done}} de {{total}} aulas concluídas"
 }

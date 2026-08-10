@@ -3,6 +3,7 @@
 import { InstructorAvatar } from '@/components/layout/InstructorAvatar'
 import { LessonListItem } from '@/components/layout/LessonListItem'
 import { PageContainer } from '@/components/layout/PageContainer'
+import { ProgressBar } from '@/components/layout/ProgressBar'
 import { Button } from '@/components/ui/button'
 import { useGetLessonPlayback, usePrefetchLessonPlayback } from '@/lib/lesson/lesson.slice'
 import { useSetLessonCompleted } from '@/lib/progress/progress.slice'
@@ -46,6 +47,16 @@ export default function LessonPage() {
    * refresh. Dimming makes it legible as a transition.
    */
   const isSwitching = isNavigating || (isPlaceholderData && lesson.id !== params.id)
+
+  /*
+   * Counted from the siblings already on screen rather than fetched: the list
+   * carries `completed` for every lesson in the track, so marking one done
+   * moves the bar in the same render that ticks the circle.
+   */
+  const completedCount = lesson.siblings.filter((sibling) => sibling.completed).length
+  const trackPercent = lesson.siblings.length
+    ? Math.round((completedCount / lesson.siblings.length) * 100)
+    : 0
 
   const currentIndex = lesson.siblings.findIndex((sibling) => sibling.id === lesson.id)
   const previous = currentIndex > 0 ? lesson.siblings[currentIndex - 1] : null
@@ -171,6 +182,31 @@ export default function LessonPage() {
               ) : null}
             </div>
           </div>
+
+          {/* How far the track has got, on both widths. Sits in the main
+              column rather than in the list header so it survives the list
+              being collapsed — and on a phone, where the list is far below the
+              video, it is the only place the student would see it. */}
+          {lesson.track ? (
+            <div className="flex flex-col gap-2">
+              <div className="flex items-baseline justify-between gap-3">
+                <Link
+                  href={studentRoutes.TRACK(lesson.track.trackSlug)}
+                  className="truncate text-sm font-semibold text-foreground hover:underline"
+                >
+                  {lesson.track.trackTitle}
+                </Link>
+                <span className="shrink-0 text-xs text-muted-foreground">
+                  {t('PLAYER_TRACK_PROGRESS', {
+                    done: completedCount,
+                    total: lesson.siblings.length,
+                  })}
+                </span>
+              </div>
+
+              <ProgressBar percent={trackPercent} showPercent />
+            </div>
+          ) : null}
 
           {lesson.description ? (
             <p className="max-w-[720px] text-base leading-7 text-muted-foreground">
