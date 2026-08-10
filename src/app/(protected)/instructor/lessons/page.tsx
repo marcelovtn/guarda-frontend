@@ -119,7 +119,7 @@ export default function InstructorLessonsPage() {
         />
       ) : (
         <div className="overflow-hidden rounded-lg border border-border bg-card">
-          <div className="hidden grid-cols-[80px_1fr_120px_80px_100px] gap-4 border-b border-border px-4 py-3 text-[11px] font-semibold uppercase tracking-caps text-muted-foreground md:grid">
+          <div className="hidden grid-cols-[80px_1fr_120px_80px_100px_44px] gap-4 border-b border-border px-4 py-3 text-[11px] font-semibold uppercase tracking-caps text-muted-foreground md:grid">
             <span />
             <span>{t('LIBRARY_COL_LESSON')}</span>
             <span>{t('LIBRARY_COL_STATUS')}</span>

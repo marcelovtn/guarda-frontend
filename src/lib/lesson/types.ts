@@ -70,6 +70,13 @@ export interface InstructorLesson {
   viewerCount: number
 }
 
+/** A lesson opened by its own instructor, on the edit screen. */
+export interface InstructorLessonDetail extends InstructorLesson {
+  description: string | null
+  videoUrl: string | null
+  processing: VideoProcessingStatus
+}
+
 export interface CreateLessonPayload {
   title: string
   description?: string | null

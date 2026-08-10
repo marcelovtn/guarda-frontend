@@ -20,6 +20,8 @@ interface VideoUploadFieldProps {
   video: VideoUploadState | null
   onSelect: (file: File) => void
   disabled?: boolean
+  /** The video already stored on the lesson, on the edit screen. */
+  currentVideoUrl?: string | null
 }
 
 function formatSize(bytes: number): string {
@@ -35,7 +37,12 @@ function formatSize(bytes: number): string {
  * is over a gigabyte, and blocking the instructor from typing a title for the
  * twenty minutes that takes would be absurd. Only publishing waits.
  */
-export function VideoUploadField({ video, onSelect, disabled }: VideoUploadFieldProps) {
+export function VideoUploadField({
+  video,
+  onSelect,
+  disabled,
+  currentVideoUrl,
+}: VideoUploadFieldProps) {
   const { t } = useTranslation('guarda')
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -44,7 +51,18 @@ export function VideoUploadField({ video, onSelect, disabled }: VideoUploadField
 
   return (
     <div className="flex flex-col gap-4 rounded-lg border border-border bg-card p-5 md:flex-row md:items-center md:gap-6 md:p-6">
-      <VideoThumb className="w-full shrink-0 md:w-[200px]" />
+      {/* The stored video is playable right here: an instructor checking a
+          lesson should not have to open the student player to see it. */}
+      {currentVideoUrl && !video ? (
+        <video
+          src={currentVideoUrl}
+          controls
+          playsInline
+          className="aspect-video w-full shrink-0 rounded-md bg-surface-dark md:w-[200px]"
+        />
+      ) : (
+        <VideoThumb className="w-full shrink-0 md:w-[200px]" />
+      )}
 
       <div className="flex min-w-0 flex-1 flex-col gap-2">
         {video ? (
@@ -65,6 +83,13 @@ export function VideoUploadField({ video, onSelect, disabled }: VideoUploadField
               <p className="text-sm font-medium text-primary">{t('NEW_LESSON_UPLOADED')}</p>
             )}
           </>
+        ) : currentVideoUrl ? (
+          <>
+            <p className="text-base font-semibold text-foreground">{t('NEW_LESSON_UPLOADED')}</p>
+            <p className="text-sm leading-5 text-muted-foreground">
+              {t('EDIT_LESSON_REPLACE_HINT')}
+            </p>
+          </>
         ) : (
           <>
             <p className="text-base font-semibold text-foreground">{t('NEW_LESSON_PICK_TITLE')}</p>
@@ -80,7 +105,7 @@ export function VideoUploadField({ video, onSelect, disabled }: VideoUploadField
         onClick={() => inputRef.current?.click()}
         disabled={disabled}
       >
-        {video ? t('NEW_LESSON_REPLACE') : t('NEW_LESSON_PICK')}
+        {video || currentVideoUrl ? t('NEW_LESSON_REPLACE') : t('NEW_LESSON_PICK')}
       </Button>
 
       <input
