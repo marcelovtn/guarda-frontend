@@ -207,6 +207,8 @@
   "LIBRARY_MODULE": "Módulo {{number}}",
   "SUBSCRIBE_STEP": "Passo {{step}} de {{total}}",
   "SUBSCRIBE_EXIT": "Sair",
+  "SUBSCRIBE_NO_INSTRUCTOR_TITLE": "Nenhum professor disponível ainda",
+  "SUBSCRIBE_NO_INSTRUCTOR_BODY": "A plataforma está sendo preparada. Assim que um professor publicar as trilhas dele, o acesso aparece aqui.",
   "PLANS_EYEBROW": "SUA ASSINATURA",
   "PLANS_TITLE": "Tudo do {{name}}. Uma mensalidade.",
   "PLANS_BODY": "Acesso às {{tracks}} trilhas que ele já montou e às {{lessons}} aulas publicadas — mais tudo que ele gravar daqui pra frente.",

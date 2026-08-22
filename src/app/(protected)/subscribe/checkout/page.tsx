@@ -2,6 +2,8 @@
 
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
+import { EmptyState } from '@/components/layout/EmptyState'
+import { DEFAULT_INSTRUCTOR_SLUG } from '@/lib/instructor/defaultInstructor'
 import { useGetPublicInstructor } from '@/lib/instructor/instructor.slice'
 import { useSubscribe } from '@/lib/subscription/subscription.slice'
 import { cn } from '@/lib/utils'
@@ -12,19 +14,32 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { Suspense, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-const DEFAULT_INSTRUCTOR = 'rafaelmoura'
-
 type PaymentMethod = 'card' | 'pix'
 
 function CheckoutContent() {
   const { t } = useTranslation('guarda')
   const router = useRouter()
   const searchParams = useSearchParams()
-  const slug = searchParams.get('instructor') ?? DEFAULT_INSTRUCTOR
+  const slug = searchParams.get('instructor') ?? DEFAULT_INSTRUCTOR_SLUG
 
   const { data: instructor, isLoading } = useGetPublicInstructor(slug)
   const { mutateAsync: subscribe, isPending } = useSubscribe()
   const [method, setMethod] = useState<PaymentMethod>('card')
+
+  /*
+   * Sem professor não é carregamento, é resposta. Ver a mesma guarda na tela de
+   * planos: tratar os dois casos com um skeleton só deixava um retângulo cinza
+   * que nunca resolvia.
+   */
+  if (!slug || (!isLoading && !instructor)) {
+    return (
+      <EmptyState
+        title={t('SUBSCRIBE_NO_INSTRUCTOR_TITLE')}
+        description={t('SUBSCRIBE_NO_INSTRUCTOR_BODY')}
+        className="w-full max-w-[520px]"
+      />
+    )
+  }
 
   if (isLoading || !instructor) {
     return <Skeleton className="h-[520px] w-full max-w-[900px]" />

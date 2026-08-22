@@ -2,6 +2,8 @@
 
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
+import { EmptyState } from '@/components/layout/EmptyState'
+import { DEFAULT_INSTRUCTOR_SLUG } from '@/lib/instructor/defaultInstructor'
 import { useGetPublicInstructor } from '@/lib/instructor/instructor.slice'
 import { formatPriceFromCents } from '@/utils/formatLesson'
 import { studentRoutes } from '@/utils/routes'
@@ -11,21 +13,31 @@ import { useSearchParams } from 'next/navigation'
 import { Suspense } from 'react'
 import { useTranslation } from 'react-i18next'
 
-/**
- * Until there is a marketplace, everyone lands on the single instructor the
- * platform was set up for. The slug stays a parameter so the multi-instructor
- * flow is a link away rather than a rewrite.
- */
-const DEFAULT_INSTRUCTOR = 'rafaelmoura'
-
 const FEATURES = ['1', '2', '3'] as const
 
 function PlansContent() {
   const { t } = useTranslation('guarda')
   const searchParams = useSearchParams()
-  const slug = searchParams.get('instructor') ?? DEFAULT_INSTRUCTOR
+  const slug = searchParams.get('instructor') ?? DEFAULT_INSTRUCTOR_SLUG
 
   const { data: instructor, isLoading } = useGetPublicInstructor(slug)
+
+  /*
+   * Sem professor não é carregamento, é resposta.
+   *
+   * A versão anterior tratava os dois casos com o mesmo skeleton, então um slug
+   * inexistente — ou nenhum slug configurado — virava um retângulo cinza que
+   * nunca resolvia. Quem se cadastrava caía aqui e não tinha o que fazer.
+   */
+  if (!slug || (!isLoading && !instructor)) {
+    return (
+      <EmptyState
+        title={t('SUBSCRIBE_NO_INSTRUCTOR_TITLE')}
+        description={t('SUBSCRIBE_NO_INSTRUCTOR_BODY')}
+        className="w-full max-w-[520px]"
+      />
+    )
+  }
 
   if (isLoading || !instructor) {
     return <Skeleton className="h-[520px] w-full max-w-[520px]" />
