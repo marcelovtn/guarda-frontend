@@ -7,8 +7,12 @@ import { PageContainer } from '@/components/layout/PageContainer'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useGetLessons } from '@/lib/lesson/lesson.slice'
 import { useGetContinueWatching } from '@/lib/progress/progress.slice'
+import { useGetSubscriptions } from '@/lib/subscription/subscription.slice'
 import { useGetRecommendedTrack, useGetTracks } from '@/lib/track/track.slice'
 import type { TrackCategory } from '@/lib/instructor/types'
+import { Button } from '@/components/ui/button'
+import { studentRoutes } from '@/utils/routes'
+import Link from 'next/link'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { HomeHero } from './components/HomeHero'
@@ -33,6 +37,7 @@ export default function HomePage() {
   const { data: continueWatching, isLoading: isLoadingProgress } = useGetContinueWatching()
   const { data: recommended } = useGetRecommendedTrack()
   const { data: lessons } = useGetLessons()
+  const { data: subscriptions } = useGetSubscriptions()
 
   const recent = useMemo(() => (lessons ?? []).slice(0, RECENT_COUNT), [lessons])
 
@@ -55,6 +60,33 @@ export default function HomePage() {
       <PageContainer className="flex flex-col gap-10">
         <Skeleton className="h-[405px] w-full rounded-lg" />
         <Skeleton className="h-64 w-full rounded-lg" />
+      </PageContainer>
+    )
+  }
+
+  /*
+   * Sem trilha tem duas causas, e elas pedem respostas diferentes.
+   *
+   * Quem não assinou não vê nada porque o gate de acesso funcionou, e precisa
+   * de um caminho para assinar — antes, a home dizia "nenhuma trilha ainda" e
+   * não oferecia nada, então quem entrava pelo login em vez do cadastro ficava
+   * preso: nenhuma outra tela do app leva ao fluxo de assinatura.
+   *
+   * Quem já assinou e não vê trilha está esperando o professor publicar, o que
+   * é outra conversa.
+   */
+  if ((tracks ?? []).length === 0 && (subscriptions ?? []).length === 0) {
+    return (
+      <PageContainer>
+        <EmptyState
+          title={t('EMPTY_NO_SUBSCRIPTION_TITLE')}
+          description={t('EMPTY_NO_SUBSCRIPTION_BODY')}
+          action={
+            <Button asChild>
+              <Link href={studentRoutes.SUBSCRIBE_PLANS}>{t('EMPTY_NO_SUBSCRIPTION_CTA')}</Link>
+            </Button>
+          }
+        />
       </PageContainer>
     )
   }
