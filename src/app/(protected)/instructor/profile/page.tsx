@@ -20,10 +20,23 @@ import { profileSchema, type ProfileValues } from './schema'
 
 const MAX_BIO = 400
 
+/**
+ * Host que o professor vê como endereço público dele, sem o esquema.
+ *
+ * Cai para o host atual quando NEXT_PUBLIC_SITE_URL não está definido, para a
+ * tela nunca mostrar um domínio que não é o de quem está usando.
+ */
+function getPublicProfileHost(): string {
+  const configured = process.env.NEXT_PUBLIC_SITE_URL
+  if (configured) return configured.replace(/^https?:\/\//, '').replace(/\/$/, '')
+  return typeof window === 'undefined' ? '' : window.location.host
+}
+
 export default function InstructorProfilePage() {
   const { t } = useTranslation('guarda')
   const { data: profile } = useGetInstructorProfile()
   const { mutateAsync: updateProfile } = useUpdateInstructorProfile()
+  const publicProfileHost = getPublicProfileHost()
 
   const {
     control,
@@ -165,8 +178,13 @@ export default function InstructorProfilePage() {
             </Button>
           </div>
 
+          {/*
+            O endereço vem de NEXT_PUBLIC_SITE_URL, não escrito à mão.
+            A versão anterior mostrava "guarda.app", que é de outra pessoa —
+            anunciava ao professor um endereço que nunca foi nosso.
+          */}
           <p className="text-xs text-muted-foreground">
-            {`guarda.app${publicRoutes.INSTRUCTOR_PROFILE(profile.slug)}`}
+            {`${publicProfileHost}${publicRoutes.INSTRUCTOR_PROFILE(profile.slug)}`}
           </p>
         </aside>
       </div>
