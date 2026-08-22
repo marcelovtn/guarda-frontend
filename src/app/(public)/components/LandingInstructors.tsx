@@ -1,8 +1,5 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
-import { publicRoutes } from '@/utils/routes'
-import Link from 'next/link'
 import { useTranslation } from 'react-i18next'
 
 /** The pitch to the person who records, and what they take home. */
@@ -23,14 +20,15 @@ export function LandingInstructors() {
 
           <p className="max-w-[520px] text-base leading-7 text-white/55">{t('INSTRUCTORS_BODY')}</p>
 
-          <div className="flex flex-col items-start gap-3 pt-2 sm:flex-row sm:items-center">
-            <Button asChild size="lg" className="h-14 px-7 text-base">
-              <Link href={publicRoutes.REGISTER}>{t('INSTRUCTORS_CTA')}</Link>
-            </Button>
-            <p className="max-w-[240px] text-sm leading-5 text-white/45">
-              {t('INSTRUCTORS_CTA_NOTE')}
-            </p>
-          </div>
+          {/*
+            No button on purpose. Becoming an instructor is not self-serve —
+            professors are invited one at a time — and the sign-up this used to
+            link to creates a student account, so it promised something it could
+            not deliver.
+          */}
+          <p className="max-w-[420px] text-sm leading-5 text-white/45">
+            {t('INSTRUCTORS_CTA_NOTE')}
+          </p>
         </div>
 
         {/*

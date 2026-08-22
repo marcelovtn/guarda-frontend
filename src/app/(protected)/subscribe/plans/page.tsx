@@ -16,7 +16,7 @@ import { useTranslation } from 'react-i18next'
  * platform was set up for. The slug stays a parameter so the multi-instructor
  * flow is a link away rather than a rewrite.
  */
-const DEFAULT_INSTRUCTOR = 'rafaelmoura'
+const DEFAULT_INSTRUCTOR = 'joaopedro'
 
 const FEATURES = ['1', '2', '3'] as const
 

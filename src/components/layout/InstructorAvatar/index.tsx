@@ -21,7 +21,7 @@ interface InstructorAvatarProps {
   className?: string
 }
 
-/** First letter of the first and last name — "Rafael Moura" becomes RM. */
+/** First letter of the first and last name — "João Pedro" becomes JP. */
 function toInitials(name: string): string {
   const parts = name.trim().split(/\s+/).filter(Boolean)
   if (parts.length === 0) return '?'

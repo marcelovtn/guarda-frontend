@@ -7,7 +7,6 @@ import { LandingFooter } from './components/LandingFooter'
 import { LandingHero } from './components/LandingHero'
 import { LandingInstructors } from './components/LandingInstructors'
 import { LandingPricing } from './components/LandingPricing'
-import { LandingTestimonials } from './components/LandingTestimonials'
 import { LandingThesis } from './components/LandingThesis'
 import { LandingTrack } from './components/LandingTrack'
 
@@ -22,7 +21,6 @@ export default function LandingPage() {
       <LandingTrack />
       <LandingExplore />
       <LandingInstructors />
-      <LandingTestimonials />
       <LandingPricing />
       <LandingFaq />
       <LandingCta />
