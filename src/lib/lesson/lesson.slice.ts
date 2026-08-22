@@ -4,6 +4,7 @@ import { toast } from 'react-toastify'
 import type {
   CreateLessonPayload,
   InstructorLesson,
+  InstructorLessonDetail,
   LessonListItem,
   LessonPlayback,
   LessonUploadTarget,
@@ -16,6 +17,7 @@ export const lessonKeys = {
   studentList: (filters?: string) => [...lessonKeys.all, 'student', filters ?? ''] as const,
   playback: (id: string) => [...lessonKeys.all, 'playback', id] as const,
   instructorList: () => [...lessonKeys.all, 'instructor'] as const,
+  instructorDetail: (id: string) => [...lessonKeys.all, 'instructor', id] as const,
   processing: (id: string) => [...lessonKeys.all, 'processing', id] as const,
 }
 
@@ -83,6 +85,18 @@ export function useGetInstructorLessons() {
       const { data } = await api.get<InstructorLesson[]>('/api/instructor/lessons')
       return data
     },
+    retry: false,
+  })
+}
+
+export function useGetInstructorLesson(id: string) {
+  return useQuery({
+    queryKey: lessonKeys.instructorDetail(id),
+    queryFn: async () => {
+      const { data } = await api.get<InstructorLessonDetail>(`/api/instructor/lessons/${id}`)
+      return data
+    },
+    enabled: Boolean(id),
     retry: false,
   })
 }

@@ -40,7 +40,7 @@ export interface LessonPlayback {
     id: string
     slug: string
     displayName: string
-    photoKey: string | null
+    photoUrl: string | null
     lessonCount: number
     trackCount: number
     lastPublishedAt: string | null
@@ -68,6 +68,27 @@ export interface InstructorLesson {
   hasVideo: boolean
   track: LessonTrackRef | null
   viewerCount: number
+}
+
+/**
+ * One lesson as its own screen, for the instructor.
+ *
+ * Carries `trackId` and `moduleId` raw because they prefill two selects; the
+ * "aula 07 de 18" numbering the list DTO computes has no meaning here.
+ */
+export interface InstructorLessonDetail {
+  id: string
+  title: string
+  description: string | null
+  durationSec: number
+  status: PublishStatus
+  publishedAt: string | null
+  videoKey: string | null
+  processing: VideoProcessingStatus
+  trackId: string | null
+  moduleId: string | null
+  trackTitle: string | null
+  moduleTitle: string | null
 }
 
 export interface CreateLessonPayload {

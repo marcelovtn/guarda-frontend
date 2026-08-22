@@ -3,22 +3,20 @@
 import { ProgressBar } from '@/components/layout/ProgressBar'
 import { VideoThumb } from '@/components/layout/VideoThumb'
 import { Button } from '@/components/ui/button'
+import type { VideoUploadState } from '@/lib/lesson/useVideoUpload'
 import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-
-export interface VideoUploadState {
-  fileName: string
-  sizeBytes: number
-  /** 0–1 while uploading, 1 once the bytes are in storage. */
-  uploadProgress: number
-  /** Set once the upload finishes; this is what the lesson stores. */
-  key: string | null
-  error?: string
-}
 
 interface VideoUploadFieldProps {
   video: VideoUploadState | null
   onSelect: (file: File) => void
+  /**
+   * Whether the lesson already has a video in storage.
+   *
+   * Without it the edit screen would greet a finished lesson with "nenhum
+   * vídeo ainda" just because nothing was picked in this session.
+   */
+  hasStoredVideo?: boolean
   disabled?: boolean
 }
 
@@ -35,7 +33,12 @@ function formatSize(bytes: number): string {
  * is over a gigabyte, and blocking the instructor from typing a title for the
  * twenty minutes that takes would be absurd. Only publishing waits.
  */
-export function VideoUploadField({ video, onSelect, disabled }: VideoUploadFieldProps) {
+export function VideoUploadField({
+  video,
+  onSelect,
+  hasStoredVideo = false,
+  disabled,
+}: VideoUploadFieldProps) {
   const { t } = useTranslation('guarda')
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -65,6 +68,15 @@ export function VideoUploadField({ video, onSelect, disabled }: VideoUploadField
               <p className="text-sm font-medium text-primary">{t('NEW_LESSON_UPLOADED')}</p>
             )}
           </>
+        ) : hasStoredVideo ? (
+          <>
+            <p className="text-base font-semibold text-foreground">
+              {t('LESSON_EDIT_VIDEO_STORED')}
+            </p>
+            <p className="text-sm leading-5 text-muted-foreground">
+              {t('LESSON_EDIT_VIDEO_STORED_HINT')}
+            </p>
+          </>
         ) : (
           <>
             <p className="text-base font-semibold text-foreground">{t('NEW_LESSON_PICK_TITLE')}</p>
@@ -80,7 +92,7 @@ export function VideoUploadField({ video, onSelect, disabled }: VideoUploadField
         onClick={() => inputRef.current?.click()}
         disabled={disabled}
       >
-        {video ? t('NEW_LESSON_REPLACE') : t('NEW_LESSON_PICK')}
+        {video || hasStoredVideo ? t('NEW_LESSON_REPLACE') : t('NEW_LESSON_PICK')}
       </Button>
 
       <input

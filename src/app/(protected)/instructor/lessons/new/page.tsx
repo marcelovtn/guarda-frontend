@@ -3,8 +3,11 @@
 import { FormInput, FormSelect, FormTextarea } from '@/components/layout/Form'
 import { PageContainer } from '@/components/layout/PageContainer'
 import { Button } from '@/components/ui/button'
-import { useCreateLesson, useCreateLessonUploadTarget } from '@/lib/lesson/lesson.slice'
+import { VideoUploadField } from '@/components/layout/VideoUploadField'
+import { useCreateLesson } from '@/lib/lesson/lesson.slice'
+import { useVideoUpload } from '@/lib/lesson/useVideoUpload'
 import { useGetInstructorTracks } from '@/lib/track/track.slice'
+import { useTrackModules } from '@/lib/track/useTrackModules'
 import { instructorRoutes } from '@/utils/routes'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
@@ -12,9 +15,7 @@ import { useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
-import { VideoUploadField, type VideoUploadState } from './components/VideoUploadField'
 import { newLessonSchema, type NewLessonValues } from './schema'
-import { useTrackModules } from './useTrackModules'
 
 const NO_TRACK = 'none'
 
@@ -23,10 +24,9 @@ export default function NewLessonPage() {
   const router = useRouter()
 
   const { data: tracks } = useGetInstructorTracks()
-  const { mutateAsync: createUploadTarget } = useCreateLessonUploadTarget()
   const { mutateAsync: createLesson } = useCreateLesson()
+  const { video, select } = useVideoUpload()
 
-  const [video, setVideo] = useState<VideoUploadState | null>(null)
   const [isSaving, setIsSaving] = useState(false)
 
   const {
@@ -56,56 +56,6 @@ export default function NewLessonPage() {
     [tracks, t],
   )
 
-  /**
-   * Starts the upload immediately on pick and leaves the form usable.
-   *
-   * Progress is reported straight to component state rather than through React
-   * Query — it changes many times a second and would thrash the cache.
-   */
-  async function handleSelect(file: File) {
-    setVideo({
-      fileName: file.name,
-      sizeBytes: file.size,
-      uploadProgress: 0,
-      key: null,
-    })
-
-    try {
-      const target = await createUploadTarget(file)
-
-      await new Promise<void>((resolve, reject) => {
-        const request = new XMLHttpRequest()
-        request.open('PUT', target.uploadUrl)
-        request.setRequestHeader('Content-Type', file.type)
-        // No timeout: a gigabyte on a home connection can take hours, and
-        // aborting halfway would make the instructor start over.
-        request.timeout = 0
-
-        request.upload.onprogress = (event) => {
-          if (!event.lengthComputable) return
-          setVideo((current) =>
-            current ? { ...current, uploadProgress: event.loaded / event.total } : current,
-          )
-        }
-
-        request.onload = () =>
-          request.status >= 200 && request.status < 300
-            ? resolve()
-            : reject(new Error(`Storage respondeu ${request.status}`))
-        request.onerror = () => reject(new Error(t('NEW_LESSON_UPLOAD_FAILED')))
-        request.send(file)
-      })
-
-      setVideo((current) =>
-        current ? { ...current, uploadProgress: 1, key: target.key } : current,
-      )
-    } catch (error: any) {
-      setVideo((current) =>
-        current ? { ...current, error: error?.message ?? t('NEW_LESSON_UPLOAD_FAILED') } : current,
-      )
-    }
-  }
-
   async function save(values: NewLessonValues, status: 'DRAFT' | 'PUBLISHED') {
     setIsSaving(true)
     try {
@@ -113,6 +63,7 @@ export default function NewLessonPage() {
         title: values.title,
         description: values.description || null,
         videoKey: video?.key ?? null,
+        durationSec: video?.durationSec ?? 0,
         moduleId: values.moduleId || null,
         status,
       })
@@ -135,7 +86,7 @@ export default function NewLessonPage() {
         </h1>
       </header>
 
-      <VideoUploadField video={video} onSelect={handleSelect} disabled={isSaving} />
+      <VideoUploadField video={video} onSelect={select} disabled={isSaving} />
 
       <form className="flex flex-col gap-6">
         <FormInput name="title" control={control} label={t('NEW_LESSON_NAME')} />
