@@ -1,6 +1,11 @@
 import { api } from '@/utils/axios'
 import { useQuery } from '@tanstack/react-query'
 
+export const platformKeys = {
+  all: ['platform'] as const,
+  stats: () => [...platformKeys.all, 'stats'] as const,
+}
+
 export interface PlatformStats {
   instructorCount: number
   trackCount: number
@@ -15,7 +20,7 @@ export interface PlatformStats {
  */
 export function usePlatformStats() {
   return useQuery({
-    queryKey: ['platform', 'stats'],
+    queryKey: platformKeys.stats(),
     queryFn: async () => {
       const { data } = await api.get<PlatformStats>('/api/platform/stats')
       return data
