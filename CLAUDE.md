@@ -67,6 +67,25 @@ Nada de hex solto no JSX.
 **Primitivos.** `src/components/ui/` é shadcn — não edite diretamente. Componha
 por cima em `src/components/layout/`.
 
+**Portão de sessão é no cliente, nunca no servidor.** `ProtectedLayoutClient`
+e `PublicLayoutClient` usam `authClient.useSession()`. Não volte a usar
+`getSession()` de `src/actions/auth.ts` para proteger tela: ela lê os cookies
+que chegam ao frontend, e o cookie de sessão pertence ao domínio da API — em
+produção ela devolve `null` para gente logada. Pior, isso **passa em
+desenvolvimento**, porque no local os dois lados são `localhost` e cookie não
+distingue porta.
+
+O mesmo vale para `src/middleware.ts`: o redirect de "já está logado" só
+funciona local, porque em produção o middleware não recebe o cookie. É um
+atalho de conveniência, não controle de acesso — o portão real é o do cliente.
+
+**Caminhos de auth desligados.** O botão do Google e o link de recuperação de
+senha existem no código mas ficam fora da tela: as flags de
+`src/lib/auth/features.ts` leem `NEXT_PUBLIC_ENABLE_GOOGLE_AUTH` e
+`NEXT_PUBLIC_ENABLE_PASSWORD_RESET`, ambas desligadas. Não apague o código —
+falta infra, não implementação. O motivo de esconder em vez de deixar quebrado:
+botão que dá erro é pior que botão ausente.
+
 ## Comandos
 
 ```bash
