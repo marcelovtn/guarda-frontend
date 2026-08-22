@@ -21,6 +21,23 @@ function getBackendURL(): string {
 }
 
 /**
+ * ⚠️ NÃO FUNCIONA NO DEPLOY ATUAL. Não use para proteger tela.
+ *
+ * Lê os cookies que chegaram ao *frontend* e os repassa para a API. Isso só
+ * resolve a sessão quando os dois compartilham domínio de cookie. Hoje o
+ * frontend está em `web-*.up.railway.app` e a API em `api-*.up.railway.app`:
+ * o cookie de sessão é emitido pelo host da API e nunca é enviado ao host do
+ * frontend, então esta função devolve `null` para gente logada.
+ *
+ * Isso passa em desenvolvimento e falha em produção, o que é a pior
+ * combinação: no local os dois são `localhost` em portas diferentes, e cookie
+ * não distingue porta — então o cookie chega e a função parece correta.
+ *
+ * Os portões de sessão vivem no cliente, via `authClient.useSession()`. Quando
+ * o projeto tiver domínio próprio (`guarda.app` + `api.guarda.app` com
+ * `COOKIE_DOMAIN=.guarda.app`), esta função volta a funcionar e pode ser
+ * reconsiderada.
+ *
  * Obtém a sessão atual do Better Auth (para uso em Server Components e Server Actions)
  *
  * NOTA: Esta é a ÚNICA função de auth que deve ser chamada no servidor.

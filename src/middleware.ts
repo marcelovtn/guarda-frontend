@@ -9,7 +9,8 @@ export async function middleware(request: NextRequest) {
 
   // Verifica existência do cookie de sessão (prefixo __Secure- em produção/HTTPS)
   const sessionCookie =
-    request.cookies.get('__Secure-am.session_token') ?? request.cookies.get('am.session_token')
+    request.cookies.get('__Secure-guarda.session_token') ??
+    request.cookies.get('guarda.session_token')
 
   // forceLogin=1 é adicionado pelo protected layout quando a sessão é inválida/expirada,
   // para evitar o loop: protected→login→home→protected
