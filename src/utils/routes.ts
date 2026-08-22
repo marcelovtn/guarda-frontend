@@ -26,6 +26,8 @@ export const studentRoutes = {
   ACCOUNT: '/account',
   SUBSCRIBE_PLANS: '/subscribe/plans',
   SUBSCRIBE_CHECKOUT: '/subscribe/checkout',
+  /** Where Stripe returns the student after paying. */
+  SUBSCRIBE_SUCCESS: '/subscribe/success',
 }
 
 /** Everything an instructor navigates. Requires an Instructor row. */

@@ -10,6 +10,7 @@ import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
 import { accountSchema, type AccountValues } from './schema'
+import { BillingCard } from './components/BillingCard'
 
 export default function AccountPage() {
   const { t } = useTranslation('guarda')
@@ -80,6 +81,8 @@ export default function AccountPage() {
 
         <SubmitButton isLoading={isSubmitting} label={t('ACCOUNT_SAVE')} disabled={!isDirty} />
       </form>
+
+      <BillingCard />
     </PageContainer>
   )
 }
