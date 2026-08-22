@@ -119,7 +119,9 @@ async function directUploadWithRetry(
 ): Promise<{ url: string; key: string }> {
   const { data: presign } = await api.post<{
     presignedUrl: string
-    publicUrl: string
+    // Null para vídeo: o bucket de aulas é privado e a URL de leitura é
+    // assinada na hora pelo backend. Só o bucket de mídia tem endereço fixo.
+    publicUrl: string | null
     key: string
   }>('/api/storage/presign', {
     fileName: file.name,
@@ -134,6 +136,11 @@ async function directUploadWithRetry(
   for (let attempt = 0; attempt <= UPLOAD_MAX_RETRIES; attempt++) {
     try {
       await putWithProgress(presign.presignedUrl, file, timeoutMs, onProgress)
+
+      if (!presign.publicUrl) {
+        throw new Error('O storage não devolveu endereço público para o arquivo')
+      }
+
       return { url: presign.publicUrl, key: presign.key }
     } catch (err: unknown) {
       lastError = err

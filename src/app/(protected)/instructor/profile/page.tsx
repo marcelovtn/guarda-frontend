@@ -13,7 +13,7 @@ import {
 import { formatPriceFromCents, formatRelativeDate } from '@/utils/formatLesson'
 import { publicRoutes } from '@/utils/routes'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { profileSchema, type ProfileValues } from './schema'
@@ -24,7 +24,6 @@ export default function InstructorProfilePage() {
   const { t } = useTranslation('guarda')
   const { data: profile } = useGetInstructorProfile()
   const { mutateAsync: updateProfile } = useUpdateInstructorProfile()
-  const [photoUrl, setPhotoUrl] = useState<string | null>(null)
 
   const {
     control,
@@ -44,8 +43,14 @@ export default function InstructorProfilePage() {
     reset({ displayName: updated.displayName, bio: updated.bio ?? '' })
   }
 
-  async function handlePhoto(key: string, url: string) {
-    setPhotoUrl(url)
+  /**
+   * Guarda a chave e deixa a resposta do PATCH atualizar o cache do perfil.
+   *
+   * A versão anterior mantinha a URL em estado local, então a foto aparecia no
+   * instante do upload e sumia no primeiro reload — o perfil devolvia a chave e
+   * nada a transformava em endereço. Agora quem resolve isso é o backend.
+   */
+  async function handlePhoto(key: string) {
     await updateProfile({ photoKey: key })
   }
 
@@ -78,7 +83,7 @@ export default function InstructorProfilePage() {
         >
           <PhotoUploadField
             name={profile.displayName}
-            photoUrl={photoUrl}
+            photoUrl={profile.photoUrl}
             onUploaded={handlePhoto}
           />
 
@@ -139,7 +144,7 @@ export default function InstructorProfilePage() {
           </p>
 
           <div className="flex flex-col gap-4 rounded-lg border border-border bg-card p-7">
-            <InstructorAvatar name={profile.displayName} src={photoUrl} size="lg" />
+            <InstructorAvatar name={profile.displayName} src={profile.photoUrl} size="lg" />
 
             <h2 className="font-display text-[28px] font-extrabold leading-9 tracking-tight text-foreground">
               {watch('displayName') || profile.displayName}
