@@ -4,6 +4,7 @@ import { useLogin, useOnboardIncomingUser, useSignInWithGoogle } from '@/app/aut
 import { FormInput, FormPasswordInput, SubmitButton } from '@/components/layout/Form'
 import ConnectingAccount from '@/components/layout/ConnectingAccount'
 import { Button } from '@/components/ui/button'
+import { authFeatures } from '@/lib/auth/features'
 import { TOAST_ERROR_TIMEOUT_MS } from '@/lib/errors'
 import { publicRoutes, studentRoutes } from '@/utils/routes'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -80,12 +81,14 @@ export default function LoginPage() {
         <div className="flex flex-col gap-2">
           <div className="flex items-baseline justify-between">
             <span className="text-sm font-medium text-foreground">{t('AUTH_PASSWORD')}</span>
-            <Link
-              href={publicRoutes.FORGOT_PASSWORD}
-              className="text-sm text-primary hover:underline"
-            >
-              {t('AUTH_FORGOT')}
-            </Link>
+            {authFeatures.passwordReset ? (
+              <Link
+                href={publicRoutes.FORGOT_PASSWORD}
+                className="text-sm text-primary hover:underline"
+              >
+                {t('AUTH_FORGOT')}
+              </Link>
+            ) : null}
           </div>
           <FormPasswordInput name="password" control={control} showStrengthIndicator={false} />
         </div>
@@ -93,23 +96,27 @@ export default function LoginPage() {
         <SubmitButton isLoading={isSubmitting} label={t('AUTH_SIGN_IN')} />
       </form>
 
-      <div className="flex items-center gap-4">
-        <span className="h-px flex-1 bg-border" />
-        <span className="text-xs font-medium tracking-caps text-muted-foreground">
-          {t('AUTH_OR')}
-        </span>
-        <span className="h-px flex-1 bg-border" />
-      </div>
+      {authFeatures.googleSignIn ? (
+        <>
+          <div className="flex items-center gap-4">
+            <span className="h-px flex-1 bg-border" />
+            <span className="text-xs font-medium tracking-caps text-muted-foreground">
+              {t('AUTH_OR')}
+            </span>
+            <span className="h-px flex-1 bg-border" />
+          </div>
 
-      <Button
-        type="button"
-        variant="outline"
-        className="w-full bg-card"
-        onClick={() => signInWithGoogle()}
-      >
-        <GoogleIcon />
-        {t('AUTH_GOOGLE_SIGN_IN')}
-      </Button>
+          <Button
+            type="button"
+            variant="outline"
+            className="w-full bg-card"
+            onClick={() => signInWithGoogle()}
+          >
+            <GoogleIcon />
+            {t('AUTH_GOOGLE_SIGN_IN')}
+          </Button>
+        </>
+      ) : null}
 
       <p className="text-center text-sm text-muted-foreground">
         {t('AUTH_NO_ACCOUNT')}{' '}
