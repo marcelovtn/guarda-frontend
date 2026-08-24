@@ -4,7 +4,6 @@ import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import type { ReactNode } from 'react'
-import { AppHeaderMobileMenu } from './components/AppHeaderMobileMenu'
 import { InstructorSwitcher } from './components/InstructorSwitcher'
 import type { AppHeaderNavItem, AppHeaderVariant } from './types'
 
@@ -44,8 +43,6 @@ export function AppHeader({ variant, items, actions, instructor, account }: AppH
       )}
     >
       <div className="flex min-w-0 items-center gap-3">
-        <AppHeaderMobileMenu items={items} isActive={isActive} dark={isInstructor} />
-
         <Link
           href={items[0]?.href ?? '/'}
           className="shrink-0 font-display text-[20px] font-black leading-6 tracking-[-0.01em]"

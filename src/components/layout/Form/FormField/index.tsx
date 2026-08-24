@@ -19,7 +19,11 @@ export function FormField({
   required,
 }: FormFieldProps) {
   return (
-    <div className={cn('space-y-1.5', className)}>
+    // min-w-0 so a field inside a grid or flex row can shrink below the
+    // intrinsic width of its content — a select trigger sets whitespace-nowrap,
+    // and a long option name would otherwise push the whole column wider than
+    // the screen.
+    <div className={cn('min-w-0 space-y-1.5', className)}>
       {label && (
         <label htmlFor={htmlFor} className="text-sm font-medium">
           {label}

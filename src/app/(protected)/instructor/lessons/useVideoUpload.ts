@@ -1,28 +1,17 @@
 'use client'
 
+import { useCreateLessonUploadTarget } from '@/lib/lesson/lesson.slice'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useCreateLessonUploadTarget } from './lesson.slice'
-
-export interface VideoUploadState {
-  fileName: string
-  sizeBytes: number
-  /** 0–1 while uploading, 1 once the bytes are in storage. */
-  uploadProgress: number
-  /** Set once the upload finishes; this is what the lesson stores. */
-  key: string | null
-  /** Measured in the browser before the upload starts. */
-  durationSec: number
-  error?: string
-}
+import type { VideoUploadState } from './components/VideoUploadField'
 
 /**
  * How long the picked file is, read straight from the browser.
  *
  * Nothing on the server can answer this: the blob goes from the browser to
  * storage without passing through the API, and there is no transcoding step to
- * inspect it afterwards. If it is not measured here, every lesson in the
- * product shows a duration of zero.
+ * inspect it afterwards. Without measuring here, every lesson in the product
+ * shows a duration of zero.
  */
 function readDurationSec(file: File): Promise<number> {
   return new Promise((resolve) => {
@@ -45,21 +34,18 @@ function readDurationSec(file: File): Promise<number> {
 }
 
 /**
- * Picks a lesson video and pushes it to storage, reporting progress.
+ * Puts a lesson video in storage and reports how far it has got.
  *
- * The upload starts on pick and runs beside the form: a recording is over a
- * gigabyte, and blocking the instructor from typing a title for the twenty
- * minutes that takes would be absurd. Only publishing waits for it.
- *
- * Progress lives in component state rather than React Query because it changes
- * many times a second and would thrash the cache.
+ * Progress lives in component state rather than React Query: it changes many
+ * times a second and would thrash the cache for every subscriber of the lesson
+ * keys. The form stays usable throughout — only publishing waits on `key`.
  */
-export function useVideoUpload() {
+export function useVideoUpload(initial: VideoUploadState | null = null) {
   const { t } = useTranslation('guarda')
   const { mutateAsync: createUploadTarget } = useCreateLessonUploadTarget()
-  const [video, setVideo] = useState<VideoUploadState | null>(null)
+  const [video, setVideo] = useState<VideoUploadState | null>(initial)
 
-  async function select(file: File) {
+  async function upload(file: File) {
     const durationSec = await readDurationSec(file)
 
     setVideo({
@@ -106,5 +92,5 @@ export function useVideoUpload() {
     }
   }
 
-  return { video, select }
+  return { video, upload, isUploaded: Boolean(video?.key) }
 }

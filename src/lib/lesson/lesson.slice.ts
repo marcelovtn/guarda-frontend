@@ -1,3 +1,6 @@
+import { instructorKeys } from '@/lib/instructor/instructor.slice'
+import { platformKeys } from '@/lib/platform/platform.slice'
+import { trackKeys } from '@/lib/track/track.slice'
 import { api } from '@/utils/axios'
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
@@ -89,6 +92,7 @@ export function useGetInstructorLessons() {
   })
 }
 
+/** One lesson as its owner edits it — description, module and video included. */
 export function useGetInstructorLesson(id: string) {
   return useQuery({
     queryKey: lessonKeys.instructorDetail(id),
@@ -129,7 +133,16 @@ export function useCreateLesson() {
       return data
     },
     onSuccess: () => {
+      /*
+        A lesson is not an island: it hangs off a module of a track, and it is
+        counted in the instructor's public stats and in the platform totals.
+        Invalidating only the lesson queries left the track builder and the
+        track pages showing the catalogue as it was before the upload.
+      */
       queryClient.invalidateQueries({ queryKey: lessonKeys.all })
+      queryClient.invalidateQueries({ queryKey: trackKeys.all })
+      queryClient.invalidateQueries({ queryKey: instructorKeys.publicAll() })
+      queryClient.invalidateQueries({ queryKey: platformKeys.all })
     },
     onError: (error: any) => toast.error(error?.response?.data?.error ?? error.message),
   })
@@ -144,7 +157,16 @@ export function useUpdateLesson(id: string) {
       return data
     },
     onSuccess: () => {
+      /*
+        A lesson is not an island: it hangs off a module of a track, and it is
+        counted in the instructor's public stats and in the platform totals.
+        Invalidating only the lesson queries left the track builder and the
+        track pages showing the catalogue as it was before the upload.
+      */
       queryClient.invalidateQueries({ queryKey: lessonKeys.all })
+      queryClient.invalidateQueries({ queryKey: trackKeys.all })
+      queryClient.invalidateQueries({ queryKey: instructorKeys.publicAll() })
+      queryClient.invalidateQueries({ queryKey: platformKeys.all })
     },
     onError: (error: any) => toast.error(error?.response?.data?.error ?? error.message),
   })
@@ -158,7 +180,16 @@ export function useDeleteLesson() {
       await api.delete(`/api/instructor/lessons/${id}`)
     },
     onSuccess: () => {
+      /*
+        A lesson is not an island: it hangs off a module of a track, and it is
+        counted in the instructor's public stats and in the platform totals.
+        Invalidating only the lesson queries left the track builder and the
+        track pages showing the catalogue as it was before the upload.
+      */
       queryClient.invalidateQueries({ queryKey: lessonKeys.all })
+      queryClient.invalidateQueries({ queryKey: trackKeys.all })
+      queryClient.invalidateQueries({ queryKey: instructorKeys.publicAll() })
+      queryClient.invalidateQueries({ queryKey: platformKeys.all })
     },
     onError: (error: any) => toast.error(error?.response?.data?.error ?? error.message),
   })

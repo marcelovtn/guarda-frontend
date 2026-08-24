@@ -9,6 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { cn } from '@/lib/utils'
 import { FormField } from '../FormField'
 import { useFormDisabled } from '../FormDisabledContext'
 
@@ -52,7 +53,13 @@ export function FormSelect<TFieldValues extends FieldValues>({
             }}
             disabled={contextDisabled || disabled}
           >
-            <SelectTrigger className={fieldState.error ? 'border-destructive' : undefined}>
+            <SelectTrigger
+              className={cn(
+                // Ellipsis instead of overflow when the option name is long.
+                '[&>span]:truncate',
+                fieldState.error && 'border-destructive',
+              )}
+            >
               <SelectValue placeholder={placeholder} />
             </SelectTrigger>
             <SelectContent>

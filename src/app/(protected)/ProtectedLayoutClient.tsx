@@ -1,10 +1,13 @@
 'use client'
 
+import { AppBottomNav } from '@/components/layout/AppBottomNav'
 import { AppHeader } from '@/components/layout/AppHeader'
 import { AccountButton } from '@/components/layout/AppHeader/components/AccountButton'
+import { ModeSwitch } from '@/components/layout/AppHeader/components/ModeSwitch'
 import { authClient } from '@/lib/auth-client'
 import { useGetMinimalUserInfo } from '@/lib/userInfo/userInfo.slice'
 import { instructorRoutes, publicRoutes, studentRoutes } from '@/utils/routes'
+import { Home, Layers, MonitorPlay, User, Users, Video } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -46,14 +49,15 @@ export default function ProtectedLayoutClient({
     () =>
       isInstructorArea
         ? [
-            { label: t('NAV_INSTRUCTOR_LESSONS'), href: instructorRoutes.LESSONS },
-            { label: t('NAV_INSTRUCTOR_TRACKS'), href: instructorRoutes.TRACKS },
-            { label: t('NAV_INSTRUCTOR_STUDENTS'), href: instructorRoutes.STUDENTS },
+            { label: t('NAV_INSTRUCTOR_LESSONS'), href: instructorRoutes.LESSONS, icon: Video },
+            { label: t('NAV_INSTRUCTOR_TRACKS'), href: instructorRoutes.TRACKS, icon: Layers },
+            { label: t('NAV_INSTRUCTOR_STUDENTS'), href: instructorRoutes.STUDENTS, icon: Users },
+            { label: t('NAV_INSTRUCTOR_PROFILE'), href: instructorRoutes.PROFILE, icon: User },
           ]
         : [
-            { label: t('NAV_HOME'), href: studentRoutes.HOME, exact: true },
-            { label: t('NAV_TRACKS'), href: studentRoutes.TRACKS },
-            { label: t('NAV_VIDEOS'), href: studentRoutes.VIDEOS },
+            { label: t('NAV_HOME'), href: studentRoutes.HOME, exact: true, icon: Home },
+            { label: t('NAV_TRACKS'), href: studentRoutes.TRACKS, icon: Layers },
+            { label: t('NAV_VIDEOS'), href: studentRoutes.VIDEOS, icon: MonitorPlay },
           ],
     [isInstructorArea, t],
   )
@@ -85,9 +89,14 @@ export default function ProtectedLayoutClient({
       <AppHeader
         variant={isInstructorArea ? 'instructor' : 'student'}
         items={items}
+        // Renders itself away for anyone who is not an instructor.
+        actions={<ModeSwitch dark={isInstructorArea} />}
         account={<AccountButton dark={isInstructorArea} />}
       />
-      <main className="flex-1">{children}</main>
+      {/* Bottom padding clears the tab bar, which is fixed over the page. */}
+      <main className="flex-1 pb-[68px] lg:pb-0">{children}</main>
+
+      <AppBottomNav items={items} dark={isInstructorArea} />
     </div>
   )
 }

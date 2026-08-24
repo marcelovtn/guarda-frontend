@@ -3,21 +3,27 @@
 import { ProgressBar } from '@/components/layout/ProgressBar'
 import { VideoThumb } from '@/components/layout/VideoThumb'
 import { Button } from '@/components/ui/button'
-import type { VideoUploadState } from '@/lib/lesson/useVideoUpload'
 import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
+
+export interface VideoUploadState {
+  fileName: string
+  sizeBytes: number
+  /** 0–1 while uploading, 1 once the bytes are in storage. */
+  uploadProgress: number
+  /** Set once the upload finishes; this is what the lesson stores. */
+  key: string | null
+  /** Measured in the browser before the upload starts. */
+  durationSec: number
+  error?: string
+}
 
 interface VideoUploadFieldProps {
   video: VideoUploadState | null
   onSelect: (file: File) => void
-  /**
-   * Whether the lesson already has a video in storage.
-   *
-   * Without it the edit screen would greet a finished lesson with "nenhum
-   * vídeo ainda" just because nothing was picked in this session.
-   */
-  hasStoredVideo?: boolean
   disabled?: boolean
+  /** The video already stored on the lesson, on the edit screen. */
+  currentVideoUrl?: string | null
 }
 
 function formatSize(bytes: number): string {
@@ -36,8 +42,8 @@ function formatSize(bytes: number): string {
 export function VideoUploadField({
   video,
   onSelect,
-  hasStoredVideo = false,
   disabled,
+  currentVideoUrl,
 }: VideoUploadFieldProps) {
   const { t } = useTranslation('guarda')
   const inputRef = useRef<HTMLInputElement>(null)
@@ -47,7 +53,18 @@ export function VideoUploadField({
 
   return (
     <div className="flex flex-col gap-4 rounded-lg border border-border bg-card p-5 md:flex-row md:items-center md:gap-6 md:p-6">
-      <VideoThumb className="w-full shrink-0 md:w-[200px]" />
+      {/* The stored video is playable right here: an instructor checking a
+          lesson should not have to open the student player to see it. */}
+      {currentVideoUrl && !video ? (
+        <video
+          src={currentVideoUrl}
+          controls
+          playsInline
+          className="aspect-video w-full shrink-0 rounded-md bg-surface-dark md:w-[200px]"
+        />
+      ) : (
+        <VideoThumb className="w-full shrink-0 md:w-[200px]" />
+      )}
 
       <div className="flex min-w-0 flex-1 flex-col gap-2">
         {video ? (
@@ -68,13 +85,11 @@ export function VideoUploadField({
               <p className="text-sm font-medium text-primary">{t('NEW_LESSON_UPLOADED')}</p>
             )}
           </>
-        ) : hasStoredVideo ? (
+        ) : currentVideoUrl ? (
           <>
-            <p className="text-base font-semibold text-foreground">
-              {t('LESSON_EDIT_VIDEO_STORED')}
-            </p>
+            <p className="text-base font-semibold text-foreground">{t('NEW_LESSON_UPLOADED')}</p>
             <p className="text-sm leading-5 text-muted-foreground">
-              {t('LESSON_EDIT_VIDEO_STORED_HINT')}
+              {t('EDIT_LESSON_REPLACE_HINT')}
             </p>
           </>
         ) : (
@@ -92,7 +107,7 @@ export function VideoUploadField({
         onClick={() => inputRef.current?.click()}
         disabled={disabled}
       >
-        {video || hasStoredVideo ? t('NEW_LESSON_REPLACE') : t('NEW_LESSON_PICK')}
+        {video || currentVideoUrl ? t('NEW_LESSON_REPLACE') : t('NEW_LESSON_PICK')}
       </Button>
 
       <input

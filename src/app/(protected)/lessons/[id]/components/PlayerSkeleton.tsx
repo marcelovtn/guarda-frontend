@@ -13,11 +13,11 @@ import { Skeleton } from '@/components/ui/skeleton'
  */
 export function PlayerSkeleton() {
   return (
-    <PageContainer className="flex flex-col gap-10 lg:flex-row lg:items-start">
+    <PageContainer className="flex flex-col gap-8 px-0 py-0 md:gap-10 md:px-8 md:py-8 lg:flex-row lg:items-start xl:px-16">
       <div className="flex min-w-0 flex-1 flex-col gap-6">
-        <Skeleton className="aspect-video w-full rounded-lg" />
+        <Skeleton className="aspect-video w-full rounded-none md:rounded-lg" />
 
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-5 px-5 md:px-0">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
             <div className="flex flex-col gap-2">
               <Skeleton className="h-4 w-44" />
@@ -39,7 +39,7 @@ export function PlayerSkeleton() {
         </div>
       </div>
 
-      <aside className="flex w-full shrink-0 flex-col gap-3 lg:w-[372px]">
+      <aside className="flex w-full shrink-0 flex-col gap-3 px-5 md:px-0 lg:w-[372px]">
         <Skeleton className="h-4 w-32" />
         <Skeleton className="h-[420px] w-full rounded-lg" />
       </aside>

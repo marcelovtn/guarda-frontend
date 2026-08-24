@@ -14,7 +14,7 @@ const TRACKS = [
     image: '/landing/track-1.webp',
     lessons: '24 AULAS',
     title: 'Fundamentos da Guarda Fechada',
-    meta: 'Rafael Moura · 5h 05min · iniciante',
+    meta: 'João Pedro · 5h 05min · iniciante',
   },
   {
     image: '/landing/track-2.webp',

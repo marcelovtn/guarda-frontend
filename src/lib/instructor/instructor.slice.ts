@@ -1,3 +1,4 @@
+import { platformKeys } from '@/lib/platform/platform.slice'
 import { api } from '@/utils/axios'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
@@ -12,6 +13,8 @@ export const instructorKeys = {
   all: ['instructor'] as const,
   profile: () => [...instructorKeys.all, 'profile'] as const,
   students: () => [...instructorKeys.all, 'students'] as const,
+  /** Prefix of every public profile, for invalidating them without a slug. */
+  publicAll: () => [...instructorKeys.all, 'public'] as const,
   public: (slug: string) => [...instructorKeys.all, 'public', slug] as const,
 }
 
@@ -39,6 +42,14 @@ export function useUpdateInstructorProfile() {
     },
     onSuccess: (data) => {
       queryClient.setQueryData(instructorKeys.profile(), data)
+      /*
+        The public profile is a different query with its own cache entry, and it
+        carries the name, the photo and the monthly price. Writing only the
+        private one left the paywall and the checkout screen quoting the old
+        price after the instructor changed it.
+      */
+      queryClient.invalidateQueries({ queryKey: instructorKeys.publicAll() })
+      queryClient.invalidateQueries({ queryKey: platformKeys.all })
     },
     onError: (error: any) => {
       toast.error(error?.response?.data?.error ?? error.message)

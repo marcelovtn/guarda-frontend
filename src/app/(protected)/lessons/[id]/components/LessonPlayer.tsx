@@ -66,7 +66,7 @@ export function LessonPlayer({ lessonId, videoUrl, startAtSec, onEnded }: Lesson
   if (!videoUrl) {
     return (
       <div className="relative">
-        <VideoThumb />
+        <VideoThumb className="rounded-none md:rounded-md" />
         <p className="absolute inset-0 flex items-center justify-center px-6 text-center text-sm text-white/70">
           {t('PLAYER_NO_VIDEO')}
         </p>
@@ -74,13 +74,15 @@ export function LessonPlayer({ lessonId, videoUrl, startAtSec, onEnded }: Lesson
     )
   }
 
+  // Full bleed on a phone — there the video is the screen, not a card on it.
+  // Framed again from md upwards, where the page reads as a document.
   return (
     <video
       ref={videoRef}
       src={videoUrl}
       controls
       playsInline
-      className="aspect-video w-full rounded-lg bg-surface-dark"
+      className="aspect-video w-full bg-surface-dark md:rounded-lg"
       onTimeUpdate={(event) => persist(Math.floor(event.currentTarget.currentTime))}
       onEnded={onEnded}
     />

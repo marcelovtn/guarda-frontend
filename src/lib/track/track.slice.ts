@@ -1,3 +1,6 @@
+import { instructorKeys } from '@/lib/instructor/instructor.slice'
+import { lessonKeys } from '@/lib/lesson/lesson.slice'
+import { platformKeys } from '@/lib/platform/platform.slice'
 import { api } from '@/utils/axios'
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
@@ -88,7 +91,9 @@ export function useCreateTrack() {
       return data
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: trackKeys.instructorList() })
+      queryClient.invalidateQueries({ queryKey: trackKeys.all })
+      queryClient.invalidateQueries({ queryKey: instructorKeys.publicAll() })
+      queryClient.invalidateQueries({ queryKey: platformKeys.all })
     },
     onError: (error: any) => toast.error(error?.response?.data?.error ?? error.message),
   })
@@ -103,7 +108,15 @@ export function useUpdateTrack(id: string) {
       return data
     },
     onSuccess: () => {
+      /*
+        Mirror of the lesson mutations: moving a lesson into a module, deleting
+        a track that owned lessons, or publishing one all change what the lesson
+        list shows — including its "sem trilha" filter — and the public counts.
+      */
       queryClient.invalidateQueries({ queryKey: trackKeys.all })
+      queryClient.invalidateQueries({ queryKey: lessonKeys.all })
+      queryClient.invalidateQueries({ queryKey: instructorKeys.publicAll() })
+      queryClient.invalidateQueries({ queryKey: platformKeys.all })
     },
     onError: (error: any) => toast.error(error?.response?.data?.error ?? error.message),
   })
@@ -117,7 +130,15 @@ export function useDeleteTrack() {
       await api.delete(`/api/instructor/tracks/${id}`)
     },
     onSuccess: () => {
+      /*
+        Mirror of the lesson mutations: moving a lesson into a module, deleting
+        a track that owned lessons, or publishing one all change what the lesson
+        list shows — including its "sem trilha" filter — and the public counts.
+      */
       queryClient.invalidateQueries({ queryKey: trackKeys.all })
+      queryClient.invalidateQueries({ queryKey: lessonKeys.all })
+      queryClient.invalidateQueries({ queryKey: instructorKeys.publicAll() })
+      queryClient.invalidateQueries({ queryKey: platformKeys.all })
     },
     onError: (error: any) => toast.error(error?.response?.data?.error ?? error.message),
   })
@@ -138,7 +159,15 @@ export function useSaveTrackStructure(id: string) {
       return data
     },
     onSuccess: () => {
+      /*
+        Mirror of the lesson mutations: moving a lesson into a module, deleting
+        a track that owned lessons, or publishing one all change what the lesson
+        list shows — including its "sem trilha" filter — and the public counts.
+      */
       queryClient.invalidateQueries({ queryKey: trackKeys.all })
+      queryClient.invalidateQueries({ queryKey: lessonKeys.all })
+      queryClient.invalidateQueries({ queryKey: instructorKeys.publicAll() })
+      queryClient.invalidateQueries({ queryKey: platformKeys.all })
     },
     onError: (error: any) => toast.error(error?.response?.data?.error ?? error.message),
   })

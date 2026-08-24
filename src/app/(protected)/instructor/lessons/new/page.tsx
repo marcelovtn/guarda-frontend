@@ -3,11 +3,8 @@
 import { FormInput, FormSelect, FormTextarea } from '@/components/layout/Form'
 import { PageContainer } from '@/components/layout/PageContainer'
 import { Button } from '@/components/ui/button'
-import { VideoUploadField } from '@/components/layout/VideoUploadField'
 import { useCreateLesson } from '@/lib/lesson/lesson.slice'
-import { useVideoUpload } from '@/lib/lesson/useVideoUpload'
 import { useGetInstructorTracks } from '@/lib/track/track.slice'
-import { useTrackModules } from '@/lib/track/useTrackModules'
 import { instructorRoutes } from '@/utils/routes'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
@@ -15,9 +12,10 @@ import { useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
-import { newLessonSchema, type NewLessonValues } from './schema'
-
-const NO_TRACK = 'none'
+import { VideoUploadField } from '../components/VideoUploadField'
+import { NO_TRACK, lessonFormSchema, type LessonFormValues } from '../schema'
+import { useTrackModules } from '../useTrackModules'
+import { useVideoUpload } from '../useVideoUpload'
 
 export default function NewLessonPage() {
   const { t } = useTranslation('guarda')
@@ -25,7 +23,7 @@ export default function NewLessonPage() {
 
   const { data: tracks } = useGetInstructorTracks()
   const { mutateAsync: createLesson } = useCreateLesson()
-  const { video, select } = useVideoUpload()
+  const { video, upload, isUploaded } = useVideoUpload()
 
   const [isSaving, setIsSaving] = useState(false)
 
@@ -34,8 +32,8 @@ export default function NewLessonPage() {
     handleSubmit,
     watch,
     formState: { isValid },
-  } = useForm<NewLessonValues>({
-    resolver: zodResolver(newLessonSchema),
+  } = useForm<LessonFormValues>({
+    resolver: zodResolver(lessonFormSchema),
     mode: 'onChange',
     defaultValues: { title: '', description: '', trackId: NO_TRACK, moduleId: '' },
   })
@@ -45,7 +43,6 @@ export default function NewLessonPage() {
     trackId === NO_TRACK ? null : trackId,
   )
 
-  const isUploaded = Boolean(video?.key)
   const canPublish = isValid && isUploaded && !isSaving
 
   const trackOptions = useMemo(
@@ -56,7 +53,7 @@ export default function NewLessonPage() {
     [tracks, t],
   )
 
-  async function save(values: NewLessonValues, status: 'DRAFT' | 'PUBLISHED') {
+  async function save(values: LessonFormValues, status: 'DRAFT' | 'PUBLISHED') {
     setIsSaving(true)
     try {
       const lesson = await createLesson({
@@ -86,7 +83,7 @@ export default function NewLessonPage() {
         </h1>
       </header>
 
-      <VideoUploadField video={video} onSelect={select} disabled={isSaving} />
+      <VideoUploadField video={video} onSelect={upload} disabled={isSaving} />
 
       <form className="flex flex-col gap-6">
         <FormInput name="title" control={control} label={t('NEW_LESSON_NAME')} />

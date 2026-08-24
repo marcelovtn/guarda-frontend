@@ -3,6 +3,7 @@
 import { InstructorAvatar } from '@/components/layout/InstructorAvatar'
 import { LessonListItem } from '@/components/layout/LessonListItem'
 import { PageContainer } from '@/components/layout/PageContainer'
+import { ProgressBar } from '@/components/layout/ProgressBar'
 import { Button } from '@/components/ui/button'
 import { useGetLessonPlayback, usePrefetchLessonPlayback } from '@/lib/lesson/lesson.slice'
 import { useSetLessonCompleted } from '@/lib/progress/progress.slice'
@@ -47,6 +48,16 @@ export default function LessonPage() {
    */
   const isSwitching = isNavigating || (isPlaceholderData && lesson.id !== params.id)
 
+  /*
+   * Counted from the siblings already on screen rather than fetched: the list
+   * carries `completed` for every lesson in the track, so marking one done
+   * moves the bar in the same render that ticks the circle.
+   */
+  const completedCount = lesson.siblings.filter((sibling) => sibling.completed).length
+  const trackPercent = lesson.siblings.length
+    ? Math.round((completedCount / lesson.siblings.length) * 100)
+    : 0
+
   const currentIndex = lesson.siblings.findIndex((sibling) => sibling.id === lesson.id)
   const previous = currentIndex > 0 ? lesson.siblings[currentIndex - 1] : null
   const next = currentIndex >= 0 ? (lesson.siblings[currentIndex + 1] ?? null) : null
@@ -58,21 +69,52 @@ export default function LessonPage() {
   }
 
   return (
-    <PageContainer className="flex flex-col gap-10 lg:flex-row lg:items-start">
+    // No gutter on a phone: the video reaches both edges, and the text below it
+    // brings its own padding back. From md the page gets its margins again.
+    <PageContainer className="flex flex-col gap-8 px-0 py-0 md:gap-10 md:px-8 md:py-8 lg:flex-row lg:items-start xl:px-16">
       <div
         className={cn(
           'flex min-w-0 flex-1 flex-col gap-6 transition-opacity duration-200',
           isSwitching && 'opacity-50',
         )}
       >
-        <LessonPlayer
-          lessonId={lesson.id}
-          videoUrl={lesson.videoUrl}
-          startAtSec={lesson.progress.lastPositionSec}
-          onEnded={handleEnded}
-        />
+        {/* The arrows sit on the video itself from lg upwards, where there is
+            room beside it. Below that they stay in the action row — over a
+            phone-width video they would cover the picture. */}
+        <div className="relative">
+          <LessonPlayer
+            lessonId={lesson.id}
+            videoUrl={lesson.videoUrl}
+            startAtSec={lesson.progress.lastPositionSec}
+            onEnded={handleEnded}
+          />
 
-        <div className="flex flex-col gap-5">
+          {previous ? (
+            <button
+              type="button"
+              aria-label={t('PLAYER_PREVIOUS')}
+              title={t('PLAYER_PREVIOUS')}
+              onClick={() => goToLesson(previous.id)}
+              className="absolute left-4 top-1/2 hidden size-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-white backdrop-blur-sm transition-colors hover:bg-black/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white lg:flex"
+            >
+              <ChevronLeft className="size-5" />
+            </button>
+          ) : null}
+
+          {next ? (
+            <button
+              type="button"
+              aria-label={t('PLAYER_NEXT_LESSON')}
+              title={t('PLAYER_NEXT_LESSON')}
+              onClick={() => goToLesson(next.id)}
+              className="absolute right-4 top-1/2 hidden size-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-white backdrop-blur-sm transition-colors hover:bg-black/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white lg:flex"
+            >
+              <ChevronRight className="size-5" />
+            </button>
+          ) : null}
+        </div>
+
+        <div className="flex flex-col gap-5 px-5 md:px-0">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
             <div className="flex flex-col gap-2">
               {lesson.track ? (
@@ -94,6 +136,7 @@ export default function LessonPage() {
               <Button
                 variant="outline"
                 size="icon"
+                className="lg:hidden"
                 aria-label={t('PLAYER_PREVIOUS')}
                 title={t('PLAYER_PREVIOUS')}
                 disabled={!previous}
@@ -105,6 +148,7 @@ export default function LessonPage() {
               <Button
                 variant="outline"
                 size="icon"
+                className="lg:hidden"
                 aria-label={t('PLAYER_NEXT_LESSON')}
                 title={t('PLAYER_NEXT_LESSON')}
                 disabled={!next}
@@ -123,24 +167,46 @@ export default function LessonPage() {
                 {lesson.progress.completed ? t('PLAYER_COMPLETED') : t('PLAYER_MARK_COMPLETE')}
               </Button>
 
-              {/* Collapsing the list gives the video the full width, which is
-                  what a student wants once they are actually watching. */}
-              <Button
-                variant="ghost"
-                size="icon"
-                className="hidden lg:inline-flex"
-                aria-label={showSidebar ? t('PLAYER_HIDE_LIST') : t('PLAYER_SHOW_LIST')}
-                title={showSidebar ? t('PLAYER_HIDE_LIST') : t('PLAYER_SHOW_LIST')}
-                onClick={() => setShowSidebar((current) => !current)}
-              >
-                {showSidebar ? (
-                  <PanelRightClose className="size-4" />
-                ) : (
+              {/* Only appears once the list is gone — with the list open, the
+                  control lives in its header, next to what it closes. Hiding
+                  it there would leave no way back. */}
+              {lesson.track && !showSidebar ? (
+                <Button
+                  variant="outline"
+                  className="hidden lg:inline-flex"
+                  onClick={() => setShowSidebar(true)}
+                >
                   <PanelRightOpen className="size-4" />
-                )}
-              </Button>
+                  {t('PLAYER_SHOW_LIST')}
+                </Button>
+              ) : null}
             </div>
           </div>
+
+          {/* How far the track has got, on both widths. Sits in the main
+              column rather than in the list header so it survives the list
+              being collapsed — and on a phone, where the list is far below the
+              video, it is the only place the student would see it. */}
+          {lesson.track ? (
+            <div className="flex flex-col gap-2">
+              <div className="flex items-baseline justify-between gap-3">
+                <Link
+                  href={studentRoutes.TRACK(lesson.track.trackSlug)}
+                  className="truncate text-sm font-semibold text-foreground hover:underline"
+                >
+                  {lesson.track.trackTitle}
+                </Link>
+                <span className="shrink-0 text-xs text-muted-foreground">
+                  {t('PLAYER_TRACK_PROGRESS', {
+                    done: completedCount,
+                    total: lesson.siblings.length,
+                  })}
+                </span>
+              </div>
+
+              <ProgressBar percent={trackPercent} showPercent />
+            </div>
+          ) : null}
 
           {lesson.description ? (
             <p className="max-w-[720px] text-base leading-7 text-muted-foreground">
@@ -169,19 +235,32 @@ export default function LessonPage() {
       </div>
 
       {lesson.track && showSidebar ? (
-        <aside className="flex w-full shrink-0 flex-col gap-3 lg:w-[372px]">
-          <header className="flex items-baseline justify-between gap-4">
+        <aside className="flex w-full shrink-0 flex-col gap-3 px-5 md:px-0 lg:w-[372px]">
+          <header className="flex items-center justify-between gap-3">
             <Link
               href={studentRoutes.TRACK(lesson.track.trackSlug)}
               className="text-xs font-semibold uppercase tracking-caps text-foreground hover:underline"
             >
               {t('PLAYER_IN_THIS_TRACK')}
             </Link>
-            <span className="shrink-0 text-xs tabular-nums text-muted-foreground">
+            <span className="ml-auto shrink-0 text-xs tabular-nums text-muted-foreground">
               {lesson.siblings.findIndex((s) => s.id === params.id) + 1 ||
                 lesson.track.trackPosition}{' '}
               / {lesson.siblings.length}
             </span>
+
+            {/* Sits on the list it closes, not across the page next to the
+                completion button, where it read as one more lesson action. */}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="hidden size-7 shrink-0 text-muted-foreground lg:inline-flex"
+              aria-label={t('PLAYER_HIDE_LIST')}
+              title={t('PLAYER_HIDE_LIST')}
+              onClick={() => setShowSidebar(false)}
+            >
+              <PanelRightClose className="size-4" />
+            </Button>
           </header>
 
           {/* Capped and scrollable: a track with twenty lessons made the page

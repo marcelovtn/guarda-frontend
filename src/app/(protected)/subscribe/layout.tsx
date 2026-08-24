@@ -16,7 +16,10 @@ import { useTranslation } from 'react-i18next'
 export default function SubscribeLayout({ children }: { children: ReactNode }) {
   const { t } = useTranslation('guarda')
   const pathname = usePathname()
-  const step = pathname.includes('checkout') ? 3 : 2
+  // Success is the tail of step 3, not a fourth step — the student has already
+  // paid, and counting up again would suggest something is still owed.
+  const isCheckoutStep = pathname.includes('checkout') || pathname.includes('success')
+  const step = isCheckoutStep ? 3 : 2
 
   return (
     <div className="flex min-h-dvh flex-col bg-background">
