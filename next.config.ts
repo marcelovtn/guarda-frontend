@@ -1,9 +1,8 @@
-// next.config.ts
+import type { NextConfig } from 'next'
 
-import dotenv from 'dotenv'
-dotenv.config({ path: '.env.local' })
+// O Next carrega .env.local sozinho, em build e em runtime — não é preciso
+// chamar dotenv aqui. A versão anterior misturava `import` com
+// `module.exports`, então este objeto nunca chegava a ser aplicado.
+const nextConfig: NextConfig = {}
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {}
-
-module.exports = nextConfig
+export default nextConfig

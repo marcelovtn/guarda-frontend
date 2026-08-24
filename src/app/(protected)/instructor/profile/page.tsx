@@ -13,18 +13,30 @@ import {
 import { formatPriceFromCents, formatRelativeDate } from '@/utils/formatLesson'
 import { publicRoutes } from '@/utils/routes'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { profileSchema, type ProfileValues } from './schema'
 
 const MAX_BIO = 400
 
+/**
+ * Host que o professor vê como endereço público dele, sem o esquema.
+ *
+ * Cai para o host atual quando NEXT_PUBLIC_SITE_URL não está definido, para a
+ * tela nunca mostrar um domínio que não é o de quem está usando.
+ */
+function getPublicProfileHost(): string {
+  const configured = process.env.NEXT_PUBLIC_SITE_URL
+  if (configured) return configured.replace(/^https?:\/\//, '').replace(/\/$/, '')
+  return typeof window === 'undefined' ? '' : window.location.host
+}
+
 export default function InstructorProfilePage() {
   const { t } = useTranslation('guarda')
   const { data: profile } = useGetInstructorProfile()
   const { mutateAsync: updateProfile } = useUpdateInstructorProfile()
-  const [photoUrl, setPhotoUrl] = useState<string | null>(null)
+  const publicProfileHost = getPublicProfileHost()
 
   const {
     control,
@@ -44,8 +56,14 @@ export default function InstructorProfilePage() {
     reset({ displayName: updated.displayName, bio: updated.bio ?? '' })
   }
 
-  async function handlePhoto(key: string, url: string) {
-    setPhotoUrl(url)
+  /**
+   * Guarda a chave e deixa a resposta do PATCH atualizar o cache do perfil.
+   *
+   * A versão anterior mantinha a URL em estado local, então a foto aparecia no
+   * instante do upload e sumia no primeiro reload — o perfil devolvia a chave e
+   * nada a transformava em endereço. Agora quem resolve isso é o backend.
+   */
+  async function handlePhoto(key: string) {
     await updateProfile({ photoKey: key })
   }
 
@@ -78,7 +96,7 @@ export default function InstructorProfilePage() {
         >
           <PhotoUploadField
             name={profile.displayName}
-            photoUrl={photoUrl}
+            photoUrl={profile.photoUrl}
             onUploaded={handlePhoto}
           />
 
@@ -139,7 +157,7 @@ export default function InstructorProfilePage() {
           </p>
 
           <div className="flex flex-col gap-4 rounded-lg border border-border bg-card p-7">
-            <InstructorAvatar name={profile.displayName} src={photoUrl} size="lg" />
+            <InstructorAvatar name={profile.displayName} src={profile.photoUrl} size="lg" />
 
             <h2 className="font-display text-[28px] font-extrabold leading-9 tracking-tight text-foreground">
               {watch('displayName') || profile.displayName}
@@ -160,8 +178,13 @@ export default function InstructorProfilePage() {
             </Button>
           </div>
 
+          {/*
+            O endereço vem de NEXT_PUBLIC_SITE_URL, não escrito à mão.
+            A versão anterior mostrava "guarda.app", que é de outra pessoa —
+            anunciava ao professor um endereço que nunca foi nosso.
+          */}
           <p className="text-xs text-muted-foreground">
-            {`guarda.app${publicRoutes.INSTRUCTOR_PROFILE(profile.slug)}`}
+            {`${publicProfileHost}${publicRoutes.INSTRUCTOR_PROFILE(profile.slug)}`}
           </p>
         </aside>
       </div>

@@ -1,6 +1,7 @@
 'use client'
 
 import { useCheckEmailExists, useSignInWithGoogle } from '@/app/auth/auth.slice'
+import { authFeatures } from '@/lib/auth/features'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -84,21 +85,23 @@ export default function UnifiedAuthPage() {
       </div>
 
       <div className="space-y-4">
-        <Button
-          className="flex w-full items-center justify-center dark:bg-white"
-          type="button"
-          onClick={handleGoogleSignIn}
-        >
-          <Image
-            src="/google.svg"
-            alt={t('GOOGLE_LOGO_ALT')}
-            width={24}
-            height={24}
-            className="mr-2 object-contain"
-            priority
-          />
-          {t('GOOGLE_LOGIN_BUTTON')}
-        </Button>
+        {authFeatures.googleSignIn ? (
+          <Button
+            className="flex w-full items-center justify-center dark:bg-white"
+            type="button"
+            onClick={handleGoogleSignIn}
+          >
+            <Image
+              src="/google.svg"
+              alt={t('GOOGLE_LOGO_ALT')}
+              width={24}
+              height={24}
+              className="mr-2 object-contain"
+              priority
+            />
+            {t('GOOGLE_LOGIN_BUTTON')}
+          </Button>
+        ) : null}
 
         <Button
           className="flex w-full items-center justify-center dark:bg-white"

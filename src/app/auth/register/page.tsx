@@ -7,6 +7,7 @@ import {
   FormRadioGroup,
   SubmitButton,
 } from '@/components/layout/Form'
+import { authFeatures } from '@/lib/auth/features'
 import { Button } from '@/components/ui/button'
 import { publicRoutes, studentRoutes } from '@/utils/routes'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -87,23 +88,27 @@ export default function RegisterPage() {
         <SubmitButton isLoading={isSubmitting} label={t('AUTH_SIGN_UP')} />
       </form>
 
-      <div className="flex items-center gap-4">
-        <span className="h-px flex-1 bg-border" />
-        <span className="text-xs font-medium tracking-caps text-muted-foreground">
-          {t('AUTH_OR')}
-        </span>
-        <span className="h-px flex-1 bg-border" />
-      </div>
+      {authFeatures.googleSignIn ? (
+        <>
+          <div className="flex items-center gap-4">
+            <span className="h-px flex-1 bg-border" />
+            <span className="text-xs font-medium tracking-caps text-muted-foreground">
+              {t('AUTH_OR')}
+            </span>
+            <span className="h-px flex-1 bg-border" />
+          </div>
 
-      <Button
-        type="button"
-        variant="outline"
-        className="w-full bg-card"
-        onClick={() => signInWithGoogle()}
-      >
-        <GoogleIcon />
-        {t('AUTH_GOOGLE_SIGN_UP')}
-      </Button>
+          <Button
+            type="button"
+            variant="outline"
+            className="w-full bg-card"
+            onClick={() => signInWithGoogle()}
+          >
+            <GoogleIcon />
+            {t('AUTH_GOOGLE_SIGN_UP')}
+          </Button>
+        </>
+      ) : null}
 
       <p className="text-center text-sm text-muted-foreground">
         {t('AUTH_HAS_ACCOUNT')}{' '}

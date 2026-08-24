@@ -1,15 +1,9 @@
-import { redirect } from 'next/navigation'
-import { studentRoutes } from '@/utils/routes'
-import { getSession } from '@/actions/auth'
+import { PublicLayoutClient } from './PublicLayoutClient'
 
-export default async function PublicLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  // Someone already signed in has no use for the sales page — send them to
-  // their lessons instead of the pitch.
-  const session = await getSession()
-
-  if (session?.user) {
-    redirect(studentRoutes.HOME)
-  }
-
-  return children
+/**
+ * A checagem de sessão vive no cliente — o servidor do Next não recebe o
+ * cookie, que pertence ao domínio da API. Ver `src/actions/auth.ts`.
+ */
+export default function PublicLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  return <PublicLayoutClient>{children}</PublicLayoutClient>
 }

@@ -6,6 +6,34 @@ import { useTranslation } from 'react-i18next'
 import type { VideoUploadState } from './components/VideoUploadField'
 
 /**
+ * How long the picked file is, read straight from the browser.
+ *
+ * Nothing on the server can answer this: the blob goes from the browser to
+ * storage without passing through the API, and there is no transcoding step to
+ * inspect it afterwards. Without measuring here, every lesson in the product
+ * shows a duration of zero.
+ */
+function readDurationSec(file: File): Promise<number> {
+  return new Promise((resolve) => {
+    const objectUrl = URL.createObjectURL(file)
+    const probe = document.createElement('video')
+
+    const finish = (seconds: number) => {
+      URL.revokeObjectURL(objectUrl)
+      resolve(seconds)
+    }
+
+    probe.preload = 'metadata'
+    probe.onloadedmetadata = () =>
+      finish(Number.isFinite(probe.duration) ? Math.round(probe.duration) : 0)
+    // Um container que o browser não sabe decodificar — MKV é o caso comum —
+    // não expõe duração. Zero é melhor do que impedir o upload por causa disso.
+    probe.onerror = () => finish(0)
+    probe.src = objectUrl
+  })
+}
+
+/**
  * Puts a lesson video in storage and reports how far it has got.
  *
  * Progress lives in component state rather than React Query: it changes many
@@ -18,7 +46,15 @@ export function useVideoUpload(initial: VideoUploadState | null = null) {
   const [video, setVideo] = useState<VideoUploadState | null>(initial)
 
   async function upload(file: File) {
-    setVideo({ fileName: file.name, sizeBytes: file.size, uploadProgress: 0, key: null })
+    const durationSec = await readDurationSec(file)
+
+    setVideo({
+      fileName: file.name,
+      sizeBytes: file.size,
+      uploadProgress: 0,
+      key: null,
+      durationSec,
+    })
 
     try {
       const target = await createUploadTarget(file)

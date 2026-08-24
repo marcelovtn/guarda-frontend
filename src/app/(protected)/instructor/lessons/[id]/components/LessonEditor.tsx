@@ -105,7 +105,7 @@ export function LessonEditor({ lesson }: { lesson: InstructorLessonDetail }) {
         status,
         // Only sent when a new file went up: omitting it leaves the stored
         // video alone, where null would detach it.
-        ...(video?.key ? { videoKey: video.key } : {}),
+        ...(video?.key ? { videoKey: video.key, durationSec: video.durationSec } : {}),
       })
 
       toast.success(status === 'PUBLISHED' ? t('NEW_LESSON_PUBLISHED') : t('EDIT_LESSON_SAVED'))

@@ -23,7 +23,8 @@ export interface PublicInstructor {
   slug: string
   displayName: string
   bio: string | null
-  photoKey: string | null
+  /** Endereço pronto para o `<img>`. Null quando não há foto. */
+  photoUrl: string | null
   /** Cents. */
   monthlyPrice: number
   stats: InstructorStats

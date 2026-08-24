@@ -9,7 +9,7 @@ export interface Subscription {
     id: string
     slug: string
     displayName: string
-    photoKey: string | null
+    photoUrl: string | null
     trackCount: number
     lessonCount: number
     lastPublishedAt: string | null

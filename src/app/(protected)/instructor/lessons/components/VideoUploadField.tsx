@@ -13,6 +13,8 @@ export interface VideoUploadState {
   uploadProgress: number
   /** Set once the upload finishes; this is what the lesson stores. */
   key: string | null
+  /** Measured in the browser before the upload starts. */
+  durationSec: number
   error?: string
 }
 

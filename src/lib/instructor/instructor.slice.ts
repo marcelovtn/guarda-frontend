@@ -77,5 +77,7 @@ export function useGetPublicInstructor(slug: string) {
       return data
     },
     enabled: Boolean(slug),
+    // Um slug que não existe não passa a existir na terceira tentativa.
+    retry: false,
   })
 }

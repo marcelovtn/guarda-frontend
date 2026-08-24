@@ -60,6 +60,7 @@ export default function NewLessonPage() {
         title: values.title,
         description: values.description || null,
         videoKey: video?.key ?? null,
+        durationSec: video?.durationSec ?? 0,
         moduleId: values.moduleId || null,
         status,
       })
