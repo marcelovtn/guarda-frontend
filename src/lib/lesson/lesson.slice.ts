@@ -196,6 +196,39 @@ export function useDeleteLesson() {
 }
 
 /**
+ * Deletes several lessons in one action.
+ *
+ * The API removes one lesson per request, so this fans out and counts what
+ * actually went through: with `Promise.all` a single rejection would leave the
+ * caller unable to tell whether the other lessons were deleted or not.
+ */
+export function useDeleteLessons() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: async (ids: string[]) => {
+      const results = await Promise.allSettled(
+        ids.map((id) => api.delete(`/api/instructor/lessons/${id}`)),
+      )
+
+      const failed = results.filter((result) => result.status === 'rejected').length
+      return { deleted: ids.length - failed, failed }
+    },
+    onSuccess: () => {
+      /*
+        Same fan-out as the single delete: modules, public counts and platform
+        totals all move when lessons leave the library.
+      */
+      queryClient.invalidateQueries({ queryKey: lessonKeys.all })
+      queryClient.invalidateQueries({ queryKey: trackKeys.all })
+      queryClient.invalidateQueries({ queryKey: instructorKeys.publicAll() })
+      queryClient.invalidateQueries({ queryKey: platformKeys.all })
+    },
+    onError: (error: any) => toast.error(error?.response?.data?.error ?? error.message),
+  })
+}
+
+/**
  * Polls while the video is being processed.
  *
  * Stops once the state settles, so a finished lesson does not keep a timer

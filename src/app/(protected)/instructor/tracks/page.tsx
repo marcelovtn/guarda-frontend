@@ -12,6 +12,7 @@ import { ChevronRight, Plus } from 'lucide-react'
 import Link from 'next/link'
 import { useTranslation } from 'react-i18next'
 import { NewTrackDialog } from './components/NewTrackDialog'
+import { TrackActionsMenu } from './components/TrackActionsMenu'
 
 export default function InstructorTracksPage() {
   const { t } = useTranslation('guarda')
@@ -65,21 +66,31 @@ export default function InstructorTracksPage() {
               key={track.id}
               className="flex flex-col gap-4 rounded-lg border border-border bg-card p-6"
             >
-              <header className="flex items-center justify-between">
+              <header className="flex items-center justify-between gap-2">
                 <span className="text-xs font-medium tabular-nums text-muted-foreground">
                   {String(index + 1).padStart(2, '0')}
                 </span>
-                <span className="flex items-center gap-2 text-xs">
-                  <span
-                    className={cn(
-                      'size-1.5 rounded-full',
-                      track.published ? 'bg-primary' : 'bg-muted-foreground/40',
-                    )}
-                  />
-                  <span className={track.published ? 'text-foreground' : 'text-muted-foreground'}>
-                    {track.published ? t('STATUS_PUBLISHED') : t('STATUS_DRAFT')}
+
+                <div className="flex items-center gap-2">
+                  <span className="flex items-center gap-2 text-xs">
+                    <span
+                      className={cn(
+                        'size-1.5 rounded-full',
+                        track.published ? 'bg-primary' : 'bg-muted-foreground/40',
+                      )}
+                    />
+                    <span className={track.published ? 'text-foreground' : 'text-muted-foreground'}>
+                      {track.published ? t('STATUS_PUBLISHED') : t('STATUS_DRAFT')}
+                    </span>
                   </span>
-                </span>
+
+                  {/* Negative margins pull the icon button back to the card
+                      padding, so the status text still lines up with the row
+                      number on the other side. */}
+                  <span className="-my-2 -mr-2">
+                    <TrackActionsMenu trackId={track.id} />
+                  </span>
+                </div>
               </header>
 
               <div className="flex flex-1 flex-col gap-2">

@@ -18,13 +18,14 @@ import {
   useUpdateTrack,
 } from '@/lib/track/track.slice'
 import { formatDuration, formatTotalDuration } from '@/utils/formatLesson'
-import { studentRoutes } from '@/utils/routes'
+import { instructorRoutes, studentRoutes } from '@/utils/routes'
 import { Plus } from 'lucide-react'
 import Link from 'next/link'
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
+import { TrackActionsMenu } from '../components/TrackActionsMenu'
 import { ModuleCard } from './components/ModuleCard'
 import { useTrackDraft, type DraftLesson } from './useTrackDraft'
 
@@ -40,6 +41,7 @@ interface LoadedTrack {
 export default function TrackBuilderPage() {
   const { t } = useTranslation('guarda')
   const params = useParams<{ id: string }>()
+  const router = useRouter()
   const trackId = params.id
 
   const { data, isLoading } = useGetInstructorTrack(trackId)
@@ -108,6 +110,13 @@ export default function TrackBuilderPage() {
           <Button onClick={handleSave} disabled={!draft.isDirty || isSaving}>
             {isSaving ? t('BUILDER_SAVING') : t('BUILDER_SAVE')}
           </Button>
+
+          {/* The builder is the track: once it is deleted there is nothing left
+              to edit here, so the menu sends the instructor back to the list. */}
+          <TrackActionsMenu
+            trackId={track.id}
+            onDeleted={() => router.push(instructorRoutes.TRACKS)}
+          />
         </div>
       </header>
 

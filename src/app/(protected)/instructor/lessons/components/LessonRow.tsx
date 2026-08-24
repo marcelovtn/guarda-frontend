@@ -12,6 +12,7 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/checkbox'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -38,9 +39,18 @@ import { toast } from 'react-toastify'
  *
  * The whole row navigates through a link laid over it rather than wrapping it:
  * the actions menu is a button, and a button inside an anchor both is invalid
- * HTML and would navigate away the moment it is pressed.
+ * HTML and would navigate away the moment it is pressed. The checkbox sits over
+ * that link for the same reason.
  */
-export function LessonRow({ lesson }: { lesson: InstructorLesson }) {
+export function LessonRow({
+  lesson,
+  isSelected,
+  onSelectedChange,
+}: {
+  lesson: InstructorLesson
+  isSelected: boolean
+  onSelectedChange: (isSelected: boolean) => void
+}) {
   const { t } = useTranslation('guarda')
   const { mutateAsync: updateLesson } = useUpdateLesson(lesson.id)
   const { mutateAsync: deleteLesson } = useDeleteLesson()
@@ -59,11 +69,25 @@ export function LessonRow({ lesson }: { lesson: InstructorLesson }) {
   }
 
   return (
-    <div className="relative grid grid-cols-[1fr_44px] items-center gap-4 border-b border-border px-4 py-4 transition-colors last:border-b-0 hover:bg-secondary/40 sm:grid-cols-[80px_1fr_44px] md:grid-cols-[80px_1fr_120px_80px_100px_44px]">
+    <div
+      className={cn(
+        'relative grid grid-cols-[28px_1fr_44px] items-center gap-4 border-b border-border px-4 py-4 transition-colors last:border-b-0 hover:bg-secondary/40 sm:grid-cols-[28px_80px_1fr_44px] md:grid-cols-[28px_80px_1fr_120px_80px_100px_44px]',
+        isSelected && 'bg-secondary/60',
+      )}
+    >
       <Link
         href={instructorRoutes.LESSON(lesson.id)}
         aria-label={lesson.title}
         className="absolute inset-0 rounded-md outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      />
+
+      {/* Above the row link, like the actions menu: inside it, ticking the box
+          would follow the row instead. */}
+      <Checkbox
+        checked={isSelected}
+        onCheckedChange={(checked) => onSelectedChange(checked === true)}
+        aria-label={t('LIBRARY_SELECT_LESSON', { title: lesson.title })}
+        className="relative z-10"
       />
 
       {/* The thumbnail is the first thing to go on a phone: with it, the

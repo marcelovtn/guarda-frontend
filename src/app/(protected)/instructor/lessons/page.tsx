@@ -2,7 +2,18 @@
 
 import { EmptyState } from '@/components/layout/EmptyState'
 import { PageContainer } from '@/components/layout/PageContainer'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
 import { Skeleton } from '@/components/ui/skeleton'
 import {
@@ -12,13 +23,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { useGetInstructorLessons } from '@/lib/lesson/lesson.slice'
+import { useDeleteLessons, useGetInstructorLessons } from '@/lib/lesson/lesson.slice'
 import { useGetInstructorTracks } from '@/lib/track/track.slice'
 import { instructorRoutes } from '@/utils/routes'
-import { Plus, Search } from 'lucide-react'
+import { Plus, Search, Trash2 } from 'lucide-react'
 import Link from 'next/link'
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { toast } from 'react-toastify'
 import { LessonRow } from './components/LessonRow'
 
 const ALL_TRACKS = 'all'
@@ -28,8 +40,12 @@ export default function InstructorLessonsPage() {
   const { data: lessons, isLoading } = useGetInstructorLessons()
   const { data: tracks } = useGetInstructorTracks()
 
+  const { mutateAsync: deleteLessons, isPending: isDeleting } = useDeleteLessons()
+
   const [search, setSearch] = useState('')
   const [trackFilter, setTrackFilter] = useState(ALL_TRACKS)
+  const [selectedIds, setSelectedIds] = useState<string[]>([])
+  const [isConfirmingBulkDelete, setIsConfirmingBulkDelete] = useState(false)
 
   const counts = useMemo(() => {
     const all = lessons ?? []
@@ -49,6 +65,44 @@ export default function InstructorLessonsPage() {
       return matchesSearch && matchesTrack
     })
   }, [lessons, search, trackFilter])
+
+  /*
+    Selection follows what is on screen. A lesson that a search or a track
+    filter hides drops out of the count, so the delete button can never act on
+    a row the instructor is not looking at.
+  */
+  const selectedVisibleIds = useMemo(
+    () => visible.filter((lesson) => selectedIds.includes(lesson.id)).map((lesson) => lesson.id),
+    [visible, selectedIds],
+  )
+
+  const areAllVisibleSelected = visible.length > 0 && selectedVisibleIds.length === visible.length
+
+  function toggleLesson(id: string, isSelected: boolean) {
+    setSelectedIds((previous) =>
+      isSelected ? [...previous, id] : previous.filter((selected) => selected !== id),
+    )
+  }
+
+  function toggleAllVisible(isSelected: boolean) {
+    const visibleIds = visible.map((lesson) => lesson.id)
+
+    setSelectedIds((previous) =>
+      isSelected
+        ? Array.from(new Set([...previous, ...visibleIds]))
+        : previous.filter((id) => !visibleIds.includes(id)),
+    )
+  }
+
+  async function handleBulkDelete() {
+    const { deleted, failed } = await deleteLessons(selectedVisibleIds)
+
+    setSelectedIds([])
+
+    if (deleted > 0) toast.success(t('LIBRARY_DELETED_COUNT', { count: deleted }))
+    // Each lesson is its own request, so some can go through while others fail.
+    if (failed > 0) toast.error(t('LIBRARY_DELETE_FAILED_COUNT', { count: failed }))
+  }
 
   return (
     <PageContainer className="flex flex-col gap-8">
@@ -118,18 +172,85 @@ export default function InstructorLessonsPage() {
           }
         />
       ) : (
-        <div className="overflow-hidden rounded-lg border border-border bg-card">
-          <div className="hidden grid-cols-[80px_1fr_120px_80px_100px_44px] gap-4 border-b border-border px-4 py-3 text-[11px] font-semibold uppercase tracking-caps text-muted-foreground md:grid">
-            <span />
-            <span>{t('LIBRARY_COL_LESSON')}</span>
-            <span>{t('LIBRARY_COL_STATUS')}</span>
-            <span className="text-right">{t('LIBRARY_COL_DURATION')}</span>
-            <span className="text-right">{t('LIBRARY_COL_VIEWERS')}</span>
+        <div className="flex flex-col gap-4">
+          {/*
+            The bar carries the select-all box instead of the table header: the
+            header is desktop-only, and selecting on a phone is where deleting a
+            batch of uploads actually happens.
+          */}
+          <div className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-border bg-card px-4 py-3">
+            <div className="flex items-center gap-3">
+              <Checkbox
+                id="select-all-lessons"
+                checked={areAllVisibleSelected}
+                onCheckedChange={(checked) => toggleAllVisible(checked === true)}
+              />
+              <label
+                htmlFor="select-all-lessons"
+                className="cursor-pointer text-sm font-medium text-foreground"
+              >
+                {selectedVisibleIds.length > 0
+                  ? t('LIBRARY_SELECTED_COUNT', { count: selectedVisibleIds.length })
+                  : t('LIBRARY_SELECT_ALL')}
+              </label>
+            </div>
+
+            {selectedVisibleIds.length > 0 && (
+              <div className="flex items-center gap-2">
+                <Button variant="ghost" onClick={() => setSelectedIds([])} disabled={isDeleting}>
+                  {t('LIBRARY_SELECTION_CLEAR')}
+                </Button>
+
+                <Button
+                  variant="destructive"
+                  onClick={() => setIsConfirmingBulkDelete(true)}
+                  disabled={isDeleting}
+                >
+                  <Trash2 className="size-4" />
+                  {isDeleting
+                    ? t('LIBRARY_DELETING')
+                    : t('LIBRARY_DELETE_SELECTED', { count: selectedVisibleIds.length })}
+                </Button>
+              </div>
+            )}
           </div>
 
-          {visible.map((lesson) => (
-            <LessonRow key={lesson.id} lesson={lesson} />
-          ))}
+          <div className="overflow-hidden rounded-lg border border-border bg-card">
+            <div className="hidden grid-cols-[28px_80px_1fr_120px_80px_100px_44px] gap-4 border-b border-border px-4 py-3 text-[11px] font-semibold uppercase tracking-caps text-muted-foreground md:grid">
+              <span />
+              <span />
+              <span>{t('LIBRARY_COL_LESSON')}</span>
+              <span>{t('LIBRARY_COL_STATUS')}</span>
+              <span className="text-right">{t('LIBRARY_COL_DURATION')}</span>
+              <span className="text-right">{t('LIBRARY_COL_VIEWERS')}</span>
+            </div>
+
+            {visible.map((lesson) => (
+              <LessonRow
+                key={lesson.id}
+                lesson={lesson}
+                isSelected={selectedIds.includes(lesson.id)}
+                onSelectedChange={(isSelected) => toggleLesson(lesson.id, isSelected)}
+              />
+            ))}
+          </div>
+
+          <AlertDialog open={isConfirmingBulkDelete} onOpenChange={setIsConfirmingBulkDelete}>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>
+                  {t('LIBRARY_DELETE_SELECTED_TITLE', { count: selectedVisibleIds.length })}
+                </AlertDialogTitle>
+                <AlertDialogDescription>{t('LIBRARY_DELETE_SELECTED_BODY')}</AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>{t('EDIT_LESSON_DELETE_CANCEL')}</AlertDialogCancel>
+                <AlertDialogAction onClick={handleBulkDelete}>
+                  {t('LIBRARY_DELETE_SELECTED', { count: selectedVisibleIds.length })}
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
       )}
     </PageContainer>
